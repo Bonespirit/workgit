@@ -1,0 +1,68 @@
+*{
+	padding: 0;
+	margin: 0;
+	list-style: none;
+	text-decoration: none;
+}
+
+.wrappter{
+	position: relative;
+	width: 520px;
+	height: 283px;
+	margin: 100px auto;
+	font-size: 0;
+	overflow: hidden;
+}
+
+.wrappter .turn{
+	position: absolute;
+	left: -520px;
+	width: 3640px;
+	height: 283px;
+}
+
+.wrappter .ul{
+	position: absolute;
+	bottom: 20px;
+	left: 50%;
+	margin-left: -40px;
+	/*font-size: 0;*/
+	background-color: rgba(255,255,255,0.3);
+	border-radius: 8px;
+}
+.wrappter .ul li{
+	display: inline-block;
+	cursor: pointer;
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	margin: 3px;
+	background-color: #ccc;
+}
+
+.wrappter .ul .active{
+	background-color: orangered;
+}
+.wrappter a{
+	display: none;
+	position: absolute;
+	top:50%;
+	line-height: 30px;
+	text-align: center;
+	margin-top: -15px;
+	width: 30px;
+	height: 30px;
+	background-color: rgba(0,0,0,0.5);
+	color: #fff;
+	font-size: 20px;
+}
+.wrappter .btn1{
+	right: 0;
+}
+
+.wrappter .btn2{
+	left: 0;
+}
+.wrappter:hover a{
+	display: inline-block;
+}

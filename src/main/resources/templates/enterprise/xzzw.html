@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>新增职位</title>
+<link th:include="commonhf::mhead"></link>
+<link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap-select.min.css}" />
+<script th:src="@{/bootstrap/js/bootstrap-select.min.js}"></script>
+<script th:src="@{/js/wangEditor.min.js}"></script>
+<script th:src="@{/js/doT.min.js}"></script>
+<script th:src="@{/js/common-2.js}"></script>
+</head>
+<body style="height: auto">
+	<canvas height="960px"></canvas>
+	<div th:replace="commonhf::sheader"></div>
+	<!-- 需求专业模态框 -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h5 class="modal-title" id="myModalLabel">请选择需求专业[最多选择10个]</h5>
+				</div>
+				<div class="modal-body" id="contents"></div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					<button type="button" class="btn btn-primary ensure" data-dismiss="modal">确认</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div style="width: 100%; height: auto; position: absolute; top: 110px">
+		<div id="center">
+			<div class="nav">
+				<ul class="list-inline">
+					<li><a th:href="@{/}">首页</a> <span>></span></li>
+					<li><a th:href="@{/enterprise/jbxx}">单位中心</a></li>
+				</ul>
+			</div>
+			<div th:replace="commonhf::enterpriseLeft"></div>
+			<div class="right-nav">
+				职位管理 <span>></span> 发布新职位
+			</div>
+			<div class="right" style="padding: 20px 0px">
+				<form th:action="@{/enterprise/xzzw}" method="post" id="newpost" class="form-horizontal" role="form">
+					<div class="form-group">
+						<label for="pname" class="col-sm-2 control-label"> <span style="color: #f40">*</span> 职位名称
+						</label>
+						<div class="col-sm-3">
+							<input type="text" class="form-control" id="pname" name="pname" placeholder="请输入职位名称" required />
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label"> <span style="color: #f40">*</span> 月薪范围
+						</label>
+						<div class="col-sm-3">
+							<select class="form-control" name="salary">
+								<option value="11">4k以下</option>
+								<option value="12">4k-6k</option>
+								<option value="13">6k-8k</option>
+								<option value="14">8k-10k</option>
+								<option value="15">10k以上</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="nature" class="col-sm-2 control-label"> <span style="color: #f40">*</span> 工作性质
+						</label>
+						<div class="col-sm-3">
+							<select class="form-control" name="nature">
+								<option value="0">不限</option>
+								<option value="1">全职</option>
+								<option value="2">实习</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label"> <span style="color: #f40">*</span> 学历要求
+						</label>
+						<div class="col-sm-3">
+							<select class="form-control" name="edu">
+								<option value="0">不限</option>
+								<option value="1">本科</option>
+								<option value="2">硕士</option>
+								<option value="3">博士</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="number" class="col-sm-2 control-label"> <span style="color: #f40">*</span> 招聘人数
+						</label>
+						<div class="col-sm-3">
+							<input type="number" class="form-control" id="number" name="number" placeholder="请输入招聘人数" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="validity" class="col-sm-2 control-label"> <span style="color: #f40">*</span> 有效期限
+						</label>
+						<div class="col-sm-3">
+							<input type="number" class="form-control" id="validity" name="validity" placeholder="请输入天数" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label"> <span style="color: #f40">*</span> 职位类别
+						</label>
+						<div class="col-sm-3">
+							<select class="form-control" name="skill" id="skill"></select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="majors" class="col-sm-2 control-label"> <span style="color: #f40">*</span> 需求专业
+						</label>
+						<div class="col-sm-3">
+							<input type="text" hidden name="speciality" class="mcode" value="0" id="mcode" />
+							<div data-toggle="modal" data-target="#myModal">
+								<input type="text" id="majors" class="majors form-control" value="不限专业" /> <i></i>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="pcSel" class="col-sm-2 control-label"> <span style="color: #f40">*</span> 工作地点:
+						</label>
+						<div id="pcSel" class="col-sm-4"></div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label"> <span style="color: #f40">*</span> 职位描述
+						</label>
+						<div class="col-sm-8">
+							<textarea name="describe" id="describe" hidden></textarea>
+							<div id="wangEditor"></div>
+						</div>
+					</div>
+					<div style="width: 110px; margin: 50px auto 0 auto">
+						<button type="submit" class="btn mybtn">发布</button>
+					</div>
+				</form>
+			</div>
+			<div style="clear: both"></div>
+		</div>
+		<div th:replace="commonhf::#footer"></div>
+	</div>
+	<div th:include="commonhf::sm"></div>
+	<script>
+		let oCont = document.getElementById("describe");
+		const E = window.wangEditor;
+		const editor = new E("#wangEditor");
+		editor.config.height = 200;
+		editor.config.showFullScreen = false;
+		editor.config.menus = [ "bold", "head", "italic", "underline", "undo",
+				"redo", ];
+		editor.config.onchange = function(newHtml) {
+			oCont.value = newHtml;
+		};
+		editor.create();
+		$("#wangEditor div").css("z-index", 0);
+		$("#center .left li")[2].className = "uactive";
+	</script>
+</body>
+</html>

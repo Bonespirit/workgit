@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>操作手册</title>
+<link th:include="commonhf::studentHead"></link>
+</head>
+<body style="height: auto">
+	<div th:replace="commonhf::header"></div>
+	<div style="width: 100%; height: auto; position: absolute; top: 110px">
+		<div id="center">
+			<div th:replace="commonhf::studentNav('操作手册')"></div>
+			<div th:replace="commonhf::studentLeft"></div>
+			<div class="right" style="min-height: 600px">
+				<div class="header">
+					<h3>操作手册</h3>
+				</div>
+				<div class="section">
+					<p>
+						<span>一、学生登录</span>
+					</p>
+					<p>
+						<span>1、登录网站，点击主页右侧的“学生登录”。</span>
+					</p>
+					<p>
+						<span>2、登录方式默认为统一身份认证号登录</span>。
+					</p>
+					<p>
+						<span>3、如登录不成功，请联系就业中心。</span>
+					</p>
+					<p>
+						<span>4、学生登录后，可以进入学生中心、招聘信息、就业指导、就业政策等导航栏，获取个性化的就业信息与服务。</span>
+					</p>
+					<p>
+						<span><br /></span>
+					</p>
+					<p>
+						<span>二、学生导航</span>
+					</p>
+					<p>
+						<span>学生登录后，可以进入学生中心、招聘信息、就业指导、就业政策等导航栏</span>
+					</p>
+					<p>
+						<span>1、学生中心</span>
+					</p>
+					<p>
+						<span>目前学生中心已经开放的功能有毕业填报、推荐表和成绩单打印申请、招聘信息、职位申请、学生基本信息及修改密码</span>
+					</p>
+					<p>
+						<span>2、招聘信息</span>
+					</p>
+					<p>
+						<span>学生可以查看的招聘信息包括网络招聘、组团招聘会、双选会、线下专场招聘会、全职岗位、实习岗位等，学生可以对招聘信息进行筛选，申请感兴趣的职位</span>
+					</p>
+					<p>
+						<span>3、就业指导</span>
+					</p>
+					<p>
+						<span>学生通过就业指导栏目可以了解求职技巧、生涯规划等实用就业资讯</span>
+					</p>
+				</div>
+			</div>
+			<div style="clear: both"></div>
+		</div>
+		<div th:replace="commonhf::#footer"></div>
+	</div>
+	<script>
+      $("#center .left li")[1].className = "uactive";
+    </script>
+</body>
+</html>

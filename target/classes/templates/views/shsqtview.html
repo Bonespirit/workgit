@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title th:text="${teachin.title}">中建八局装饰工程有限公司</title>
+<link th:include="commonth::thhead"></link>
+<script src="js/cexam.js" th:src="@{/js/cexam.js}"></script>
+</head>
+<body style="height: 960px">
+	<div id="cr-refuse">
+		<h4 style="color: #f40">请说明原因方便企业修改</h4>
+		<form action="sfs" method="POST">
+			<textarea required name="explain" id="explain" cols="60" rows="5"></textarea>
+			<input type="text" name="companyid" hidden value="124" />
+			<div>
+				<button type="button" class="btn mybtn">取消</button>
+				<button type="submit" class="btn mybtn">确定</button>
+			</div>
+		</form>
+	</div>
+	<div id="cr-agree">
+		<h4>请确认以下信息</h4>
+		<form th:action="@{/teacher/shsqt/success/}+${teachin.hid}" method="post" class="form-horizontal"
+			role="form">
+			<div class="form-group">
+				<label for="tdate" class="col-sm-3 control-label"> <span style="color: #f40">*</span>
+					宣讲日期
+				</label>
+				<div class="col-sm-8">
+					<input type="date" class="form-control" id="tdate" name="tdate" placeholder="请输入日期" required />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="btime" class="col-sm-3 control-label"> <span style="color: #f40">*</span>
+					开始时间
+				</label>
+				<div class="col-sm-8">
+					<input type="time" class="form-control" id="btime" name="btime" placeholder="请输入时间" required />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="address" class="col-sm-3 control-label"> <span style="color: #f40">*</span>
+					宣讲地点
+				</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" id="address" name="address" placeholder="请输入宣讲地点"
+						required />
+				</div>
+			</div>
+			<button type="button" class="btn mybtn">取消</button>
+			<button class="btn mybtn" type="submit">确认</button>
+		</form>
+	</div>
+	<div th:replace="commonhf::#pre-show"></div>
+	<div th:replace="commonhf::sheader"></div>
+	<div style="width: 100%; height: auto; position: absolute; top: 110px">
+		<div id="center">
+			<div class="nav">
+				宣讲会申请 <span>></span><span th:text="${teachin.title}">中建八局装饰工程有限公司</span>
+			</div>
+			<div class="right" style="min-height: 360px">
+				<div class="info" style="padding-top: 20px">
+					<input type="text" hidden id="contentid" th:value="@{teachin.hid}" />
+					<div>
+						<p>
+							<span>标题：</span> <span th:text="${teachin.title}">中建八局装饰工程有限公司</span> <span
+								th:if="${item.isschoolmate eq '1'}" class="schoolmate">校友</span>
+						</p>
+						<p>
+							<span>申请时间：</span> <span th:text="${teachin.adate}">2021-03-10</span>
+						</p>
+						<p>
+							<span>期望参会人数：</span> <span th:text="${teachin.size}">60-100人</span>
+						</p>
+						<p>
+							<span>来访时间安排：</span> <span th:text="${teachin.vdate}">2021-03-21</span>
+						</p>
+						<p>
+							<span>预选时间段：</span> <span th:text="${teachin.time}">15:00-16:00</span>
+						</p>
+					</div>
+					<hr />
+					<h4>来访人员名单</h4>
+					<table class="table table-bordered table-hover">
+						<thead>
+							<tr>
+								<th>姓名</th>
+								<th>性别</th>
+								<th>职务</th>
+								<th>身份证号</th>
+								<th>联系电话</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="item : ${visitors}">
+								<td th:text="${item.name}">庞如霆</td>
+								<td th:text="${item.gender}">男</td>
+								<td th:text="${item.duty}">人事经理</td>
+								<td th:text="${item.idcard}">450923199712278077</td>
+								<td th:text="${item.telephone}">18078461064</td>
+							</tr>
+						</tbody>
+					</table>
+					<hr />
+					<button id="preview" type="button" class="btn btn-default">查看简章</button>
+					<div style="width: 150px; margin: 40px auto 0 auto">
+						<button type="button" class="btn mybtn allow">
+							<a href="javascript:;" style="color: #fff">通过</a>
+						</button>
+						<button type="button" class="btn mybtn refuse">不通过</button>
+					</div>
+				</div>
+			</div>
+			<div style="clear: both"></div>
+		</div>
+		<div th:replace="commonhf::#footer"></div>
+	</div>
+	<script th:replace="commonth::prev"></script>
+</body>
+</html>

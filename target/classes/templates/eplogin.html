@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>用人单位登录</title>
+<link th:include="commonhf::mhead"></link>
+<script th:src="@{/js/login.js}" async></script>
+</head>
+<body>
+	<canvas height="740" width="1900"></canvas>
+	<div th:replace="commonhf::sheader"></div>
+	<div style="width: 100%; height: auto; position: absolute; top: 110px">
+		<div id="login">
+			<div id="login-info">
+				<a th:href="@{/login}" style="float: right">统一身份认证</a>
+				<h4>用人单位登录</h4>
+				<h4 class="text-danger">(推荐使用谷歌浏览器)</h4>
+				<div class="login-form" style="margin-top: 30px">
+					<form action="ssfs" role="form">
+						<div class="input-group" style="margin-top: 10px">
+							<span class="input-group-addon"> <span class="glyphicon glyphicon-user"></span>
+							</span> <input type="text" class="form-control" placeholder="请输入用户名" onblur="testUsername(this)" />
+							<label>账号不能为空</label> <label>输入英文字母、数字和下划线不能以下划线开头和结尾</label>
+						</div>
+						<br />
+						<div class="input-group" style="margin-top: 10px">
+							<span class="input-group-addon"> <span class="glyphicon glyphicon-lock"></span>
+							</span> <input id="password" type="password" class="form-control" placeholder="请输入密码"
+								onblur="testPassword(this)" /> <label>密码不能为空</label> <label>长度为8-16之间的数字、字母组合！</label>
+							<span class="input-group-addon view"> <span class="glyphicon glyphicon-eye-close"
+								style="cursor: pointer"></span>
+							</span>
+						</div>
+						<div class="input-group checkcode">
+							<input type="text" class="form-control" placeholder="请输入验证码" onblur="testCheckCode(this)" />
+							<label>验证码不能为空!</label> <span class="checkcode-pic"> <img
+								src="https://scc.pku.edu.cn/common/captcha-image!createCaptchaImage.action" width="80px"
+								height="28" />
+							</span>
+						</div>
+						<button type="button" class="btn btn-default login mybtn">登&nbsp;&nbsp;&nbsp;录</button>
+					</form>
+				</div>
+				<br />
+				<div class="other">
+					<a th:href="@{/enterprise/register}" style="float: left">用人单位注册</a>
+					<a th:href="@{/enterprise/forget}" style="float: right">忘记密码</a>
+				</div>
+			</div>
+		</div>
+		<br /> <br />
+		<div th:replace="commonhf::#footer"></div>
+	</div>
+</body>
+</html>

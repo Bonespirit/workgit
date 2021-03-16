@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="mhead">
+<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css"
+	th:href="@{/bootstrap/css/bootstrap.min.css}" />
+<link rel="stylesheet" href="css/index.css" th:href="@{/css/index.css}" />
+<script src="js/jquery-3.3.1.min.js" th:src="@{/js/jquery-3.3.1.min.js}"></script>
+<script src="bootstrap/js/bootstrap.min.js" th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+<script src="js/script1.js" th:src="@{/js/script1.js}"></script>
+</head>
+
+<!-- wangEditor validator -->
+<head th:fragment="wbc">
+<script src="js/wangEditor.min.js" th:src="@{/js/wangEditor.min.js}"></script>
+<script src="bootstrap/js/bootstrapValidator.js" th:src="@{/bootstrap/js/bootstrapValidator.js}"></script>
+<script src="js/common-validator.js" th:src="@{/js/common-validator.js}" async></script>
+</head>
+
+<!-- 带有文件上传插件模块 -->
+<head th:fragment="fileinput">
+<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css"
+	th:href="@{/bootstrap/css/bootstrap.min.css}" />
+<link rel="stylesheet" href="css/index.css" th:href="@{/css/index.css}" />
+<link rel="stylesheet" href="bootstrap/fileinput/css/fileinput.min.css"
+	th:href="@{/bootstrap/fileinput/css/fileinput.min.css}" />
+<link rel="stylesheet" href="bootstrap/font-awesome/css/font-awesome.min.css"
+	th:href="@{/bootstrap/font-awesome/css/font-awesome.min.css}" />
+<link rel="stylesheet" href="bootstrap/fileinput/themes/explorer-fa/theme.min.css"
+	th:href="@{/bootstrap/fileinput/themes/explorer-fa/theme.min.css}" />
+<script src="js/jquery-3.3.1.min.js" th:src="@{/js/jquery-3.3.1.min.js}"></script>
+<script src="bootstrap/js/bootstrap.min.js" th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+<script src="bootstrap/fileinput/js/fileinput.min.js"
+	th:src="@{/bootstrap/fileinput/js/fileinput.min.js}"></script>
+<script src="bootstrap/fileinput/themes/explorer-fa/theme.min.js"
+	th:src="@{/bootstrap/fileinput/themes/explorer-fa/theme.min.js}"></script>
+<script src="bootstrap/fileinput/js/locales/zh.js" th:src="@{/bootstrap/fileinput/js/locales/zh.js}"></script>
+</head>
+
+<!-- student head -->
+<head th:fragment="studentHead">
+<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css"
+	th:href="@{/bootstrap/css/bootstrap.min.css}" />
+<link rel="stylesheet" href="css/index.css" th:href="@{/css/index.css}" />
+<script src="js/jquery-3.3.1.min.js" th:src="@{/js/jquery-3.3.1.min.js}"></script>
+<script src="bootstrap/js/bootstrap.min.js" th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+<script src="js/studentsearch.js" th:src="@{/js/studentsearch.js}"></script>
+</head>
+
+<!-- view 模块 -->
+<head th:fragment="view">
+<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css"
+	th:href="@{/bootstrap/css/bootstrap.min.css}" />
+<link rel="stylesheet" href="css/index.css" th:href="@{/css/index.css}" />
+<link rel="stylesheet" href="css/zpjzview.css" th:href="@{/css/zpjzview.css}" />
+<script src="js/jquery-3.3.1.min.js" th:src="@{/js/jquery-3.3.1.min.js}"></script>
+<script src="bootstrap/js/bootstrap.min.js" th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+</head>
+<body>
+	<!-- 全头部导航 -->
+	<div th:fragment="header" id="header" class="container-fluid">
+		<div class="row" style="width: 1120px; margin: 0 auto">
+			<div class="top-logo col-sm-4 col-xs-4">
+				<a th:href="@{/}" target="_blank"> <img th:src="@{/images/registerlogo.png}" alt="桂林电子科技大学" />
+				</a>
+			</div>
+			<div class="row top-item col-sm-8 col-xs-8">
+				<div class="col-md-2 col-sm-2 item">
+					<a th:href="@{/}">首页</a>
+				</div>
+				<div class="col-md-2 col-sm-2 item">
+					学生 <span class="more"></span>
+					<ul class="list-inline">
+						<li><a href="javascript:;">招聘信息</a></li>
+						<li><a href="javascript:;">就业政策</a></li>
+						<li><a href="javascript:;">就业指导</a></li>
+						<li><a href="javascript:;">毕业填报</a></li>
+						<li><a th:href="@{/student/czsc}">操作手册</a></li>
+					</ul>
+				</div>
+				<div class="col-md-2 col-sm-2 item">
+					雇主 <span class="more"></span>
+					<ul class="list-inline" style="width: 420px">
+						<li><a th:href="@{/enterprise/zpzn}">办事指南</a></li>
+						<li><a href="javascript:;">生源信息</a></li>
+						<li><a href="javascript:;">招聘发布</a></li>
+						<li><a href="javascript:;">双选会预约</a></li>
+					</ul>
+				</div>
+				<div class="col-md-2 col-sm-2 item">
+					<a th:href="@{/teacher/shsq/page/1}">教职工</a>
+				</div>
+				<div class="col-md-2 col-sm-2 item1" style="font-size: 16px">
+					<span id="search-click" class="glyphicon glyphicon-search"
+						style="color: darkgray; cursor: pointer"></span> <strong style="margin: 0 5px">|</strong> <a
+						th:href="@{/eplogin}">登录</a>
+					<div class="top-search">
+						<form action="">
+							<input type="submit" class="search-btn1" />
+							<div style="width: 100%">
+								<input type="text" name="allSearch" /> <img id="search-close" th:src="@{/images/logo.png}"
+									alt="取消" width="20" style="float: right; margin-top: 15px; cursor: pointer" />
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 部分头部 -->
+	<div th:fragment="sheader" id="header" class="container">
+		<div class="row" style="width: 1120px; margin: 0 auto">
+			<div class="top-logo col-sm-4 col-xs-4">
+				<a th:href="@{/}"> <img th:src="@{/images/registerlogo.png}" alt="桂林电子科技大学" />
+				</a>
+			</div>
+		</div>
+	</div>
+	<!-- 底部信息 -->
+	<div th:fragment="footer" id="footer">
+		<div class="inner">
+			<div class="footer-top row">
+				<div class="col-md-8 aboutus" style="height: 100%; padding: 0">
+					<div class="logo">
+						<a href="https://www.guet.edu.cn/"> <img th:src="@{/images/logo.png}" alt="桂林电子科技大学" />
+						</a>
+					</div>
+					<div class="content">
+						<p>大学生就业指导服务中心：</p>
+						<p>
+							企业招聘 0773-2319102 <br /> 徐老师 0773-2316183（招聘业务） <br /> 路老师 0773-2305922（校内业务） <br /> 邓老师
+							0773-2305923（综合事务）
+						</p>
+						<p>办公邮箱： jiuye@guet.edu.cn</p>
+						<p>地址：桂林电子科技大学花江校区红亮学生活动中心</p>
+						<p>研究生工作部：</p>
+						<p>
+							刘老师 0773-6765065（研究生招聘） <br /> 办公邮箱：guetygb@foxmail.com
+						</p>
+						<p>地址：桂林电子科技大学金鸡岭校区二教405室</p>
+					</div>
+				</div>
+				<div class="col-md-4 quicklink" style="height: 100%">
+					<img th:src="@{/images/erwei.png}" alt="二维码" />
+				</div>
+			</div>
+			<div class="footer-bottom">
+				<p>
+					版权所有 © 桂林电子科技大学就业指导中心 <span>技术支持：庞如霆</span>
+				</p>
+			</div>
+		</div>
+	</div>
+
+	<!-- enterprise center left -->
+	<div th:fragment="enterpriseLeft" class="left">
+		<ul>
+			<li class="tag" style="background-color: #60b0f4"><a href="javascript:;">办事指南</a></li>
+			<li><span class="glyphicon glyphicon-list-alt"></span> <a th:href="@{/enterprise/zpzn}">招聘指南</a></li>
+			<li><span class="glyphicon glyphicon-list-alt"></span> <a th:href="@{/enterprise/zwgl}">职位管理</a></li>
+			<li><span class="glyphicon glyphicon-list-alt"></span> <a th:href="@{/enterprise/wlzp}">网络招聘</a></li>
+			<li><span class="glyphicon glyphicon-list-alt"></span> <a th:href="@{/enterprise/xjhyy}">宣讲会预约</a></li>
+			<li><span class="glyphicon glyphicon-list-alt"></span> <a th:href="@{/search/sxh/page/1}">双选会预约</a></li>
+			<li class="tag" style="background-color: #60b0f4"><a href="javascript:;">关于学校</a></li>
+			<li><span class="glyphicon glyphicon-list-alt"></span> <a th:href="@{/enterprise/syxx}">生源信息</a></li>
+			<li><span class="glyphicon glyphicon-list-alt"></span> <a th:href="@{/enterprise/zyjs}">专业介绍</a></li>
+			<li class="tag" style="background-color: #60b0f4"><a href="javascript:;">单位信息</a></li>
+			<li><span class="glyphicon glyphicon-list-alt"></span> <a th:href="@{/enterprise/jbxx}">基本信息</a></li>
+			<li><span class="glyphicon glyphicon-list-alt"></span> <a th:href="@{/enterprise/xgmm}">修改密码</a></li>
+		</ul>
+	</div>
+
+	<!-- enterprise center nav -->
+	<div th:fragment="enterpriseNav (cur)" class="nav">
+		<ul class="list-inline">
+			<li><a th:href="@{/}">首页</a> <span>></span></li>
+			<li><a th:href="@{/enterprise/jbxx}">单位中心</a> <span>></span></li>
+		</ul>
+		<span>[[${cur}]]</span>
+	</div>
+
+	<!-- 预览 pre-show -->
+	<div id="pre-show">
+		<button type="button" class="btn mybtn" style="float: right">关闭</button>
+		<iframe th:src="@{/preview.html}" frameborder="0"></iframe>
+	</div>
+
+	<!-- recruit -->
+	<div th:fragment="recruit" class="recruit">
+		<h4>招聘简章</h4>
+		<hr />
+		<div class="form-group">
+			<label for="title" class="col-sm-2 control-label"> <span style="color: #f40">*</span> 标题
+			</label>
+			<div class="col-sm-10">
+				<input type="text" class="form-control" id="title" name="title" placeholder="请输入标题" />
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="column" class="col-sm-2 control-label"> <span style="color: #f40">*</span> 栏目
+			</label>
+			<div class="col-sm-10">
+				<input type="text" class="form-control" id="column" name="column" readonly />
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="firstname" class="col-sm-2 control-label"> <span style="color: #f40">*</span>
+				工作性质
+			</label>
+			<div class="col-sm-2">
+				<select class="form-control" name="nature">
+					<option value="1">全职</option>
+					<option value="0">不限</option>
+					<option value="2">实习</option>
+				</select>
+			</div>
+		</div>
+		<textarea hidden name="contents" id="contents" cols="30" rows="10"></textarea>
+		<br /> <label class="control-label" style="font-size: 16px"> <span style="color: #f40">*</span>
+			招聘文本
+		</label> <br /> <br /> <br />
+		<div id="rich-text">
+			<button type="button" class="btn btn-sm btn-success">简洁模式</button>
+			<label style="color: #f40">(推荐)</label>
+			<button type="button" class="btn btn-sm btn-success mybtn">正常模式</button>
+			<button id="preview" style="float: right" type="button" class="btn mybtn btn-sm">预览</button>
+			<a href="javascript:;" style="color: #f40" data-toggle="tooltip" data-placement="top"
+				title="简洁模式:过滤样式排版;正常模式:保留原来样式排版"><img th:src="@{/images/aui-icon-question.png}" width="25"
+				height="25" /></a> <label style="color: #f40">正常模式粘贴需要耗费点时间,如果文本过长请分段粘贴</label>
+			<div id="wangEditor"></div>
+		</div>
+	</div>
+
+	<!-- skill 和 majors doT模板 -->
+	<div th:fragment="sm">
+		<script type="text/x-dot-template" id="skillData">
+      {{~it:value:index}}
+          <option value="{{=value.no}}">{{=value.name}}</option>
+      {{~}}
+    </script>
+		<script type="text/x-dot-template" id="majorData">
+      {{~it:value:i}}
+          <div>
+            <div>{{=value.name}}</div>
+            <ul class="list-inline">
+              {{~value.majorList:mlist:index}}
+                <li>
+                  <label for="checkbox{{=i*10+index}}">
+                    <input type="checkbox" id="checkbox{{=i*10+index}}" name="major" value="{{=mlist.no}}">{{=mlist.name}}
+                  </label>
+                </li>
+              {{~}}
+            </ul>
+          </div>
+      {{~}}
+    </script>
+	</div>
+
+	<!-- student nav -->
+	<div th:fragment="studentNav(cur)" class="nav">
+		<ul class="list-inline">
+			<li><a th:href="@{/}">首页</a> <span>></span></li>
+			<li><a th:href="@{/jbxxs}">学生中心</a> <span>></span></li>
+		</ul>
+		<span>[[${cur}]]</span>
+	</div>
+
+	<!-- student left -->
+	<div th:fragment="studentLeft" class="left">
+		<ul>
+			<li class="tag" style="background-color: #60b0f4"><a href="javascript:;">办事指南</a></li>
+			<li><span class="glyphicon glyphicon-list-alt"></span> <a th:href="@{/student/czsc}">操作手册</a></li>
+			<li><span class="glyphicon glyphicon-edit"></span> <a th:href="@{/student/bytb}">毕业填报</a></li>
+			<li><span class="glyphicon glyphicon-pencil"></span> <a th:href="@{/student/jybl}">解约办理</a></li>
+			<li><span class="glyphicon glyphicon-print"></span> <a th:href="@{/student/dysq}">打印申请</a></li>
+			<li><span class="glyphicon glyphicon-download-alt"></span> <a th:href="@{/student/download}">常用下载</a></li>
+			<li class="tag" style="background-color: #60b0f4"><a href="javascript:;">求职之路</a></li>
+			<li><span class="glyphicon glyphicon-list-alt"></span> <a th:href="@{/student/wdjl}">我的简历</a></li>
+			<li><span class="glyphicon glyphicon-list-alt"></span> <a th:href="@{/search/zxzp/page/1}">招聘信息</a></li>
+			<li><span class="glyphicon glyphicon-list-alt"></span> <a th:href="@{/search/jobs}">职位申请</a></li>
+			<li><span class="glyphicon glyphicon-bell"></span> <a th:href="@{/student/wdxx}">我的消息</a></li>
+			<li><span class="glyphicon glyphicon-list-alt"></span> <a th:href="@{/student/wdtd}">我的投递</a></li>
+			<li class="tag" style="background-color: #60b0f4"><a href="javascript:;">学生信息</a></li>
+			<li><span class="glyphicon glyphicon-list-alt"></span> <a th:href="@{/student/jbxxs}">基本信息</a></li>
+			<li><span class="glyphicon glyphicon-edit"></span> <a th:href="@{/student/xgmms}">修改密码</a></li>
+		</ul>
+	</div>
+
+	<!-- xgmm ajax提交表单 -->
+	<script th:fragment="xgmmajax" type="text/javascript" th:inline="javascript">
+		$("#submitBtn").on("click", function () {
+			//获取表单对象
+			var bootstrapValidator = $("#alterpw").data("bootstrapValidator");
+			//手动触发验证
+			bootstrapValidator.validate();
+			if (bootstrapValidator.isValid()) {
+				//表单提交的方法、比如ajax提交
+				let formdata = new FormData($("#alterpw")[0]);
+				$.ajax({
+					url: [[@{/enterprise/xgmm}]],
+					type: "put",
+					data: formdata,
+					dataType: "JSON",
+					cache: false,
+					contentType: false,
+					processData: false,
+					success: function (data) {
+						alert(data)
+						location.reload()
+					},
+				});
+			}
+		});
+    </script>
+
+	<!-- new nav -->
+	<div th:fragment="newsNav(cur)" class="nav">
+		<ul class="list-inline">
+			<li><a th:href="@{/}">首页</a> <span>></span></li>
+		</ul>
+		<span>[[${cur}]]</span>
+	</div>
+
+	<!-- news left new -->
+	<div th:fragment="newsLeftn" class="left">
+		<ul>
+			<li><span class="glyphicon glyphicon-list-alt"></span> <a th:href="@{/news/column/0/page/1}">通知公告</a></li>
+			<li><span class="glyphicon glyphicon-list-alt"></span> <a th:href="@{/news/column/1/page/1}">就业公示</a></li>
+			<li><span class="glyphicon glyphicon-list-alt"></span> <a th:href="@{/news/column/2/page/1}">新闻热点</a></li>
+		</ul>
+	</div>
+	<!-- news left student -->
+	<div th:fragment="newsLefts" class="left">
+		<ul>
+			<li><span class="glyphicon glyphicon-list-alt"></span> <a th:href="@{/news/column/3/page/1}">就业指导</a></li>
+			<li><span class="glyphicon glyphicon-list-alt"></span> <a th:href="@{/news/column/4/page/1}">就业政策</a></li>
+		</ul>
+	</div>
+
+	<!-- news search -->
+	<div th:fragment="newsSearch(column)" class="search">
+		<h5>关键字</h5>
+		<div class="input-group">
+			<form th:action="@{/search/news/column/}+${column}">
+				<input type="text" name="keyword" class="form-control" placeholder="请输入搜索内容" /> <span
+					class="input-group-btn">
+					<button class="btn mybtn" type="submit">搜索</button>
+				</span>
+			</form>
+		</div>
+	</div>
+
+	<!-- news searchinfo -->
+	<div th:fragment="newsSearchInfo" class="search-info">
+		<table class="table table-condensed table-hover">
+			<thead>
+				<tr>
+					<th style="background-color: #e9e8e8">标题</th>
+					<th style="background-color: #e9e8e8">发布时间</th>
+				</tr>
+			</thead>
+			<tr th:each="item : ${page.records}">
+				<td><span style="color: #f40" th:if="${item.grade eq 1}">[置顶]</span><a
+					th:href="@{/news/id/}+${item.id}" th:text="${item.title}" th:title="${item.title}">2020届毕业生生源一览表</a></td>
+				<td th:text="${item.pdate}">2020-01-23</td>
+			</tr>
+		</table>
+	</div>
+
+	<!-- 前端分页 -->
+	<div th:fragment="pageHelper(murl)" style="float: right" th:if="${page.pages gt 1}">
+		<ul class="pagination">
+			<li><a th:href="@{/{url}/page/1(url=${murl})}">首页</a></li>
+			<li th:if="${page.hasPrevious}"><a th:href="@{/(page=${page.current - 1})}"
+				aria-label="Previous"> <span aria-hidden="false">&laquo;</span>
+			</a></li>
+			<th:block th:each="i : ${#numbers.sequence(begin,end)}">
+				<a th:href="@{/{url}/page/{p}(url=${murl},p=${i})}" th:text="${i}" th:if="${i != page.current}"></a>
+				<span style="font-weight: bold" th:if="${i == page.current}" th:text="${i}"></span>
+			</th:block>
+			<li th:if="${page.hasNext}"><a th:href="@{/(page=${page.current + 1})}" aria-label="Next">
+					<span aria-hidden="false">&raquo;</span>
+			</a></li>
+			<li><a th:href="@{/{url}/page/p(url=${murl},p=${page.pages})}">末页</a></li>
+		</ul>
+	</div>
+
+	<!-- search left -->
+	<div th:fragment="searchLeft" class="left">
+		<ul>
+			<li><a th:href="@{/search/jobs}">高级检索</a></li>
+			<li><a th:href="@{/search/zxzp/page/1}">在线招聘</a></li>
+			<li><a th:href="@{/search/sxzp/page/1}">实习招聘</a></li>
+			<li><a th:href="@{/search/zcxj/page/1}">专场宣讲</a></li>
+			<li><a th:href="@{/search/ztzp/page/1}">组团招聘</a></li>
+			<li><a th:href="@{/search/sxh/page/1}">双选会</a></li>
+		</ul>
+	</div>
+	
+	<!-- search search -->
+	<div th:fragment="searchSearch(url)" class="search">
+		<h5>关键字</h5>
+		<div class="input-group">
+			<form th:action="@{/search/}+${url}" method="post">
+				<input type="text" name="keyword" class="form-control" placeholder="请输入搜索内容" /> <span
+					class="input-group-btn">
+					<button class="btn mybtn" type="submit">搜索</button>
+				</span>
+			</form>
+		</div>
+	</div>
+</body>
+</html>

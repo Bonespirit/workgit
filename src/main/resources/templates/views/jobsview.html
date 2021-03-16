@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title th:text="${position.pname}">职位</title>
+<link th:include="commonhf::view"></link>
+</head>
+<body style="height: auto">
+	<div th:replace="commonhf::header"></div>
+	<div style="width: 100%; height: auto; position: absolute; top: 110px">
+		<div id="center">
+			<div class="nav">
+				<ul class="list-inline">
+					<li><a th:href="@{/}">首页</a> <span>></span></li>
+					<li><a th:href="@{/search/jobs}">职位</a> <span>></span></li>
+				</ul>
+				<span>详情</span>
+			</div>
+			<div class="contents">
+				<div class="header">
+					<div class="poslist leftinfo">
+						<div class="position">
+							<p class="name" th:text="${position.pname}">Java开发工程师</p>
+							<p>
+								<span class="salary" th:text="${position.salary}">4千-6千</span> <span th:text="${position.workplace}">广西-桂林</span> <span th:text="${/position.nature}">全职</span> <span th:text="${position.edu}">本科</span> <span th:text="${position.number}">招10人</span>
+								<span th:text="${position.skill}">运维/测试</span>
+							</p>
+						</div>
+					</div>
+					<div class="rightinfo">
+						<ul class="list-inline">
+							<li>发布时间: <span th:text="${position.pdate}">2021-03-08</span>
+							</li>
+							<li>浏览次数: <span id="vnumber" th:text="${position.hot}">879</span>
+							</li>
+						</ul>
+					</div>
+					<div style="clear: both"></div>
+				</div>
+				<div class="section">
+					<div class="left-info">
+						<div class="title">
+							<h4>需求专业</h4>
+							<p th:text="${position.speciality}">土木工程、城市地下空间工程、建筑学、测绘工程、给排水科学与工程土木工程、城市地下空间工程、建筑学、测绘工程、给排水科学与工程</p>
+							<h4>职位描述</h4>
+						</div>
+						<div class="info" th:text="${contents}"></div>
+					</div>
+					<div class="right-info">
+						<div class="contact">
+							<h4>职位发布人</h4>
+							<p>
+								联系人:<span th:text="${position.name}">庞先生</span>
+							</p>
+							<p>
+								联系电话:<span th:text="${position.telephone}">18078461064</span>
+							</p>
+						</div>
+						<br />
+						<div class="com-info">
+							<div>
+								<img th:src="@{/images/defaultlogo.png}" /> <a href="javascript:;" th:text="${company.cname}">中国能源建设集团广东省电力设计研究院有限公司</a>
+							</div>
+							<p>
+								单位性质:<span th:text="${company.nature}">三资企业</span>
+							</p>
+							<p>
+								单位行业:<span th:text="${company.industry}">科学研究和技术服务业</span>
+							</p>
+							<p>
+								单位规模:<span th:text="${company.scale}">1000-5000人</span>
+							</p>
+							<h6>
+								<strong>地址</strong>
+							</h6>
+							<p th:text="${company.address}">安徽省芜湖市弋江区久盛路8号</p>
+						</div>
+					</div>
+					<div style="clear: both"></div>
+				</div>
+			</div>
+		</div>
+		<div th:replace="commonhf::#footer"></div>
+	</div>
+</body>
+</html>

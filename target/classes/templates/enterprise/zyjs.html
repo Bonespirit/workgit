@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>专业介绍</title>
+<link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}" />
+<link rel="stylesheet" th:href="@{/css/index.css}" />
+<script th:src="@{/js/jquery-3.3.1.min.js}"></script>
+<script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+<script th:inline="javascript" th:src="@{/js/zyjs.js}"></script>
+<script th:src="@{/js/doT.min.js}"></script>
+</head>
+<body style="height: auto; background-color: #f6f6f6">
+	<div th:replace="commonhf::sheader"></div>
+	<div style="width: 100%; height: auto; position: absolute; top: 110px">
+		<div id="center">
+			<div th:replace="commonhf::enterpriseNav('专业介绍')"></div>
+			<div th:replace="commonhf::enterpriseLeft"></div>
+			<div class="right">
+				<ul>
+					<li class="item"><a href="javascript:;" onclick="getMajors(1100,this)">机电工程学院</a></li>
+					<li class="item"><a href="javascript:;" onclick="getMajors(1200,this)">信息与通信学院</a></li>
+					<li class="item"><a href="javascript:;" onclick="getMajors(1300,this)">计算机与信息安全学院</a></li>
+					<li class="item"><a href="javascript:;" onclick="getMajors(1400,this)">艺术与设计学院</a></li>
+					<li class="item"><a href="javascript:;" onclick="getMajors(1500,this)">商学院</a></li>
+					<li class="item"><a href="javascript:;" onclick="getMajors(1600,this)">外国语学院</a></li>
+					<li class="item"><a href="javascript:;" onclick="getMajors(1700,this)">数学与计算科学学院</a></li>
+					<li class="item"><a href="javascript:;" onclick="getMajors(1800,this)">电子工程与自动化学院</a></li>
+					<li class="item"><a href="javascript:;" onclick="getMajors(1900,this)">法学院</a></li>
+					<li class="item"><a href="javascript:;" onclick="getMajors(2000,this)">材料科学与工程学院</a></li>
+					<li class="item"><a href="javascript:;" onclick="getMajors(2100,this)">公共事务学院</a></li>
+					<li class="item"><a href="javascript:;" onclick="getMajors(2200,this)">马克思主义学院</a></li>
+					<li class="item"><a href="javascript:;" onclick="getMajors(2300,this)">国际学院</a></li>
+					<li class="item"><a href="javascript:;" onclick="getMajors(2400,this)">建筑与交通工程学院</a></li>
+					<li class="item"><a href="javascript:;" onclick="getMajors(2500,this)">生命与环境科学学院</a></li>
+				</ul>
+			</div>
+			<div style="clear: both"></div>
+		</div>
+		<div th:replace="commonhf::#footer"></div>
+		</div>
+	</div>
+	<script type="text/x-dot-template" id="collegeData">
+      {{~it:value:index}}
+        <a th:href="@{/view/{{=value.cid}}/{{=value.hid}}.html}" target="_blank">{{=value.name}}</a>
+      {{~}}
+    </script>
+	<script>
+      $("#center .left li")[8].className = "uactive";
+    </script>
+</body>
+</html>

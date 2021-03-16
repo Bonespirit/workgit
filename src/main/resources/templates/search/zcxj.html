@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>专场宣讲</title>
+<link th:include="commonhf::mhead"></link>
+<link rel="stylesheet" href="css/common-zp.css" th:href="@{/css/common-zp.css}" />
+<style type="text/css">
+	th {
+		background-color: #e9e8e8
+	}
+</style>
+</head>
+<body style="height: auto">
+	<canvas height="700px"></canvas>
+	<div th:replace="commonhf::sheader"></div>
+	<div style="width: 100%; height: auto; position: absolute; top: 110px">
+		<div id="center">
+			<div th:replace="commonhf::newsNav('专场宣讲')"></div>
+			<div th:replace="commonhf::searchLeft"></div>
+			<div class="right" style="min-height: 300px">
+				<div th:replace="commonhf::searchSearch('zcxj')"></div>
+				<hr />
+				<button type="button" class="btn mybtn btn-sm" style="float: right">
+					<a th:href="@{/search/zcxj/schoolmate}" style="color: #fff">校友企业</a>
+				</button>
+				<div class="search-info">
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th>宣讲会名称</th>
+								<th>举办地点</th>
+								<th>举办时间</th>
+							</tr>
+						</thead>
+						<tr th:each="item : ${page.records}">
+							<td><a th:href="@{/views/zcxj/id/}+${item.id}" th:text="${item.title}"
+								th:title="${item.title}">先进科技（中国）有限公司2021校园招聘先进科技（中国）有限公司2021校园招聘</a></td>
+							<td><span th:text="${item.address}" th:title="${item.address}">A区主教学楼330室</span></td>
+							<td><text th:text="${item.tdate}">2021-03-09</text>&nbsp;<text th:text="${item.btime}">09:00-11:00</text></td>
+						</tr>
+					</table>
+				</div>
+				<div th:replace="commonhf::pageHelper('search/zcxj')"></div>
+				<div style="clear: both"></div>
+			</div>
+			<div th:replace="commonhf::#footer"></div>
+		</div>
+		<script>
+			$("#center .left li")[3].className = "uactive";
+		</script>
+</body>
+</html>

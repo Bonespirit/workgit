@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>申请打印</title>
+<link th:include="commonhf::studentHead"></link>
+</head>
+<body style="height: auto">
+	<div th:replace="commonhf::header"></div>
+	<div style="width: 100%; height: auto; position: absolute; top: 110px">
+		<div id="center">
+			<div th:replace="commonhf::studentNav('申请打印')"></div>
+			<div th:replace="commonhf::studentLeft"></div>
+			<div class="right" style="min-height: 600px">
+				<label style="color: #f40">注意:每个人只能打印三次，拿到原件后请复印备用，并保管好原件</label>
+				<ul class="list-group">
+					<li class="list-group-item"><span>推荐表</span>
+						<button type="button" class="btn mybtn btn-sm">
+							<a href="javascript:;" style="color: #fff">申请打印</a>
+						</button></li>
+					<li class="list-group-item"><span>成绩单</span>
+						<button type="button" class="btn mybtn btn-sm">
+							<a href="javascript:;" style="color: #fff">申请打印</a>
+						</button></li>
+				</ul>
+			</div>
+			<div style="clear: both"></div>
+		</div>
+		<div th:replace="commonhf::#footer"></div>
+	</div>
+	<script>
+      $("#center .left li")[4].className = "uactive";
+    </script>
+</body>
+</html>

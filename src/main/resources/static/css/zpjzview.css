@@ -1,0 +1,142 @@
+#center .contents .header {
+  background-color: #fff;
+  margin-top: 10px;
+  padding: 10px 30px;
+  height: auto;
+  /* text-align: left; */
+}
+#center .contents .header div:nth-of-type(1) {
+  margin-top: 30px;
+}
+#center .contents .header h3 {
+  margin: 0px 0px 20px 0px;
+}
+#center .contents .header h4 {
+  text-align: left;
+}
+#center .contents .header p {
+  margin: 10px 0px 0px 20px;
+}
+#center .contents .header li:nth-child(1) {
+  float: left;
+}
+#center .contents .header li:nth-child(2) {
+  float: right;
+}
+#center .contents .section {
+  padding: 0 0 0 30px;
+  background-color: #fff;
+  min-height: 205px;
+}
+#center .contents .footer {
+  padding: 0 30px;
+  background-color: #fff;
+  font-size: 16px;
+}
+#center .contents .footer .poslist thead th {
+  background-color: #7ec1e6;
+}
+#center .contents .footer .poslist tbody tr td:first-child {
+  width: 300px;
+}
+#center .contents .footer .poslist tbody tr td {
+  vertical-align: middle;
+}
+#center .contents .footer .poslist tbody tr td:last-child p {
+  width: 760px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+#center .contents .footer h4,
+#center .contents .header h4,
+#center .contents .section .title h4 {
+  padding: 10px;
+  margin: 0;
+  border-left: 4px solid #0e9ce9;
+}
+/*职位表展示页面*/
+#center .contents .header .leftinfo,
+#center .contents .header .rightinfo {
+  height: 80px;
+}
+#center .contents .header .leftinfo {
+  float: left;
+  margin: 0 !important;
+  font-size: 16px;
+  padding: 10px 0px;
+  text-align: left;
+}
+#center .contents .header .leftinfo .name {
+  font-size: 20px;
+  color: #666;
+  margin-bottom: 20px !important;
+}
+#center .contents .header .rightinfo {
+  width: 300px;
+  float: right;
+  margin: 0;
+}
+#center .contents .header .rightinfo ul {
+  margin-top: 60px;
+}
+#center .contents .section .title {
+  padding: 20px 0px;
+}
+#center .contents .section .title p {
+  font-size: 16px;
+  text-indent: 20px;
+  padding: 10px;
+}
+#center .contents .section .left-info .info {
+  padding-bottom: 20px;
+}
+#center .contents .section .left-info {
+  float: left;
+  width: 800px;
+}
+#center .contents .section .right-info {
+  float: right;
+  padding: 10px;
+  width: 260px;
+  height: 520px;
+  border-left: 5px solid #f6f6f6;
+}
+#center .contents .section .right-info .com-info div {
+  text-align: center;
+  padding: 10px 0px;
+}
+#center .contents .section .right-info .com-info a {
+  font-size: 16px;
+  margin-top: 10px;
+  display: inline-block;
+}
+/*招聘职位信息 */
+#center .poslist .company {
+  text-align: right;
+}
+#center .poslist span {
+  padding: 0px 10px;
+  border-right: 1px solid #ccc;
+}
+#center .poslist p span:last-child {
+  border-right: none;
+}
+#center .poslist .position {
+  margin: 0 !important;
+}
+#center .poslist .position .name {
+  font-size: 16px;
+  color: #0e9ce9;
+}
+#center .poslist p .salary {
+  color: #f40;
+  font-size: 18px;
+  padding: 0;
+  border-right: none;
+}
+#center .poslist p {
+  font-size: 14px;
+  color: #666;
+  margin: 0 !important;
+}

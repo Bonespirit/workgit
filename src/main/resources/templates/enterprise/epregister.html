@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>用人单位注册</title>
+<link th:include="commonhf::mhead"></link>
+<link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap-select.min.css}" />
+<script th:src="@{/bootstrap/js/bootstrap-select.min.js}"></script>
+<script th:src="@{/bootstrap/js/bootstrapValidator.js}"></script>
+<script th:src="@{/js/enterpriseValidator.js}" async></script>
+<script th:src="@{/js/common-2.js}"></script>
+<script th:src="@{/js/login.js}" async></script>
+</head>
+<body>
+	<canvas height="1900" width="100%"></canvas>
+	<div th:replace="commonhf::sheader"></div>
+	<div style="width: 100%; height: auto; position: absolute; top: 110px">
+		<div id="register">
+			<div class="register-info">
+				<h3>欢迎用人单位注册</h3>
+				<form th:action="@{/enterprise/register}" method="post" id="enterprise" class="form-horizontal" role="form"
+					style="padding: 20px 0" enctype="multipart/form-data">
+					<!-- 联系人信息 -->
+					<div class="contact-info">
+						<h4>联系人信息</h4>
+						<hr />
+						<div class="form-group">
+							<label for="loginName" class="col-sm-2 control-label"> <span style="color: #f40">*</span>
+								登录用户名:
+							</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control" id="loginName" placeholder="请输入登录名" name="username" />
+							</div>
+							<p class="col-sm-4">请输入邮箱/登录名/手机号</p>
+						</div>
+						<div class="form-group">
+							<label for="password" class="col-sm-2 control-label"> <span style="color: #f40">*</span>
+								密码:
+							</label>
+							<div class="col-sm-6">
+								<input type="password" class="form-control" id="password" name="password" placeholder="请输入密码" />
+							</div>
+							<p class="col-sm-4">长度为8-16之间的数字、字母组合！</p>
+						</div>
+						<div class="form-group">
+							<label for="passwordConfirm" class="col-sm-2 control-label"> <span
+								style="color: #f40">*</span> 确认密码:
+							</label>
+							<div class="col-sm-6">
+								<input type="password" class="form-control" id="passwordConfirm" name="passwordConfirm"
+									placeholder="请输入确认密码" />
+							</div>
+							<p class="col-sm-4">请输入确认密码</p>
+						</div>
+						<hr />
+						<div class="form-group">
+							<label for="contactName" class="col-sm-2 control-label"> <span style="color: #f40">*</span>
+								联系人姓名:
+							</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control" id="contactName" name="name"
+									placeholder="请输入联系人姓名" />
+							</div>
+							<p class="col-sm-4">2-20位字符，可由中文和英文组成</p>
+						</div>
+						<div class="form-group">
+							<label for="telephone" class="col-sm-2 control-label"> <span style="color: #f40">*</span>
+								联系人手机:
+							</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control" id="telephone" name="telephone" placeholder="请输入手机号" />
+							</div>
+							<p class="col-sm-4">请输入联系人手机</p>
+						</div>
+						<div class="form-group">
+							<label for="email" class="col-sm-2 control-label"> <span style="color: #f40">*</span>
+								联系邮箱:
+							</label>
+							<div class="col-sm-6">
+								<input type="email" class="form-control" id="cemail" name="cemail" placeholder="请输入邮箱" />
+							</div>
+							<p class="col-sm-4">请输入常用邮箱，用于接收通知！</p>
+						</div>
+					</div>
+					<hr />
+					<!-- 单位基本信息 -->
+					<div class="company-info">
+						<h4>单位信息</h4>
+						<hr />
+						<div class="form-group">
+							<label for="companyName" class="col-sm-2 control-label"> <span style="color: #f40">*</span>
+								单位名称:
+							</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control" id="companyName" name="cname"
+									placeholder="请输入单位名称" />
+							</div>
+							<p class="col-sm-4">必须与组织机构代码证上的用人单位名称一致</p>
+						</div>
+						<div class="form-group">
+							<label for="introduction" class="col-sm-2 control-label"> <span style="color: #f40">*</span>
+								单位简介:
+							</label>
+							<div class="col-sm-6">
+								<textarea type="text" class="form-control" id="introduction" name="introduce"
+									placeholder="请输入单位简介" rows="4"></textarea>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="logo" class="col-sm-2 control-label"> 单位LOGO: </label>
+							<div class="col-sm-4">
+								<input class="form-control" disabled /> <label class="errormsg">图片大小不能超过1M！</label> <label
+									class="errormsg">请上传图片！</label> <input type="file" name="logo"
+									class="form-control hidden uploadfile" accept="image/png,image/jpg, image/jpeg" />
+							</div>
+							<div class="col-sm-2">
+								<button type="button" class="btn mybtn" onclick="uploadFile(this)">选择文件</button>
+							</div>
+							<p>仅支持jpg、jpeg、png 类型文件</p>
+						</div>
+						<div class="form-group">
+							<label for="capital" class="col-sm-2 control-label"> 注册资本: </label>
+							<div class="col-sm-2">
+								<input type="number" class="form-control" id="capital" name="capital" placeholder="人民币" />
+							</div>
+							<p class="col-sm-4">默认人民币单位为万元</p>
+						</div>
+						<div class="form-group">
+							<label for="officeCellphone" class="col-sm-2 control-label"> <span
+								style="color: #f40">*</span> 招聘邮箱:
+							</label>
+							<div class="col-sm-4">
+								<input type="email" class="form-control" id="zpemail" name="zpemail"
+									placeholder="请输入招聘邮箱" />
+							</div>
+							<p>接收简历邮箱</p>
+						</div>
+						<div class="form-group">
+							<label for="officeCellphone" class="col-sm-2 control-label"> <span
+								style="color: #f40">*</span> 办公电话:
+							</label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control" id="officeCellphone" name="officetelephone"
+									placeholder="请输入办公电话" />
+							</div>
+							<p>如：010-11111111</p>
+						</div>
+						<div class="form-group">
+							<label for="fax" class="col-sm-2 control-label"> <span style="color: #f40">*</span>
+								单位传真:
+							</label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control" id="fax" name="fax" placeholder="请输入单位传真" />
+							</div>
+							<p>如：010-11111111</p>
+						</div>
+						<div class="form-group">
+							<label for="postcode" class="col-sm-2 control-label"> <span style="color: #f40">*</span>
+								邮编:
+							</label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control" id="postcode" name="postcode" placeholder="请输入邮编" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="natureSel" class="col-sm-2 control-label"> <span style="color: #f40">*</span>
+								单位性质:
+							</label>
+							<div class="col-sm-2">
+								<select name="nature" id="natureSel" class="selectpicker">
+									<option value="10">机关</option>
+									<option value="20">科研设计单位</option>
+									<option value="21">高等教育单位</option>
+									<option value="22">中初等教育单位</option>
+									<option value="23">医疗卫生单位</option>
+									<option value="29">其他事业单位</option>
+									<option value="31">国有企业</option>
+									<option value="32">三资企业</option>
+									<option value="39">其他企业</option>
+									<option value="40">部队</option>
+									<option value="55">农村建制村</option>
+									<option value="56">城镇社区</option>
+									<option value="99">其他</option>
+								</select>
+								<!-- /input-group -->
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="industrySel" class="col-sm-2 control-label"> <span style="color: #f40">*</span>
+								单位行业:
+							</label>
+							<div class="col-sm-2">
+								<select name="industry" id="industrySel" class="selectpicker" data-live-search="true">
+									<option value="34">信息传输、软件和信息技术服务业</option>
+									<option value="22">制造业</option>
+									<option value="21">采矿业</option>
+									<option value="23">电力、热力、燃气及水生产和供应业</option>
+									<option value="24">建筑业</option>
+									<option value="31">批发和零售业</option>
+									<option value="32">交通运输、仓储和邮政业</option>
+									<option value="33">住宿和餐饮业</option>
+									<option value="35">金融业</option>
+									<option value="36">房地产业</option>
+									<option value="37">租赁和商务服务业</option>
+									<option value="38">科学研究和技术服务业</option>
+									<option value="39">水利、环境和公共设施管理业</option>
+									<option value="41">居民服务、修理和其他服务业</option>
+									<option value="42">教育</option>
+									<option value="43">卫生和社会工作</option>
+									<option value="44">文化、体育和娱乐业</option>
+									<option value="45">公共管理、社会保障和社会组织</option>
+									<option value="46">国际组织</option>
+									<option value="80">军队</option>
+								</select>
+								<!-- /input-group -->
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="scaleSel" class="col-sm-2 control-label"> <span style="color: #f40">*</span>
+								单位规模:
+							</label>
+							<div class="col-sm-2">
+								<select name="scale" id="scaleSel" class="selectpicker">
+									<option value="1">50人以下</option>
+									<option value="2">50人-100人</option>
+									<option value="3">100人-300人</option>
+									<option value="4">300人-500人</option>
+									<option value="5">500人-1000人</option>
+									<option value="6">1000人以上</option>
+								</select>
+								<!-- /input-group -->
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="pcSel" class="col-sm-2 control-label"> <span style="color: #f40">*</span>
+								单位所在地:
+							</label>
+							<div id="pcSel" class="col-sm-6"></div>
+						</div>
+						<div class="form-group">
+							<label for="address" class="col-sm-2 control-label"> <span style="color: #f40">*</span>
+								单位详细地址:
+							</label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control" id="address" name="address" placeholder="请输入详细地址" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="isSchoolmate" class="col-sm-2 control-label"> <span style="color: #f40">*</span>
+								是否校友企业:
+							</label>
+							<div class="col-sm-4">
+								<div>
+									<input type="text" name="isschoolmate" hidden value="0" />
+									<button type="button" class="btn btn-default" onclick="Schoolmate(this)">是</button>
+									<button type="button" class="btn btn-default mybtn" onclick="noSchoolmate(this)">
+										否</button>
+								</div>
+							</div>
+						</div>
+						<div id="schoolmateInfo">
+							<div class="form-group">
+								<label for="schoolmateCard" class="col-sm-2 control-label"> <span
+									style="color: #f40">*</span> 校友卡号:
+								</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" id="schoolmateCard" name="card"
+										placeholder="请输入卡号" />
+								</div>
+							</div>
+						</div>
+					</div>
+					<hr />
+					<!-- 相关证件上传 -->
+					<div class="relevant-doc">
+						<h4>营业执照或组织机构代码</h4>
+						<hr />
+						<div class="form-group">
+							<div class="col-sm-2">
+								<input type="text" disabled /> <label class="errormsg">图片大小不能超过1M！</label> <label
+									class="errormsg">请上传图片！</label> <input type="file" name="license" id="license"
+									class="form-control hidden uploadfile" accept="image/png,image/jpg, image/jpeg" />
+							</div>
+							<div class="col-sm-2">
+								<button type="button" class="btn mybtn" onclick="uploadFile(this)">+选择文件</button>
+							</div>
+							<p>企业需上传“营业执照”，事业单位需上传“组织机构代码证 (仅支持jpg、jpeg、png 类型文件)</p>
+						</div>
+					</div>
+					<div style="width: 80px; margin: 100px auto 0 auto">
+						<button id="submitBtn" type="button" class="btn mybtn">提交申请</button>
+					</div>
+				</form>
+			</div>
+		</div>
+		<div th:replace="commonhf::#footer"></div>
+	</div>
+</body>
+</html>

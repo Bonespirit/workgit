@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title th:text="${company.cname}">重庆通拓交通规划设计有限公司</title>
+<link th:include="commonth::thhead"></link>
+<script src="js/cexam.js" th:src="@{/js/cexam.js}"></script>
+</head>
+<body style="height: 960px">
+	<div id="cr-refuse">
+		<h4 style="color: #f40">请说明原因方便企业修改</h4>
+		<form th:action="@{/teacher/shsqc/fail/}+${company.id}" method="POST">
+			<input type="hidden" name="_method" value="delete" />
+			<textarea required name="explain" id="explain" cols="60" rows="5"></textarea>
+			<input type="text" name="email" hidden th:value="${company.cemail}" />
+			<div>
+				<button type="button" class="btn mybtn">取消</button>
+				<button type="submit" class="btn mybtn">确定</button>
+			</div>
+		</form>
+	</div>
+	<div th:replace="commonhf::sheader"></div>
+	<div style="width: 100%; height: auto; position: absolute; top: 110px">
+		<div id="center">
+			<div class="nav">
+				单位注册申请 <span>></span><span th:text="${company.cname}">重庆通拓交通规划设计有限公司</span>
+			</div>
+			<div class="right" style="min-height: 360px; float: left; width: 100%">
+				<div class="info" style="padding-top: 20px">
+					<img class="clogo" th:src="@{/}+${company.logourl}" src="../images/defaultlogo.png" /> <br /> <br />
+					<table class="table table-bordered table-hover" style="width: 600px">
+						<tr>
+							<td class="keyname">单位名称</td>
+							<td th:text="${company.cname}"></td>
+						</tr>
+						<tr>
+							<td class="keyname">校友卡号</td>
+							<td th:text="${company.card}"></td>
+						</tr>
+						<tr>
+							<td class="keyname">单位所在地</td>
+							<td th:text="${company.location}"></td>
+						</tr>
+						<tr>
+							<td class="keyname">单位详细地址</td>
+							<td th:text="${company.address}"></td>
+						</tr>
+						<tr>
+							<td class="keyname">注册资本</td>
+							<td>[[${company.capital}]]万元</td>
+						</tr>
+						<tr>
+							<td class="keyname">办公电话</td>
+							<td th:text="${company.officetelephone}"></td>
+						</tr>
+						<tr>
+							<td class="keyname">邮编</td>
+							<td th:text="${company.postcode}"></td>
+						</tr>
+						<tr>
+							<td class="keyname">传真</td>
+							<td th:text="${company.fax}"></td>
+						</tr>
+						<tr>
+							<td class="keyname">单位性质</td>
+							<td th:text="${company.nature}"></td>
+						</tr>
+						<tr>
+							<td class="keyname">单位行业</td>
+							<td th:text="${company.industry}"></td>
+						</tr>
+						<tr>
+							<td class="keyname">单位规模</td>
+							<td th:text="${company.scale}"></td>
+						</tr>
+						<tr>
+							<td class="keyname">单位简介</td>
+							<td>
+								<p th:text="${company.introduce}"></p>
+							</td>
+						</tr>
+					</table>
+					<img th:src="@{/}+${company.licenseurl}" />
+					<div style="width: 150px; margin: 40px auto 0 auto">
+						<button type="button" class="btn mybtn allow">
+							<a th:href="@{/teacher/shsqc/success/}+${company.id}" style="color: #fff">通过</a>
+						</button>
+						<button type="button" class="btn mybtn refuse">不通过</button>
+					</div>
+				</div>
+			</div>
+			<div style="clear: both"></div>
+		</div>
+		<div th:replace="commonhf::#footer"></div>
+	</div>
+</body>
+</html>

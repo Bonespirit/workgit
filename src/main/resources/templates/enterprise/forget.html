@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>密码找回</title>
+<link th:include="commonhf::mhead"></link>
+<script th:src="@{/js/login.js}" async></script>
+</head>
+<body>
+	<canvas height="740" width="1920"></canvas>
+	<div th:replace="commonhf::sheader"></div>
+	<div style="width: 100%; height: auto; position: absolute; top: 110px">
+		<div id="forget">
+			<div id="forget-info">
+				<h3>用人单位密码找回</h3>
+				<div class="forget-form" style="margin-top: 30px; padding: 0 150px">
+					<form th:action="@{/enterprise/forget}" method="post" class="form-horizontal" role="form"
+						enctype="multipart/form-data">
+						<div class="form-group">
+							<label for="firstname" class="col-sm-3 control-label"> <span style="color: #f40">*</span>
+								登录名:
+							</label>
+							<div class="col-sm-5">
+								<input type="text" class="form-control" id="firstname" placeholder="请输入用户名"
+									onblur="testUsername(this)" /> <label class="errormsg">请输入</label> <label class="errormsg">输入英文字母、数字和下划线不能以下划线开头和结尾</label>
+							</div>
+							<p>请输入邮箱/登录名/手机号</p>
+						</div>
+						<div class="form-group">
+							<label for="firstname" class="col-sm-3 control-label"> <span style="color: #f40">*</span>
+								联系邮箱:
+							</label>
+							<div class="col-sm-5">
+								<input type="email" class="form-control" id="lastname" placeholder="请输入联系邮箱"
+									onblur="testEmail(this)" /> <label class="errormsg">请输入</label> <label class="errormsg">请正确输入邮箱地址</label>
+							</div>
+							<p>请输入常用邮箱用于接收审核回执</p>
+						</div>
+						<div class="form-group">
+							<label for="firstname" class="col-sm-3 control-label"> <span style="color: #f40">*</span>
+								单位名称:
+							</label>
+							<div class="col-sm-5">
+								<input type="text" class="form-control" id="lastname" placeholder="请输入单位名称"
+									onblur="testEnpName(this)" /> <i hidden class="false">√</i> <label class="errormsg">请输入</label>
+								<label class="errormsg">单位未注册！</label>
+							</div>
+							<p>必须与组织机构代码证一致</p>
+						</div>
+						<div class="form-group">
+							<label for="firstname" class="col-sm-4 control-label" style="margin-left: -55px">
+								营业执照/组织机构代码证: </label>
+							<div class="col-sm-3">
+								<input class="form-control" disabled style="font-size: 12px" /> <input type="file"
+									class="form-control hidden uploadfile" name="license" />
+							</div>
+							<div class="col-sm-2">
+								<button type="button" class="btn mybtn" onclick="uploadFile(this)"
+									accept="image/png,image/jpg, image/jpeg">选择文件</button>
+							</div>
+							<p style="width: 300px; right: -90px">企业需上传“营业执照”，事业单位需上传“组织机构代码证”(仅支持jpg、jpeg、png格式的图片)
+							</p>
+						</div>
+						<br />
+						<div class="form-group">
+							<div class="submit">
+								<button type="button" class="btn mybtn" onclick="forgetSubmit(this)">提交申请</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<div th:replace="commonhf::#footer"></div>
+	</div>
+</body>
+</html>

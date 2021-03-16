@@ -1,0 +1,220 @@
+package com.pang.customfunc;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.stereotype.Component;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
+@Component("customFunc")
+public class customFuncCpImpl implements customFunc{
+
+	@Override
+	public String getCity(String code) throws IOException {
+		String provinceCode = code.substring(0, 2)+"0000";
+		String cityCode	= code;
+		@SuppressWarnings("resource")
+		BufferedReader reader = new BufferedReader(new FileReader("D:\\迅雷9\\city-version-4.json"));
+		StringBuffer content = new StringBuffer();
+		String line=null;
+		while((line = reader.readLine()) != null) {
+			content.append(line);
+		}
+		Gson gson = new Gson();
+		JsonObject object = gson.fromJson(content.toString(), JsonObject.class);
+		JsonArray provinceList = object.get("provinceList").getAsJsonArray();
+		List<String> mList = new ArrayList<>();
+		JsonArray citylist=null;
+		for(int i=0;i<provinceList.size();i++) {
+			JsonObject o = provinceList.get(i).getAsJsonObject();
+			if (o.get("no").getAsString().equals(provinceCode)) {
+				citylist = o.get("cityList").getAsJsonArray();
+				for(int j=0;j<citylist.size();j++) {
+					JsonObject o2 = citylist.get(j).getAsJsonObject();
+					if (o2.get("no").getAsString().equals(cityCode)) {
+						mList.add(o.get("name").getAsString());
+						mList.add(o2.get("name").getAsString());
+						break;
+					}
+				}
+			}
+		}
+		return String.join("-", mList);
+	}
+
+	@Override
+	public String getSkill(String code) throws IOException {
+		String str=null;
+		@SuppressWarnings("resource")
+		BufferedReader reader = new BufferedReader(new FileReader("D:\\迅雷9\\skill.json"));
+		StringBuffer content = new StringBuffer();
+		String line=null;
+		while((line = reader.readLine()) != null) {
+			content.append(line);
+		}
+		Gson gson = new Gson();
+		JsonArray arry = gson.fromJson(content.toString(), JsonArray.class);
+		for(int i=0 ; i<arry.size();i++) {
+			JsonObject o = arry.get(i).getAsJsonObject();
+			if (o.get("no").getAsString().equals(code)) {
+				str = o.get("name").getAsString();
+				break;
+			}
+		}
+		return str;
+	}
+
+	@Override
+	public String getIndustry(String code) throws IOException {
+		String str=null;
+		@SuppressWarnings("resource")
+		BufferedReader reader = new BufferedReader(new FileReader("D:\\迅雷9\\industry.json"));
+		StringBuffer content = new StringBuffer();
+		String line=null;
+		while((line = reader.readLine()) != null) {
+			content.append(line);
+		}
+		Gson gson = new Gson();
+		JsonArray arry = gson.fromJson(content.toString(), JsonArray.class);
+		for(int i=0 ; i<arry.size();i++) {
+			JsonObject o = arry.get(i).getAsJsonObject();
+			if (o.get("no").getAsString().equals(code)) {
+				str = o.get("name").getAsString();
+				break;
+			}
+		}
+		return str;
+	}
+
+	@Override
+	public String getMajor(String code) throws IOException {
+		String college=code.substring(0, 2)+"00";
+		@SuppressWarnings("resource")
+		BufferedReader reader = new BufferedReader(new FileReader("D:\\迅雷9\\major.json"));
+		StringBuffer content = new StringBuffer();
+		String line=null;
+		while((line = reader.readLine()) != null) {
+			content.append(line);
+		}
+		Gson gson = new Gson();
+		JsonArray arry = gson.fromJson(content.toString(), JsonArray.class);
+		JsonArray majorList=null;
+		for(int i=0 ; i<arry.size();i++) {
+			JsonObject o = arry.get(i).getAsJsonObject();
+			if (o.get("no").getAsString().equals(college)) {
+				majorList = o.get("majorList").getAsJsonArray();
+				for(int j=0;j<majorList.size();j++) {
+					JsonObject o2 = majorList.get(j).getAsJsonObject();
+					if (o2.get("no").getAsString().equals(code)) {
+						return o2.get("name").getAsString();
+					}
+				}
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public String getEdu(String code) {
+		String edu = "[{\"name\":\"不限\",\"no\":\"0\"},{\"name\":\"本科\",\"no\":\"1\"},{\"name\":\"硕士\",\"no\":\"2\"}"
+				+ ",{\"name\":\"博士\",\"no\":\"3\"}]";
+		Gson gson = new Gson();
+		JsonArray arry = gson.fromJson(edu.toString(), JsonArray.class);
+		for(int i=0;i<arry.size();i++) {
+			JsonObject o = arry.get(i).getAsJsonObject();
+			if (o.get("no").getAsString().equals(code)) {
+				return o.get("name").getAsString();
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public String getWorkNature(String code) {
+		String wNature = "[{\"name\":\"不限\",\"no\":\"0\"},{\"name\":\"全职\",\"no\":\"1\"},{\"name\":\"实习\",\"no\":\"2\"}]";
+		Gson gson = new Gson();
+		JsonArray arry = gson.fromJson(wNature.toString(), JsonArray.class);
+		for(int i=0;i<arry.size();i++) {
+			JsonObject o = arry.get(i).getAsJsonObject();
+			if (o.get("no").getAsString().equals(code)) {
+				return o.get("name").getAsString();
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public String getSalary(String code) {
+		String salary = "[{\"name\":\"不限\",\"no\":\"10\"},{\"name\":\"4k以下\",\"no\":\"11\"},{\"name\":\"4k-6k\",\"no\":\"12\"}"
+				+ ",{\"name\":\"6k-8k\",\"no\":\"13\"},{\"name\":\"8k-10k\",\"no\":\"14\"}"
+				+ ",{\"name\":\"10k以上\",\"no\":\"15\"}]";
+		Gson gson = new Gson();
+		JsonArray arry = gson.fromJson(salary.toString(), JsonArray.class);
+		for(int i=0;i<arry.size();i++) {
+			JsonObject o = arry.get(i).getAsJsonObject();
+			if (o.get("no").getAsString().equals(code)) {
+				return o.get("name").getAsString();
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public String getComNature(String code) {
+		String cNature = "[{\"name\":\"机关\",\"no\":\"10\"},{\"name\":\"科研设计单位\",\"no\":\"20\"},{\"name\":\"高等教育单位\",\"no\":\"21\"},{\"name\":\"中初等教育单位\",\"no\":\"22\"},{\"name\":\"医疗卫生单位\",\"no\":\"23\"},{\"name\":\"其他事业单位\",\"no\":\"29\"},{\"name\":\"国有企业\",\"no\":\"31\"},{\"name\":\"三资企业\",\"no\":\"32\"},{\"name\":\"其他企业\",\"no\":\"39\"},{\"name\":\"部队\",\"no\":\"40\"},{\"name\":\"农村建制村\",\"no\":\"55\"},{\"name\":\"城镇社区\",\"no\":\"56\"},{\"name\":\"其他\",\"no\":\"99\"}]";
+		Gson gson = new Gson();
+		JsonArray arry = gson.fromJson(cNature.toString(), JsonArray.class);
+		for(int i=0;i<arry.size();i++) {
+			JsonObject o = arry.get(i).getAsJsonObject();
+			if (o.get("no").getAsString().equals(code)) {
+				return o.get("name").getAsString();
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public String getScale(String code) {
+		String scale = "[{\"name\":\"50人以下\",\"no\":\"1\"},{\"name\":\"50人-100人\",\"no\":\"2\"},{\"name\":\"100人-300人\",\"no\":\"3\"},{\"name\":\"300人-500人\",\"no\":\"4\"},{\"name\":\"500人-1000人\",\"no\":\"5\"},{\"name\":\"1000人以上\",\"no\":\"6\"}]";
+		Gson gson = new Gson();
+		JsonArray arry = gson.fromJson(scale.toString(), JsonArray.class);
+		for(int i=0;i<arry.size();i++) {
+			JsonObject o = arry.get(i).getAsJsonObject();
+			if (o.get("no").getAsString().equals(code)) {
+				return o.get("name").getAsString();
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public Map<String, Integer> getBeEnd(int cur,int pages) {
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		int curp,maxp;
+		if (pages < 5) {
+			curp = 1;
+			maxp = pages;
+		}else {
+			if (cur < 3) {
+				curp = 1;
+			}else if(cur != pages){
+				curp = cur + 2 > pages ? cur - 3 : cur - 2;
+			}else {
+				curp = cur - 4;
+			}
+			maxp = curp+4;
+		}
+		map.put("beginP", curp);
+		map.put("endP", maxp);
+		return map;
+	}
+	
+}

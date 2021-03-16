@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="thhead">
+<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css"
+	th:href="@{/bootstrap/css/bootstrap.min.css}" />
+<link rel="stylesheet" href="css/index.css" th:href="@{/css/index.css}" />
+<script src="js/jquery-3.3.1.min.js" th:src="@{/js/jquery-3.3.1.min.js}"></script>
+<script src="bootstrap/js/bootstrap.min.js" th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+</head>
+<body>
+	<div th:fragment="thLeft" class="left">
+		<ul>
+			<li class="tag" style="background-color: #60b0f4"><a href="javascript:;">常办事项</a></li>
+			<li><span class="glyphicon glyphicon-check"></span> <a th:href="@{/teacher/shsq/page/1}">审核申请</a></li>
+			<li><span class="glyphicon glyphicon-edit"></span> <a th:href="@{/teacher/fbnr}">发布内容</a></li>
+			<li class="tag" style="background-color: #60b0f4"><a href="javascript:;">编辑学校信息</a></li>
+			<li><span class="glyphicon glyphicon-edit"></span> <a th:href="@{/teacher/zyjs}">专业介绍</a></li>
+			<li><span class="glyphicon glyphicon-edit"></span> <a th:href="@{/teacher/syxx}">生源信息</a></li>
+			<li class="tag" style="background-color: #60b0f4"><a href="javascript:;">就业数据</a></li>
+			<li><span class="glyphicon glyphicon-stats"></span> <a th:href="@{/teacher/sjksh}">数据可视化</a>
+			</li>
+			<li><span class="glyphicon glyphicon-print"></span> <a th:href="@{/teacher/bb}">报表</a></li>
+		</ul>
+	</div>
+
+	<!-- teacher nav-->
+	<div th:fragment="teacherNav (cur)" class="nav">
+		<ul class="list-inline">
+			<li><a th:href="@{/}">首页</a> <span>></span></li>
+			<li><a th:href="@{/teacher/shsq/page/1}">管理中心</a> <span>></span></li>
+		</ul>
+		<span>[[${cur}]]</span>
+	</div>
+
+	<!-- cr-refuse -->
+	<div th:fragment="refuse(url)" id="cr-refuse">
+		<h4 style="color: #f40">请说明原因方便企业修改</h4>
+		<form th:action="@{/url/fail}" method="POST">
+			<textarea required name="explain" id="explain" cols="60" rows="5"></textarea>
+			<input type="text" name="email" hidden value="" />
+			<div>
+				<button type="button" class="btn mybtn">取消</button>
+				<button type="submit" class="btn mybtn">确定</button>
+			</div>
+		</form>
+	</div>
+
+	<!-- 查看简章 -->
+	<script th:fragment="prev" th:inline="javascript" type="text/javascript">
+		$("#preview").on("click", function () {
+		    let iboy = $("#pre-show iframe").contents().find("#preview");
+		    if (iboy[0].innerHTML == "") {
+		      $.ajax({
+		        url: [[@{/preview/id/}]] + $("#contentid").val(),
+		        type: "get",
+		        success: function (data) {
+		          $("#pre-show").show();
+		          iboy[0].innerHTML = data;
+		        },
+		        error: function (e) {
+		          alert("错误:" + e.responseText);
+		        },
+		      });
+		    } else {
+		      $("#pre-show").show();
+		    }
+		  });
+	</script>
+	
+</body>
+</html>

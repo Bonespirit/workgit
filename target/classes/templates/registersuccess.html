@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>操作成功</title>
+    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/css/sucess.css}" />
+  </head>
+  <body>
+    <div id="sucess-show">
+      <span class="glyphicon glyphicon-ok"></span>
+      <p>提交成功，等待审核中。</p>
+      <p>预计审核将在24小时内完成。</p>
+      <p>请通过注册邮箱、或手机短息查看审核结果。</p>
+      <a th:href="@{/}">返回首页</a>
+    </div>
+  </body>
+</html>

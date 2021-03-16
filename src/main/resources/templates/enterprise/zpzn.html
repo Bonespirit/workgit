@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>招聘指南</title>
+<link th:include="commonhf::mhead"></link>
+</head>
+<body style="height: auto">
+	<canvas height="1200px"></canvas>
+	<div th:replace="commonhf::sheader"></div>
+	<div style="width: 100%; height: auto; position: absolute; top: 110px">
+		<div id="center">
+			<div th:replace="commonhf::enterpriseNav('招聘指南')"></div>
+			<div th:replace="commonhf::enterpriseLeft"></div>
+			<div class="right">
+				<div class="header">
+					<h3>招聘指南</h3>
+				</div>
+				<div class="section">
+					<strong>一、注册</strong>
+					<p>登录网站→点击登陆 →点击“用人单位注册” →按要求填写内容并提交→电话联系快速审核或等待三个工作日内审核→注册成功。</p>
+					<p>注：如单位名称或邮箱已被注册、不知道登录密码等情况、忘记邮箱，可以点击“找回密码”，通过邮箱找回密码。</p>
+					<p>
+						审核内容：<br />1.单位名称和统一社会信用代码必须正确。
+					</p>
+					<p>2.用人单位名称是否与营业执照副本、组织机构代码证或统一社会信用代码证上注册的单位名称一致。</p>
+					<p>3.营业执照副本或组织机构代码证是否加盖、年检签章。</p>
+					<strong>二、登录</strong>
+					<p>登录网站→点击登录 →输入用户名和密码→登录成功，可操作“职位发布”、“宣讲会预约”、 “组团招聘申请”、 “双选会预约”，可修改单位基本情况和密码。</p>
+					<strong>三、职位发布</strong>
+					<p>点击“新增职位”→按要求填写内容并提交→成功发布。</p>
+					<strong>四、宣讲会预约</strong>
+					<p>按要求填写内容并提交→学校审核（电话联系确定时间和地点）→成功发布。</p>
+					<p>注：用人单位至少提前5个工作日进行招聘预约。</p>
+					<strong>五、组团招聘申请</strong>
+					<p>派代表单位进行操作→按要求填写内容并提交→学校审核（电话联系确定时间和地点）→成功发布。</p>
+					<strong>六、双选会预约</strong>
+					<p>按照双选会邀请函内容完成预约。</p>
+					<strong>特别说明：</strong>
+					<p>1.根据教育部要求，“教育部门和高校举办的招聘活动，严禁发布含有限定985高校、211高校等字样的招聘信息，严禁发布违反国家规定的有关性别、户籍、学历等歧视性条款的需求信息，严禁发布虚假和欺诈等非法就业信息，努力营造公平就业环境。”</p>
+					<p>2.线下招聘活动仅限来自疫情等级低风险地区的用人单位，疫情等级为中高风险地区的用人单位建议继续采用线上招聘方式进行招聘。</p>
+					<p>3.来校用人单位、参会毕业生和工作人员必须严格按照学校疫情防控要求开展线下招聘活动，若出现突发状况应及时向学校报告并处理。</p>
+				</div>
+			</div>
+			<div style="clear: both"></div>
+		</div>
+		<div th:replace="commonhf::#footer"></div>
+	</div>
+	<script>
+		$("#center .left li")[1].className = "uactive";
+	</script>
+</body>
+</html>

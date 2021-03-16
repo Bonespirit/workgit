@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>修改密码</title>
+<link th:include="commonhf::studentHead"></link>
+<script th:src="@{/bootstrap/js/bootstrapValidator.js}"></script>
+<script th:inline="javascript" th:src="@{/js/xgmm.js}" async type="text/javascript"></script>
+</head>
+<body style="height: auto">
+	<div th:replace="commonhf::header"></div>
+	<div style="width: 100%; height: auto; position: absolute; top: 110px">
+		<div id="center">
+			<div th:replace="commonhf::studentNav('修改密码')"></div>
+			<div th:replace="commonhf::studentLeft"></div>
+			<div class="right" style="min-height: 600px">
+				<form id="alterpw" th:action="@{/enterprise/xgmm}" th:method="POST" class="form-horizontal" role="form">
+					<input type="hidden" name="_method" th:value="PUT" />
+					<div class="form-group">
+						<label for="oldpw" class="col-sm-2 control-label"> 旧密码: </label>
+						<div class="col-sm-10">
+							<input type="password" class="form-control" id="oldpw" name="oldpw" placeholder="请输入旧密码" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="newpw" class="col-sm-2 control-label"> 新密码: </label>
+						<div class="col-sm-10">
+							<input type="password" class="form-control" id="newpw" name="newpw" placeholder="请输入新密码" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="cpw" class="col-sm-2 control-label"> 确认密码: </label>
+						<div class="col-sm-10">
+							<input type="password" class="form-control" id="cpw" placeholder="请输入确认密码" />
+						</div>
+					</div>
+					<button id="submitBtn" type="button" class="btn mybtn" style="margin: 10px 0px 0px 300px">修改</button>
+				</form>
+			</div>
+			<div style="clear: both"></div>
+		</div>
+		<div th:replace="commonhf::#footer"></div>
+	</div>
+	<div th:replace="commonhf::xgmmajax"></div>
+	<script>
+      $("#center .left li")[14].className = "uactive";
+    </script>
+</body>
+</html>

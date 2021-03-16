@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>学生基本信息</title>
+<link th:include="commonhf::studentHead"></link>
+<style>
+td {
+	border: none !important;
+}
+</style>
+</head>
+<body style="height: auto">
+	<div th:replace="commonhf::header"></div>
+	<div style="width: 100%; height: auto; position: absolute; top: 110px">
+		<div id="center">
+			<div th:replace="commonhf::studentNav('学生基本信息')"></div>
+			<div th:replace="commonhf::studentLeft"></div>
+			<div class="right" style="min-height: 600px">
+				<div>
+					<img th:src="@{/images/head.jpg}" width="110px" height="150px" />
+				</div>
+				<br />
+				<div style="width: 700px">
+					<h4>基本信息</h4>
+					<table class="table table-condensed">
+						<tr>
+							<td>学号：</td>
+							<td>1700300825</td>
+							<td>姓名：</td>
+							<td>庞如霆</td>
+						</tr>
+						<tr>
+							<td>性别：</td>
+							<td>男</td>
+							<td>民族：</td>
+							<td>汉</td>
+						</tr>
+						<tr>
+							<td>生日：</td>
+							<td>1997-12-27</td>
+							<td>身高：</td>
+							<td>170cm</td>
+						</tr>
+						<tr>
+							<td>电话：</td>
+							<td>18078461064</td>
+							<td>邮箱：</td>
+							<td>1607039428@qq.com</td>
+						</tr>
+						<tr>
+							<td>政治面貌：</td>
+							<td>团员</td>
+							<td>常住地区：</td>
+							<td>玉林</td>
+						</tr>
+						<tr>
+							<td>专业：</td>
+							<td>计算机科学与技术</td>
+							<td>年级：</td>
+							<td>2017</td>
+						</tr>
+						<tr>
+							<td>班级：</td>
+							<td>17003203</td>
+							<td>状态：</td>
+							<td>在校</td>
+						</tr>
+					</table>
+					<h4>就业信息</h4>
+					<span>状态：</span> <strong class="text-success">已签约</strong>
+				</div>
+			</div>
+			<div style="clear: both"></div>
+		</div>
+		<div th:replace="commonhf::#footer"></div>
+	</div>
+	<script>
+      $("#center .left li")[13].className = "uactive";
+    </script>
+</body>
+</html>

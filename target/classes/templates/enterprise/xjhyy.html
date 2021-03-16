@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+<title>宣讲会预约</title>
+<link th:include="commonhf::mhead"></link>
+<link th:include="commonhf::wbc"></link>
+</head>
+<body style="height: auto">
+	<canvas height="2000px"></canvas>
+	<div th:replace="commonhf::#pre-show"></div>
+	<div th:replace="commonhf::sheader"></div>
+	<div style="width: 100%; height: auto; position: absolute; top: 110px">
+		<div id="center">
+			<div th:replace="commonhf::enterpriseNav('宣讲会预约')"></div>
+			<div th:replace="commonhf::enterpriseLeft"></div>
+			<div class="right">
+				<form th:action="@{/enterprise/xjhyy}" method="post" id="post-jobinfo" class="form-horizontal" role="form">
+					<h3>欢迎用人单位来校招聘</h3>
+					<hr />
+					<div class="appointment-details">
+						<h4>预约详情</h4>
+						<hr />
+						<div class="form-group">
+							<label class="col-sm-2 control-label"> <span style="color: #f40">*</span> 来访时间安排
+							</label>
+							<div class="col-sm-3">
+								<input type="date" class="form-control" name="vdate" id="date"/>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="time" class="col-sm-2 control-label"> <span style="color: #f40">*</span> 预选时间 <a href="javascript:;" style="color: #f40" data-toggle="tooltip" data-placement="top"
+								title="最多可以选择三个时间段"><img th:src="@{/images/aui-icon-question.png}" width="25" height="25" /></a>
+							</label>
+							<div class="col-sm-3">
+								<input type="text" class="form-control" id="time" name="time" placeholder="多个时间段用逗号隔开" />
+							</div>
+							<p style="color: #999">上课时间段：8:30-12:00、14:30-18:05、19:30-21:30</p>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label"> <span style="color: #f40">*</span> 期望参会人数
+							</label>
+							<div class="col-sm-2">
+								<select class="form-control" name="size">
+									<option value="30~60人">30~60人</option>
+									<option value="60~100人">60~100人</option>
+									<option value="100人以上">100人以上</option>
+								</select>
+							</div>
+						</div>
+						<br />
+						<div class="form-group" id="personnelList">
+							<label class="col-sm-2 control-label"> <span style="color: #f40">*</span> 来访人员 <a href="javascript:;" style="color: #f40" data-toggle="tooltip" data-placement="top"
+								title="招聘人员最好在1-3人之间-----并且负责人写在第一位"><img th:src="@{/images/aui-icon-question.png}" width="25" height="25" /></a>
+							</label>
+							<div class="col-sm-10">
+								<table class="table table-bordered table-condensed table-responsive">
+									<tr>
+										<th class="col-sm-1">姓名</th>
+										<th class="col-sm-1">性别</th>
+										<th class="col-sm-2">职务</th>
+										<th class="col-sm-4">身份证</th>
+										<th class="col-sm-3">联系电话</th>
+										<th class="col-sm-1">操作</th>
+									</tr>
+								</table>
+								<button type="button" class="btn mybtn add">新增</button>
+							</div>
+						</div>
+					</div>
+					<hr />
+					<div th:replace="commonhf::recruit"></div>
+					<div style="width: 110px; margin: 50px auto 0 auto">
+						<button id="submitBtn" type="button" class="btn mybtn">预约</button>
+					</div>
+				</form>
+			</div>
+			<div style="clear: both"></div>
+		</div>
+		<div th:replace="commonhf::#footer"></div>
+	</div>
+	<script>
+		$("#column").val("宣讲会");
+		$("#center .left li")[4].className = "uactive";
+		$(function() {
+			$("[data-toggle='tooltip']").tooltip();
+		});
+	</script>
+	<script th:src="@{/js/common.js}"></script>
+	<script th:src="@{/js/xjhyy.js}" async></script>
+</body>
+</html>

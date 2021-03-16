@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>职位管理</title>
+<link th:include="commonhf::mhead"></link>
+<link rel="stylesheet" th:href="@{/css/poslist.css}" />
+<script th:src="@{/js/doT.min.js}"></script>
+</head>
+<body style="height: auto">
+	<canvas height="960px"></canvas>
+	<div th:replace="commonhf::sheader"></div>
+	<div style="width: 100%; height: auto; item: absolute; top: 110px">
+		<div id="center">
+			<div th:replace="commonhf::enterpriseNav('职位管理')"></div>
+			<div th:replace="commonhf::enterpriseLeft"></div>
+			<div class="right">
+				<h4>已发布职位[[${total}]]个</h4>
+				<div class="poslist">
+					<ul id="itemlist">
+						<li class="row" th:each="item : ${positions}">
+							<a th:href="@{/views/jobs/id/}+${item.hid}">
+								<div class="col-sm-6 item">
+									<p class="name" th:text="${item.pname}">java开发工程师</p>
+									<p>
+										<span class="salary" th:text="${item.salary}">4千-6千</span> <span
+											th:text="${item.workplace}">广西-桂林</span> <span th:text="${item.wnature}">全职</span>
+										<span th:text="${item.edu}">本科</span>
+									</p>
+								</div>
+								<div class="col-sm-6 company">
+									<p>
+										<a href="javascript:;" th:text="${item.cname}"></a>
+									</p>
+									<p>
+										<span th:text="${item.cnature}"></span> <span th:text="${item.scale}"></span>
+									</p>
+								</div>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<br />
+				<button type="button" class="btn mybtn">
+					<a th:href="@{/enterprise/xzzw}" style="color: #fff">新增</a>
+				</button>
+			</div>
+			<div style="clear: both"></div>
+		</div>
+		<div th:replace="commonhf::#footer"></div>
+	</div>
+	<script>
+      $("#center .left li")[2].className = "uactive";
+    </script>
+</body>
+</html>

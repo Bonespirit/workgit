@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>就业指导</title>
+<link th:include="commonhf::mhead"></link>
+</head>
+<body style="height: auto">
+	<div th:replace="commonhf::header"></div>
+	<div style="width: 100%; height: auto; position: absolute; top: 110px">
+		<div id="center">
+			<div th:replace="commonhf::newsNav('就业指导')"></div>
+			<div th:replace="commonhf::newsLefts"></div>
+			<div class="right" style="min-height: 300px">
+				<div th:replace="commonhf::newsSearch(3)"></div>
+				<hr />
+				<div th:replace="commonhf::newsSearchInfo"></div>
+				<div th:replace="commonhf::pageHelper('news/column/3')">
+			</div>
+			<div style="clear: both"></div>
+		</div>
+		<div th:replace="commonhf::#footer"></div>
+	</div>
+	<script>
+      $("#center .left li")[0].className = "uactive";
+    </script>
+	<canvas height="700px"></canvas>
+</body>
+</html>

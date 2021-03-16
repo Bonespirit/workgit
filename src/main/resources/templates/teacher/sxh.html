@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+<title>双选会发布</title>
+<link th:include="commonhf::fileinput"></link>
+<link th:include="commonhf::wbc"></link>
+</head>
+<body style="height: auto">
+	<div th:replace="commonhf::#pre-show"></div>
+	<div th:replace="commonhf::sheader"></div>
+	<div style="width: 100%; height: auto; position: absolute; top: 110px">
+		<div id="center">
+			<div th:replace="commonth::teacherNav('双选会发布')"></div>
+			<div th:replace="commonth::thLeft"></div>
+			<div class="right" style="min-height: 360px">
+				<form th:action="@{/teacher/sxh}" method="post" id="post-jobinfo" class="form-horizontal"
+					role="form">
+					<input hidden type="text" name="enclosureurl" id="enclosure" />
+					<div class="appointment-details">
+						<h4>双选会详情</h4>
+						<hr />
+						<div class="form-group">
+							<label class="col-sm-2 control-label"> <span style="color: #f40">*</span> 举办日期
+							</label>
+							<div class="col-sm-3">
+								<input type="date" class="form-control" id="date" name="hdate" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label"> <span style="color: #f40">*</span> 时间
+							</label>
+							<div class="col-sm-3">
+								<input type="time" name="btime" /> <span>至</span> <input type="time" name="etime" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="address" class="col-sm-2 control-label"> <span style="color: #f40">*</span>
+								举办地点
+							</label>
+							<div class="col-sm-5">
+								<input type="text" class="form-control" id="address" name="address"
+									value="桂林电子科技大学花江校区科技楼广场" />
+							</div>
+						</div>
+					</div>
+					<div th:replace="commonhf::recruit"></div>
+				</form>
+				<br />
+				<h3>附件</h3>
+				<br />
+				<div class="file-loading" style="height: 100px">
+					<input id="input-ke-2" type="file" name="menclosure" multiple="multiple" />
+				</div>
+				<div style="width: 110px; margin: 50px auto 0 auto">
+					<button id="submitBtn" type="button" class="btn mybtn">发布</button>
+				</div>
+			</div>
+			<div style="clear: both"></div>
+		</div>
+		<div th:replace="commonhf::#footer"></div>
+	</div>
+	<script>
+		$("#center .left li")[2].className = "uactive";
+		$("#column").val("双选会");
+		$(function() {
+			$("[data-toggle='tooltip']").tooltip();
+		});
+	</script>
+	<script th:inline="javascript" src="js/bootstrap-fileinput.js"
+		th:src="@{/js/bootstrap-fileinput.js}"></script>
+	<script src="js/common.js" th:src="@{/js/common.js}"></script>
+	<script type="text/javascript">
+		$(function() {
+			var token = $("meta[name='_csrf']").attr("content");
+			var header = $("meta[name='_csrf_header']").attr("content");
+			$(document).ajaxSend(function(e, xhr, options) {
+				xhr.setRequestHeader(header, token);
+			});
+		});
+	</script>
+</body>
+</html>

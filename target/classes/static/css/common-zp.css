@@ -1,0 +1,71 @@
+#center .left ul li {
+  padding-left: 20px;
+}
+#center .right .search #clearsearch {
+  float: right;
+  background-color: #fff;
+}
+#center .right .search #search {
+  background-color: #0e9ce9;
+  color: #fff;
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+  width: 100%;
+  outline: none;
+}
+#center .right .search #search:hover {
+  background-color: #147bb3;
+}
+#pcSel {
+  border: none;
+  padding: 0;
+}
+#search-job {
+  padding: 0px 20px;
+}
+#center .right .search .nbor select,
+#center .right .search .nbor button,
+#center .right .search .nbor input {
+  box-shadow: none;
+  border: none;
+}
+#center .right .search .form-group div {
+  color: #666;
+}
+#center .right .search .form-group div {
+  padding: 0;
+}
+#center .right .search .form-group .bootstrap-select {
+  width: 155px;
+}
+#center
+  .right
+  .search
+  .form-group
+  .bootstrap-select
+  .filter-option-inner-inner {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+#center .right .search .form-group input,
+#center .right .search .form-group button,
+#center .right .search .form-group select {
+  border-right: none;
+  border-radius: 0;
+  /* border: none; */
+}
+#center .right .search-info .table tr td span {
+  display: block;
+  width: 150px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+#center .right .search-info .table td a {
+  display: block;
+  width: 400px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}

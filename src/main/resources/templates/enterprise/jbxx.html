@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>基本信息</title>
+<link th:include="commonhf::mhead"></link>
+</head>
+<body style="height: auto">
+	<canvas height="960px"></canvas>
+	<div th:replace="commonhf::sheader"></div>
+	<div style="width: 100%; height: auto; position: absolute; top: 110px">
+		<div id="center">
+			<div th:replace="commonhf::enterpriseNav('基本信息')"></div>
+			<div th:replace="commonhf::enterpriseLeft"></div>
+			<div class="right">
+				<div style="padding-top: 20px">
+					<img class="clogo" th:src="@{/}+${company.logo}" src="../images/defaultlogo.png" /> <br /> <br />
+					<table class="table table-bordered table-hover" style="width: 600px">
+						<tr>
+							<td class="keyname">单位名称</td>
+							<td th:text="${company.cname}"></td>
+						</tr>
+						<tr>
+							<td class="keyname">单位所在地</td>
+							<td th:text="${company.location}"></td>
+						</tr>
+						<tr>
+							<td class="keyname">单位详细地址</td>
+							<td th:text="${company.address}"></td>
+						</tr>
+						<tr>
+							<td class="keyname">注册资本</td>
+							<td th:text="${company.capital}"></td>
+						</tr>
+						<tr>
+							<td class="keyname">办公电话</td>
+							<td th:text="${company.officetelephone}"></td>
+						</tr>
+						<tr>
+							<td class="keyname">邮编</td>
+							<td th:text="${company.postcode}"></td>
+						</tr>
+						<tr>
+							<td class="keyname">传真</td>
+							<td th:text="${company.fax}"></td>
+						</tr>
+						<tr>
+							<td class="keyname">单位性质</td>
+							<td th:text="${company.nature}"></td>
+						</tr>
+						<tr>
+							<td class="keyname">单位行业</td>
+							<td th:text="${company.industry}"></td>
+						</tr>
+						<tr>
+							<td class="keyname">单位规模</td>
+							<td th:text="${company.scale}"></td>
+						</tr>
+						<tr>
+							<td class="keyname">单位简介</td>
+							<td>
+								<p th:text="${company.introduce}"></p>
+							</td>
+						</tr>
+					</table>
+					<div style="width: 50px; margin: 0 auto">
+						<button type="button" class="btn mybtn">
+							<a href="javascript:;" style="color: #fff">修改</a>
+						</button>
+					</div>
+				</div>
+			</div>
+			<div style="clear: both"></div>
+		</div>
+		<div th:replace="commonhf::#footer"></div>
+	</div>
+	<script>
+		$("#center .left li")[10].className = "uactive";
+	</script>
+</body>
+</html>

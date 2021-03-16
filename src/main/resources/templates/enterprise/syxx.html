@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>生源信息</title>
+<link th:include="commonhf::mhead"></link>
+</head>
+<body style="height: auto">
+	<canvas height="960px"></canvas>
+	<div th:replace="commonhf::sheader"></div>
+	<div style="width: 100%; height: auto; position: absolute; top: 110px">
+		<div id="center">
+			<div th:replace="commonhf::enterpriseNav('生源信息')"></div>
+			<div th:replace="commonhf::enterpriseLeft"></div>
+			<div class="right">
+				<table class="table table-condensed">
+					<thead>
+						<tr>
+							<th>标题</th>
+							<th>发布时间</th>
+						</tr>
+					</thead>
+					<tr>
+						<td><a href="javascript:;">2021届毕业生生源一览表</a></td>
+						<td>2021-01-23</td>
+					</tr>
+					<tr>
+						<td><a href="javascript:;">2020届毕业生生源一览表</a></td>
+						<td>2020-01-23</td>
+					</tr>
+				</table>
+			</div>
+			<div style="clear: both"></div>
+		</div>
+		<div th:replace="commonhf::#footer"></div>
+	</div>
+	<script>
+      $("#center .left li")[7].className = "uactive";
+    </script>
+</body>
+</html>

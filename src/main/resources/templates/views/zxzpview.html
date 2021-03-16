@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title th:text="${recruit.title}">北京国林系统家具有限公司</title>
+<link th:include="commonhf::view"></link>
+</head>
+<body style="height: auto">
+	<div th:replace="commonhf::header"></div>
+	<div style="width: 100%; height: auto; position: absolute; top: 110px">
+		<div id="center">
+			<div class="nav">
+				<ul class="list-inline">
+					<li><a th:href="@{/}">首页</a> <span>></span></li>
+					<li><a th:href="@{/search/zxzp}">在线招聘</a> <span>></span></li>
+				</ul>
+				<span>文章</span>
+			</div>
+			<div class="contents">
+				<div class="header">
+					<h3 th:text="${recruit.title}">北京国林系统家具有限公司</h3>
+					<ul class="list-inline">
+						<li>发布时间:<span th:text="${recruit.pdate}">2021-03-08</span></li>
+						<li>浏览次数:<span th:text="${recruit.hot}">456</span></li>
+					</ul>
+					<div style="clear: both"></div>
+				</div>
+				<div class="section" th:text="${contents}"></div>
+				<div class="footer">
+					<h4>招聘职位</h4>
+					<br />
+					<table class="poslist table table-condensed table-bordered table-responsive">
+						<thead>
+							<tr>
+								<th>职位信息</th>
+								<th>招聘专业</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><a th:href="@{/views/jobs/id/}+${position.hid}">
+										<div class="position">
+											<p class="name" th:text="${position.pname}">Java开发工程师</p>
+											<p>
+												<span class="salary" th:text="${position.salary}">4千-6千</span> <span
+													th:text="${position.workplace}">广西-桂林</span> <span th:text="${/position.nature}">全职</span>
+												<span th:text="${position.edu}">本科</span>
+											</p>
+										</div>
+								</a></td>
+								<td>
+									<p th:text="${position.speciality}" th:title="${position.speciality}">【本科】产品设计、产品设计、未填写、绘画、视觉传达设计、【硕士】艺术设计、设计学
+										【本科】产品设计、产品设计、未填写、绘画、视觉传达设计、【硕士】艺术设计、设计学</p>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div th:replace="commonhf::#footer"></div>
+	</div>
+</body>
+</html>

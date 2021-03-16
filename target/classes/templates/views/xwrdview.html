@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title th:text="${news.title}">广西民族大学招生就业处副处长陆惠君一行来校交流</title>
+<link th:include="commonhf::view"></link>
+</head>
+<body style="height: auto">
+	<div th:replace="commonhf::header"></div>
+	<div style="width: 100%; height: auto; position: absolute; top: 110px">
+		<div id="center">
+			<div class="nav">
+				<ul class="list-inline">
+					<li><a th:href="@{/}">首页</a> <span>></span></li>
+					<li><a th:href="@{/news/xwrd}">新闻热点</a> <span>></span></li>
+				</ul>
+				<span>文章</span>
+			</div>
+			<div class="contents">
+				<div class="header">
+					<h3 th:text="${news.title}">广西民族大学招生就业处副处长陆惠君一行来校交流</h3>
+					<ul class="list-inline">
+						<li>发布时间:<span th:text="${news.pdate}">2021-03-08</span></li>
+						<li>浏览次数:<span th:text="${news.hot}">456</span></li>
+					</ul>
+					<div style="clear: both"></div>
+				</div>
+				<div class="section" th:text="${contents}"></div>
+			</div>
+		</div>
+		<div th:replace="commonhf::#footer"></div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,72 @@
+#center .right .poslist p {
+  font-size: 14px;
+  color: #666;
+  padding: 5px 0px;
+}
+#center #itemlist li {
+  border-bottom: 1px solid #e9e7e7;
+}
+#center .right .search-info .nav-bar {
+  float: right;
+  margin-top: 20px;
+  width: 410px;
+}
+#center .right .search-info .one {
+  display: none;
+}
+#center .right .search-info .nav-bar ul {
+  display: inline-block;
+}
+#center .right .search-info .nav-bar button {
+  font-size: 14px;
+}
+#center .right .search-info .nav-bar .mbtn {
+  padding: 5px;
+  height: 30px;
+  border-radius: 4px;
+  border: 1px solid #0e9ce9 !important;
+}
+#center .right .search-info .nav-bar .cur {
+  color: #fff;
+  background-color: #0e9ce9;
+}
+#center .right .search-info .nav-bar li {
+  cursor: pointer;
+  display: inline-block;
+  margin-left: 5px;
+  border: 1px solid #ccc;
+  text-align: center;
+  min-width: 30px;
+  height: 30px;
+  line-height: 30px;
+}
+#center .right .search-info .nav-bar li:hover {
+  color: #fff;
+  background-color: #0e9ce9;
+}
+#center .right .poslist .company {
+  text-align: right;
+}
+#center .right .poslist span {
+  padding: 0px 10px;
+  border-right: 1px solid #ccc;
+}
+#center .right .poslist p span:last-child {
+  border-right: none;
+}
+#center .right .poslist .position .name {
+  font-size: 16px;
+  color: #0e9ce9;
+}
+#center .right .poslist p .salary {
+  color: #f40;
+  font-size: 18px;
+  padding: 0;
+  border-right: none;
+}
+#center .right .poslist .nodata {
+  display: none;
+  width: 130px;
+  margin: auto;
+  text-align: center;
+}

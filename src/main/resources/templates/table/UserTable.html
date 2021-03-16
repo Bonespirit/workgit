@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>UserTable</title>
+	<script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+	<script type="text/javascript" src="js/doT.min.js"></script>
+	<style type="text/css">
+		*{
+			padding:0;
+			margin:0;
+			text-decoration: none;
+			list-style: none;
+		}
+		table{
+			width: 800px;
+			border-collapse: collapse;
+			border-spacing: none;
+		}
+		th{
+			border:2px solid #dcdcdc;
+			background-color: #F5F5F5;
+			color: #666;
+		}
+		td{
+			text-align: center;
+			border:2px solid #dcdcdc;
+		}
+		tr:nth-child(odd){
+			background-color: #f5f5f5;
+		}
+	</style>
+</head>
+<body>
+	<div style="width: 800px;margin:100px auto;">
+		<table id="userTable">
+			<tr>
+				<th>ID</th>
+				<th>username</th>
+				<th>password</th>
+				<th>telephone</th>
+			</tr>
+			<tr th:each="user:${page.records}">
+				<td th:text="${user.userid}"></td>
+				<td th:text="${user.username}"></td>
+				<td th:text="${user.password}"></td>
+				<td th:text="${user.telephone}"></td>
+			</tr>
+		</table>
+		<div style="float: left;">当前第
+			<label class="showcrrentPage">[[${page.current}]]</label>
+			页 总计
+			<label class="showPages">[[${page.pages}]]</label>
+			页共
+			<label class="showTotal">[[${page.total}]]</label>
+			条记录
+		</div>
+		<div style="float: right;">
+			<button class="prev">上一页</button>
+			<input class="currentPage" type="text" name="currentPage" style="width: 20px;outline: none;text-align: center;" th:value="${page.current}">
+			<button class="goto">跳转</button>
+			<button class="next">下一页</button>
+		</div>
+	</div>
+	<script type="text/x-dot-template" id="userData">
+		<tr>
+			<th>ID</th>
+			<th>username</th>
+			<th>password</th>
+			<th>telephone</th>
+		</tr>
+		{{~it:value:index}}
+		<tr>
+			<td>{{=value.userid}}</td>
+			<td>{{=value.username}}</td>
+			<td>{{=value.password}}</td>
+			<td>{{=value.telephone}}</td>
+		</tr>
+		{{~}}
+	</script>
+	<script type="text/javascript">
+		let iPrev = document.querySelector(".prev");
+		let iNext = document.querySelector(".next");
+		let iGoto = document.querySelector(".goto");
+		let currentPage = document.querySelector(".currentPage");
+		
+		let tmpltxt=doT.template($("#userData")[0].innerHTML);//生成模板方法
+		
+		iPrev.onclick=function(){
+			let index=parseInt(currentPage.value)-1;
+			myajax(index);
+		}
+		iNext.onclick=function(){
+			let index=parseInt(currentPage.value)+1;
+			myajax(index);
+		}
+		iGoto.onclick=function(){
+			myajax(parseInt(currentPage.value));
+		}
+		function myajax(index){
+			if ((index > 0) && (index <= parseInt($(".showPages")[0].innerHTML))) {
+				$.ajax({
+					url:"http://localhost:8080/ajax?currentPage="+index,
+					type:"get",
+					success:function(data){
+						if(data.size > 0){
+							$("#userTable").html(tmpltxt(data.records)); //给模板传入数据
+							$(".currentPage")[0].value=data.current;
+							$(".showcrrentPage").html(data.current);
+							$(".showPages").html(data.pages);
+							$(".showTotal").html(data.total);
+						}
+					}
+				});
+			}
+		}
+
+	</script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+<title>生源信息发布</title>
+<link th:include="commonth::thhead"></link>
+<link th:include="commonhf::wbc"></link>
+</head>
+<body style="height: auto">
+	<div th:replace="commonhf::#pre-show"></div>
+	<div th:replace="commonhf::sheader"></div>
+	<div style="width: 100%; height: auto; position: absolute; top: 110px">
+		<div id="center">
+			<div th:replace="commonth::teacherNav('生源信息发布')"></div>
+			<div th:replace="commonth::thLeft"></div>
+			<div class="right" style="min-height: 360px">
+				<form th:action="@{/teacher/syxx}" method="post" id="post-jobinfo" class="form-horizontal"
+					role="form">
+					<div class="recruit">
+						<h4>生源信息一览表</h4>
+						<hr />
+						<div class="form-group">
+							<label for="title" class="col-sm-1 control-label"> <span style="color: #f40">*</span>
+								标题
+							</label>
+							<div class="col-sm-11">
+								<input type="text" class="form-control" id="title" name="title" placeholder="请输入标题" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="column" class="col-sm-1 control-label"> <span style="color: #f40">*</span>
+								栏目
+							</label>
+							<div class="col-sm-11">
+								<input type="text" class="form-control" id="column" name="column" readonly />
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="column" class="col-sm-1 control-label"> <span style="color: #f40">*</span>
+								级别
+							</label>
+							<div class="col-sm-2">
+								<select name="grade" id="grade" class="form-control">
+									<option value="2">普通</option>
+									<option value="1">置顶</option>
+								</select>
+							</div>
+						</div>
+						<textarea hidden name="contents" id="contents" cols="30" rows="10"></textarea>
+						<br /> <label class="control-label" style="font-size: 16px"> <span
+							style="color: #f40">*</span> 正文
+						</label> <br /> <br /> <br />
+						<div id="rich-text">
+							<button type="button" class="btn btn-sm btn-success">简洁模式</button>
+							<label style="color: #f40">(推荐)</label>
+							<button type="button" class="btn btn-sm btn-success mybtn">正常模式</button>
+							<button id="preview" style="float: right" type="button" class="btn mybtn btn-sm">预览</button>
+							<a href="javascript:;" style="color: #f40" data-toggle="tooltip" data-placement="top"
+								title="简洁模式:过滤样式排版;正常模式:保留原来样式排版"><img src="images/aui-icon-question.png" width="25"
+								height="25" /></a> <label style="color: #f40">正常模式粘贴需要耗费点时间,如果文本过长请分段粘贴</label>
+							<div id="wangEditor"></div>
+						</div>
+					</div>
+					<div style="width: 110px; margin: 50px auto 0 auto">
+						<button id="submitBtn" type="button" class="btn mybtn">发布</button>
+					</div>
+				</form>
+			</div>
+			<div style="clear: both"></div>
+		</div>
+		<div th:replace="commonhf::#footer"></div>
+	</div>
+	<script>
+		$("#center .left li")[5].className = "uactive";
+		$("#column").val("生源信息");
+		$(function() {
+			$("[data-toggle='tooltip']").tooltip();
+		});
+	</script>
+	<script src="js/common.js" th:src="@{/js/common.js}"></script>
+</body>
+</html>

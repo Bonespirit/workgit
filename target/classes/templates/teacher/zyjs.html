@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+<title>专业介绍发布</title>
+<link th:include="commonth::thhead"></link>
+<link th:include="commonhf::wbc"></link>
+</head>
+<body style="height: auto">
+	<div th:replace="commonhf::#pre-show"></div>
+	<div th:replace="commonhf::sheader"></div>
+	<div style="width: 100%; height: auto; position: absolute; top: 110px">
+		<div id="center">
+			<div th:replace="commonth::teacherNav('专业介绍发布')"></div>
+			<div th:replace="commonth::thLeft"></div>
+			<div class="right" style="min-height: 360px">
+				<form th:action="@{/teacher/zyjs}" method="post" id="post-jobinfo" class="form-horizontal"
+					role="form">
+					<div class="appointment-details">
+						<h4>专业情况</h4>
+						<hr />
+						<div class="form-group">
+							<label for="collegen" class="col-sm-2 control-label"> <span style="color: #f40">*</span>
+								学院名称
+							</label>
+							<div class="col-sm-3">
+								<input type="text" class="form-control" id="collegen" name="collegen" required />
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="collegec" class="col-sm-2 control-label"> <span style="color: #f40">*</span>
+								学院代码
+							</label>
+							<div class="col-sm-3">
+								<input type="text" class="form-control" id="collegec" name="collegec" required />
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="majorn" class="col-sm-2 control-label"> <span style="color: #f40">*</span>
+								专业名称
+							</label>
+							<div class="col-sm-3">
+								<input type="text" class="form-control" id="majorn" name="majorn" required />
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="majorc" class="col-sm-2 control-label"> <span style="color: #f40">*</span>
+								专业代码
+							</label>
+							<div class="col-sm-3">
+								<input type="text" class="form-control" id="majorc" name="majorc" required />
+							</div>
+						</div>
+					</div>
+					<div class="recruit">
+						<h4>专业介绍</h4>
+						<hr />
+						<textarea hidden name="contents" id="contents" cols="30" rows="10"></textarea>
+						<div id="rich-text">
+							<button type="button" class="btn btn-sm btn-success">简洁模式</button>
+							<label style="color: #f40">(推荐)</label>
+							<button type="button" class="btn btn-sm btn-success mybtn">正常模式</button>
+							<button id="preview" style="float: right" type="button" class="btn mybtn btn-sm">
+								预览</button>
+							<a href="javascript:;" style="color: #f40" data-toggle="tooltip" data-placement="top"
+								title="简洁模式:过滤样式排版;正常模式:保留原来样式排版"><img
+								th:src="@{/images/aui-icon-question.png}" width="25" height="25" /></a> <label
+								style="color: #f40">正常模式粘贴需要耗费点时间,如果文本过长请分段粘贴</label>
+							<div id="wangEditor"></div>
+						</div>
+					</div>
+					<div style="width: 110px; margin: 50px auto 0 auto">
+						<button id="submitBtn" type="button" class="btn mybtn">发布</button>
+					</div>
+				</form>
+			</div>
+			<div style="clear: both"></div>
+		</div>
+		<div th:replace="commonhf::#footer"></div>
+	</div>
+	<script>
+		$("#center .left li")[4].className = "uactive";
+		$("#column").val("专业介绍");
+		$(function() {
+			$("[data-toggle='tooltip']").tooltip();
+		});
+	</script>
+	<script src="js/common.js" th:src="@{/js/common.js}"></script>
+</body>
+</html>

@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>职位</title>
+<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" th:href="@{/bootstrap/css/bootstrap.min.css}"/>
+<link rel="stylesheet" href="css/index.css" th:href="@{/css/index.css}"/>
+<link rel="stylesheet" href="css/common-zp.css" th:href="@{/css/common-zp.css}"/>
+<link rel="stylesheet" href="bootstrap/css/bootstrap-select.min.css" th:href="@{/bootstrap/css/bootstrap-select.min.css}" />
+<link rel="stylesheet" href="css/poslist.css" th:href="@{/css/poslist.css}" />
+<script src="js/jquery-3.3.1.min.js" th:src="@{/js/jquery-3.3.1.min.js}"></script>
+<script src="bootstrap/js/bootstrap.min.js" th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+<script src="bootstrap/js/bootstrap-select.min.js" th:src="@{/bootstrap/js/bootstrap-select.min.js}"></script>
+<script src="js/doT.min.js" th:src="@{/js/doT.min.js}"></script>
+<script src="js/common-2.js" th:src="@{/js/common-2.js}"></script>
+<script src="js/poslist.js" th:src="@{/js/poslist.js}"></script>
+</head>
+<body style="height: auto">
+	<div th:replace="commonhf::sheader"></div>
+	<input id="total" type="text" hidden th:value="${page.total}" />
+	<!-- 需求专业模态框 -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+		aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+						&times;</button>
+					<h5 class="modal-title" id="myModalLabel">请选择需求专业[最多选择10个]</h5>
+				</div>
+				<div class="modal-body" id="contents"></div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					<button type="button" class="btn btn-primary ensure" data-dismiss="modal">
+						确认</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 单位所在地模态框 -->
+	<div class="modal fade" id="location" tabindex="-1" role="dialog" aria-labelledby="locationLabel"
+		aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+						&times;</button>
+					<h5 class="modal-title" id="locationLabel">请选择地区</h5>
+				</div>
+				<div class="modal-body">
+					<div id="pcSel"></div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					<button type="button" class="btn btn-primary ensure" data-dismiss="modal">
+						确认</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div style="width: 100%; height: auto; position: absolute; top: 110px">
+		<div id="center">
+			<div th:replace="commonhf::newsNav('职位')"></div>
+			<div th:replace="commonhf::searchLeft"></div>
+			<div class="right" style="min-height: 600px; padding: 20px 20px">
+				<div class="search">
+					<form id="search-job" class="form-horizontal" role="form">
+						<div class="form-group">
+							<div class="col-sm-4">
+								<input type="text" name="keyword" class="form-control" placeholder="输入职位、公司等搜索" />
+							</div>
+							<div class="col-sm-2">
+								<select class="form-control" name="skill" id="skill"></select>
+							</div>
+							<div class="col-sm-2">
+								<select name="industry" id="industrySel" class="selectpicker" data-live-search="true">
+									<option value>单位行业</option>
+									<option value="34">信息传输、软件和信息技术服务业</option>
+									<option value="22">制造业</option>
+									<option value="21">采矿业</option>
+									<option value="23">电力、热力、燃气及水生产和供应业</option>
+									<option value="24">建筑业</option>
+									<option value="31">批发和零售业</option>
+									<option value="32">交通运输、仓储和邮政业</option>
+									<option value="33">住宿和餐饮业</option>
+									<option value="35">金融业</option>
+									<option value="36">房地产业</option>
+									<option value="37">租赁和商务服务业</option>
+									<option value="38">科学研究和技术服务业</option>
+									<option value="39">水利、环境和公共设施管理业</option>
+									<option value="41">居民服务、修理和其他服务业</option>
+									<option value="42">教育</option>
+									<option value="43">卫生和社会工作</option>
+									<option value="44">文化、体育和娱乐业</option>
+									<option value="45">公共管理、社会保障和社会组织</option>
+									<option value="46">国际组织</option>
+									<option value="80">军队</option>
+								</select>
+								<!-- /input-group -->
+							</div>
+							<div class="col-sm-3">
+								<input type="text" hidden name="majorcode" class="mcode" id="mcode" />
+								<div data-toggle="modal" data-target="#myModal">
+									<input type="text" id="majors" class="majors form-control"
+										placeholder="请选择专业" /> <i></i>
+								</div>
+							</div>
+							<div class="col-sm-1">
+								<button id="search" class="btn" type="button">搜索</button>
+							</div>
+							<div style="clear: both"></div>
+						</div>
+						<div class="form-group nbor">
+							<div class="col-sm-2">
+								<input type="text" hidden name="citycode" class="citycode" id="citycode" />
+								<div data-toggle="modal" data-target="#location">
+									<input type="text" id="city" class="city form-control" value="请选择地区" />
+								</div>
+								<span class="caret" style="float: right; margin-top: -20px; margin-right: 5px"></span>
+							</div>
+						</div>
+						<div class="form-group nbor">
+							<div class="col-sm-2">
+								<select class="form-control" name="salary" aria-placeholder="请选择">
+									<option value="">薪资要求</option>
+									<option value="11">4k以下</option>
+									<option value="12">4k-6k</option>
+									<option value="13">6k-8k</option>
+									<option value="14">8k-10k</option>
+									<option value="15">10k以上</option>
+								</select>
+							</div>
+							<div class="col-sm-2">
+								<select class="form-control" name="wnature">
+									<option value="">工作性质</option>
+									<option value="1">全职</option>
+									<option value="2">实习</option>
+								</select>
+							</div>
+							<div class="col-sm-2">
+								<select class="form-control" name="education">
+									<option value="">学历要求</option>
+									<option value="1">本科</option>
+									<option value="2">硕士</option>
+									<option value="3">博士</option>
+								</select>
+							</div>
+							<div class="col-sm-2">
+								<select name="nature" id="natureSel" class="selectpicker">
+									<option value="">单位性质</option>
+									<option value="10">机关</option>
+									<option value="20">科研设计单位</option>
+									<option value="21">高等教育单位</option>
+									<option value="22">中初等教育单位</option>
+									<option value="23">医疗卫生单位</option>
+									<option value="29">其他事业单位</option>
+									<option value="31">国有企业</option>
+									<option value="32">三资企业</option>
+									<option value="39">其他企业</option>
+									<option value="40">部队</option>
+									<option value="55">农村建制村</option>
+									<option value="56">城镇社区</option>
+									<option value="99">其他</option>
+								</select>
+								<!-- /input-group -->
+							</div>
+							<div class="col-sm-2">
+								<select name="scale" id="scaleSel" class="selectpicker">
+									<option value="">单位规模</option>
+									<option value="1">50人以下</option>
+									<option value="2">50人-100人</option>
+									<option value="3">100人-300人</option>
+									<option value="4">300人-500人</option>
+									<option value="5">500人-1000人</option>
+									<option value="6">1000人以上</option>
+								</select>
+								<!-- /input-group -->
+							</div>
+							<div class="col-sm-2">
+								<button id="clearsearch" class="btn" type="button">
+									<a href="javascript:;">清空筛选条件</a>
+								</button>
+								<div style="clear: both"></div>
+							</div>
+						</div>
+					</form>
+				</div>
+				<hr />
+				<div class="search-info">
+					<div class="poslist">
+						<ul id="itemlist"></ul>
+						<div class="nodata">
+							<img src="images/no-data.png" />
+							<p>暂无数据</p>
+						</div>
+					</div>
+					<div class="nav-bar">
+						<button class="mbtn mybtn homepage">首页</button>
+						<button class="mbtn mybtn prev">上一页</button>
+						<ul class="list-inline page">
+							<li class="cur">1</li>
+							<li>2</li>
+							<li>3</li>
+							<li>4</li>
+							<li>5</li>
+						</ul>
+						<button class="mbtn mybtn next">下一页</button>
+						<button class="mbtn mybtn lastpage">尾页</button>
+					</div>
+					<div style="clear: both"></div>
+				</div>
+			</div>
+			<div style="clear: both"></div>
+		</div>
+		<div th:replace="commonhf::#footer"></div>
+	</div>
+	<div th:replace="commonhf::sm"></div>
+	<script type="text/x-dot-template" id="positionData">
+      {{~it:value:index}}
+        <li class="row">
+          <a th:href="@{/views/jobs/id/}+{{=value.hid}}}">
+            <div class="col-sm-6 position">
+              <p class="name">{{=value.pname}}</p>
+              <p>
+                <span class="salary">{{=value.salary}}</span>
+                <span>{{=value.workplace}}</span>
+                <span>{{=value.wnature}}</span>
+                <span>{{=value.edu}}</span>
+              </p>
+            </div>
+            <div class="col-sm-6 company">
+              <p>
+                <a href="javascript:;">{{=value.cname}}</a>
+              </p>
+              <p>
+                <span>{{=value.cnature}}</span>
+                <span>{{=value.scale}}</span>
+              </p>
+            </div>
+          </a>
+        </li>
+      {{~}}
+    </script>
+	<script>
+      $("#center .left li")[0].className = "uactive";
+    </script>
+</body>
+</html>

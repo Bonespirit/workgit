@@ -28,10 +28,10 @@
 					<ul>
 						<li class="item-c" th:each="item : ${page.records}">
 							<p>
-								<a class="name" th:href="@{/views/shsqt/id/}+${item.hid}" th:text="@{item.title}"
-									th:title="@{item.title}">重庆通拓交通规划设计有限公司</a> <span th:if="${item.isschoolmate eq '1'}"
-									class="schoolmate">校友</span> <span class="date">[[@{item.adate}]] 申请</span> <a
-									target="_blank" style="float: right" th:href="@{/views/shsqt/id/}+${item.hid}">详情>></a>
+								<a class="name" th:href="@{/views/shsqt/id/}+${item.id}" th:text="${item.title}"
+									th:title="${item.title}">重庆通拓交通规划设计有限公司</a> <span th:if="${item.isschoolmate eq '1'}"
+									class="schoolmate">校友</span> <span class="date">[[${item.adate}]] 申请</span> <a
+									target="_blank" style="float: right" th:href="@{/views/shsqt/id/}+${item.id}">详情>></a>
 							</p>
 							<div style="clear: both"></div>
 						</li>

@@ -8,6 +8,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import com.google.gson.Gson;
@@ -16,6 +22,9 @@ import com.google.gson.JsonObject;
 
 @Component("customFunc")
 public class customFuncCpImpl implements customFunc{
+	
+	@Autowired
+	JavaMailSenderImpl mailSenderImpl;
 
 	@Override
 	public String getCity(String code) throws IOException {
@@ -217,4 +226,41 @@ public class customFuncCpImpl implements customFunc{
 		return map;
 	}
 	
+	@Async
+	@Override
+	public void sendEmailToCp(String email, String title, String contents) {
+		SimpleMailMessage message = new SimpleMailMessage();
+		message.setSubject(title);
+	    message.setText(contents);
+	    message.setTo(email);
+	    message.setFrom("pangruting@qq.com");
+	    mailSenderImpl.send(message);
+	}
+	
+	public String getVisitorIp(HttpServletRequest request){
+		String ip = request.getHeader("x-forwarded-for");
+
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("X-Real-IP");
+        }
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("http_client_ip");
+        }
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getRemoteAddr();
+        }
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("Proxy-Client-IP");
+        }
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("WL-Proxy-Client-IP");
+        }
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("HTTP_X_FORWARDED_FOR");
+        }
+        if (ip != null && ip.indexOf(",") != -1) {
+            ip = ip.substring(ip.lastIndexOf(",") + 1, ip.length()).trim();
+        }
+        return ip;
+	}
 }

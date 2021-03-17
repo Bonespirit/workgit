@@ -145,7 +145,7 @@ public class EnterpriseController {
 		zpHtmlMapper.insert(zpHtml);
 		int zphid = zpHtml.getId();
 		System.out.println("zphid"+zphid);
-		teachinExam.setHid(zphid);
+		teachinExam.setId(zphid);
 		teachinExam.setCid(4);
 		teachinExamMapper.insert(teachinExam);
 		List<Visitors> visitorlist = new ArrayList<Visitors>();

@@ -18,6 +18,7 @@
 			<div th:replace="commonth::thLeft"></div>
 			<div class="right" style="min-height: 360px">
 				<form th:action="@{/teacher/fbnr}" method="POST" id="publish" class="form-horizontal" role="form">
+					<input hidden="hidden" disabled="disabled" type="text" value="0" id="ipAddr"/>
 					<div class="recruit">
 						<div class="form-group">
 							<label for="title" class="col-sm-1 control-label"> <span style="color: #f40">*</span>

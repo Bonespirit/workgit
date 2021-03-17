@@ -1,5 +1,7 @@
 package com.pang.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import lombok.AllArgsConstructor;
@@ -15,6 +17,7 @@ import lombok.ToString;
 @NoArgsConstructor
 public class PositionHtml {
 	
+	@TableId(value="id",type=IdType.AUTO)
 	private Integer id;		//职位id
 	private String contents;//职位描述
 }

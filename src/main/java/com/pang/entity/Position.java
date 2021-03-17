@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.sql.Date;
 
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import lombok.AllArgsConstructor;
@@ -20,7 +21,8 @@ import lombok.ToString;
 public class Position implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
-	private Integer hid;		//文章id
+	@TableId(value="id")
+	private Integer id;			//文章id
 	private Integer cid;		//职位发布单位id
 	private String pname;		//职位名称
 	private Integer salary;		//薪资

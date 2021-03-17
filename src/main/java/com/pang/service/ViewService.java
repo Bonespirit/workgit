@@ -15,5 +15,5 @@ public interface ViewService {
 	//获取来访人员名单
 	public List<Visitors> getVisitorsByLid(Integer lid);
 	//获取宣讲会申请表信息
-	public TeachinExam getTeachinExamByid(Integer id);
+	public TeachinExam getTeachinExamById(Integer id);
 }

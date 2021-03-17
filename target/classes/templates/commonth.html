@@ -51,7 +51,7 @@
 		    let iboy = $("#pre-show iframe").contents().find("#preview");
 		    if (iboy[0].innerHTML == "") {
 		      $.ajax({
-		        url: [[@{/preview/id/}]] + $("#contentid").val(),
+		        url: [[@{/teacher/preview/id/}+${teachin.id}]],
 		        type: "get",
 		        success: function (data) {
 		          $("#pre-show").show();
@@ -66,6 +66,6 @@
 		    }
 		  });
 	</script>
-	
+
 </body>
 </html>

@@ -842,6 +842,8 @@ ul {
 }
 #center .right .clogo {
   border: 1px solid #ccc;
+  width:100px;
+  height:100px;
 }
 #center .right .table .keyname {
   background-color: #f6f6f6;

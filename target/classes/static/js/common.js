@@ -5,22 +5,33 @@ editor.config.height = 600;
 editor.config.zindex = 10;
 editor.config.showFullScreen = false;
 editor.config.pasteIgnoreImg = true;
-//配置 server 接口地址
 let token = $("meta[name='_csrf']").attr("content");
+//自定义请求头添加csrf token
 editor.config.uploadImgHeaders = {
 		'X-CSRF-TOKEN': token,
 }
+editor.config.uploadImgParams = {
+		ipAddr: $("#ipAddr"),
+}
 editor.config.debug = true;
-editor.config.uploadFileName = "file";
-//editor.config.uploadImgMaxSize = 1024 * 1024;
+editor.config.uploadImgMaxSize = 1024 * 1024;
 editor.config.uploadImgAccept = ['jpg', 'jpeg', 'png', 'gif', 'bmp']
-editor.config.uploadImgMaxLength = 5
+editor.config.uploadImgMaxLength = 5 //最多同时上传5张图片
+//配置 server 接口地址
 editor.config.uploadImgServer ='/upload/wangEditor';
-//editor.config.uploadImgHooks = {
-//	customInsert: function(insertImgFn, result) {
-//        insertImgFn("/"+result)
-//    }
-//}
+editor.config.uploadImgHooks = {
+		fail: function(xhr, editor, resData) {
+			if(resData.errno == "-999"){
+				alert("您上传次数已超30次!")
+			}
+		},
+		success: function(xhr) {
+	        console.log('success', xhr)
+	    },
+		error: function(xhr, editor, resData) {
+			alert('error', xhr, resData)
+		},
+}
 editor.config.onchange = function (newHtml) {
 	oCont.value = newHtml;
 };

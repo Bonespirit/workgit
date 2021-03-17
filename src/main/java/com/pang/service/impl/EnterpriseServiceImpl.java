@@ -35,19 +35,15 @@ public class EnterpriseServiceImpl implements EnterpriseService{
 	@Transactional
 	@Override
 	public void putEnterpriseInfo(Company company,MultipartFile logo,MultipartFile license) throws IOException {
-		
 		CompanyExam companyExam = new CompanyExam();
 		company.setLogourl(uploadService.uploadLogo(logo));
 		company.setLicenseurl(uploadService.uploadLicense(license));
 		company.setLocation(company.getProvinceSel()+"&"+company.getCitySel());
 		company.setNature(customFunc.getComNature(company.getNature()));
-
 		BeanUtils.copyProperties(company,companyExam);
 		companyMapper.insert(company);
 		companyExam.setId(company.getId());
 		companyExamMapper.insert(companyExam);
-//		System.out.println(company.toString());
-//		System.out.println(companyExam.toString());
 	}
 	
 }

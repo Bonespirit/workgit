@@ -10,10 +10,9 @@
 <body style="height: 960px">
 	<div id="cr-refuse">
 		<h4 style="color: #f40">请说明原因方便企业修改</h4>
-		<form th:action="@{/teacher/shsqc/fail/}+${company.id}" method="POST">
+		<form th:action="@{/teacher/shsqc/fail/{id}(id=${company.id},email=${company.cemail})}" method="POST">
 			<input type="hidden" name="_method" value="delete" />
-			<textarea required name="explain" id="explain" cols="60" rows="5"></textarea>
-			<input type="text" name="email" hidden th:value="${company.cemail}" />
+			<textarea required name="reason" id="explain" cols="60" rows="5"></textarea>
 			<div>
 				<button type="button" class="btn mybtn">取消</button>
 				<button type="submit" class="btn mybtn">确定</button>
@@ -84,7 +83,7 @@
 					<img th:src="@{/}+${company.licenseurl}" />
 					<div style="width: 150px; margin: 40px auto 0 auto">
 						<button type="button" class="btn mybtn allow">
-							<a th:href="@{/teacher/shsqc/success/}+${company.id}" style="color: #fff">通过</a>
+							<a th:href="@{/teacher/shsqc/success/{id}(id=${company.id},email=${company.cemail})}" style="color: #fff">通过</a>
 						</button>
 						<button type="button" class="btn mybtn refuse">不通过</button>
 					</div>

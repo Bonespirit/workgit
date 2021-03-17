@@ -2,20 +2,25 @@ package com.pang.entity;
 
 import java.sql.Date;
 
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-//宣讲会审核展示列表，用于展示申请列表
+//审核失败记录表
+@TableName("teachin_refuse")
 @Data
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class TeachinExamShow {
+public class TeachinRefuse{
 	
-	private Integer hid;		//文章id
-	private String isschoolmate;//是否校友
+	@TableId(value="id")
+	private Integer id;		//招聘信息单位id
 	private String title;		//标题
 	private Date adate;			//申请时间
+	private String reason;		//解释
 }

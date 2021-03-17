@@ -10,7 +10,7 @@ import com.pang.interceptor.LoginInterceptor;
 @Configuration
 public class MyConfig implements WebMvcConfigurer{
 	
-	//拦截器配置，其中静态资源需要手动放行
+	//拦截器配置，其中静态资源需要手动放行 可以添加多个拦截器 使用register注册即可
 //	@Override
 //	public void addInterceptors(InterceptorRegistry registry) {
 //		registry.addInterceptor(new LoginInterceptor())

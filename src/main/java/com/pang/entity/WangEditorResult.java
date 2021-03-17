@@ -12,5 +12,6 @@ import lombok.NoArgsConstructor;
 public class WangEditorResult {
 	
 	private Integer errno;
+	private String ipaddr;
 	private List<WangEditorData> data;
 }

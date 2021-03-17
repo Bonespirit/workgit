@@ -10,9 +10,9 @@
 <body style="height: 960px">
 	<div id="cr-refuse">
 		<h4 style="color: #f40">请说明原因方便企业修改</h4>
-		<form action="sfs" method="POST">
-			<textarea required name="explain" id="explain" cols="60" rows="5"></textarea>
-			<input type="text" name="companyid" hidden value="124" />
+		<form th:action="@{/teacher/shsqt/fail/{tid}(tid=${teachin.id},email=${teachin.email},id=${teachin.cid},title=${teachin.title},adate=${teachin.adate})}" method="POST">
+			<input type="hidden" name="_method" value="delete" />
+			<textarea required name="reason" id="explain" cols="60" rows="5"></textarea>
 			<div>
 				<button type="button" class="btn mybtn">取消</button>
 				<button type="submit" class="btn mybtn">确定</button>
@@ -21,7 +21,7 @@
 	</div>
 	<div id="cr-agree">
 		<h4>请确认以下信息</h4>
-		<form th:action="@{/teacher/shsqt/success/}+${teachin.hid}" method="post" class="form-horizontal"
+		<form th:action="@{/teacher/shsqt/success(id=${teachin.id},cid=${teachin.cid},title=${teachin.title},email=${teachin.email})}" method="post" class="form-horizontal"
 			role="form">
 			<div class="form-group">
 				<label for="tdate" class="col-sm-3 control-label"> <span style="color: #f40">*</span>
@@ -61,11 +61,10 @@
 			</div>
 			<div class="right" style="min-height: 360px">
 				<div class="info" style="padding-top: 20px">
-					<input type="text" hidden id="contentid" th:value="@{teachin.hid}" />
 					<div>
 						<p>
 							<span>标题：</span> <span th:text="${teachin.title}">中建八局装饰工程有限公司</span> <span
-								th:if="${item.isschoolmate eq '1'}" class="schoolmate">校友</span>
+								th:if="${teachin.isschoolmate eq '1'}" class="schoolmate">校友</span>
 						</p>
 						<p>
 							<span>申请时间：</span> <span th:text="${teachin.adate}">2021-03-10</span>

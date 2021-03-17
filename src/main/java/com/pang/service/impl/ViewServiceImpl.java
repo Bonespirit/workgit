@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -41,20 +40,14 @@ public class ViewServiceImpl implements ViewService{
 		return company;
 	}
 	
-	//异步获取和申请表同时进行
-	@Async
 	@Override
 	public List<Visitors> getVisitorsByLid(Integer lid) {
-		
 		QueryWrapper<Visitors> queryWrapper = new QueryWrapper<>();
 		queryWrapper.eq("lid", lid);
 		return visitorMapper.selectList(queryWrapper);
 	}
-	//异步获取和来访人员表同时进行
-	@Async
 	@Override
-	public TeachinExam getTeachinExamByid(Integer id) {
-		
+	public TeachinExam getTeachinExamById(Integer id) {
 		return teachinExamMapper.selectById(id);
 	}
 }

@@ -17,7 +17,7 @@
 			<div th:replace="commonth::teacherNav('生源信息发布')"></div>
 			<div th:replace="commonth::thLeft"></div>
 			<div class="right" style="min-height: 360px">
-				<form th:action="@{/teacher/syxx}" method="post" id="post-jobinfo" class="form-horizontal"
+				<form th:action="@{/teacher/fbnr}" method="post" id="post-jobinfo" class="form-horizontal"
 					role="form">
 					<div class="recruit">
 						<h4>生源信息一览表</h4>
@@ -35,7 +35,8 @@
 								栏目
 							</label>
 							<div class="col-sm-11">
-								<input type="text" class="form-control" id="column" name="column" readonly />
+								<input hidden type="text" value="9" name="column"/>
+								<input type="text" class="form-control" id="column" disabled />
 							</div>
 						</div>
 						<div class="form-group">
@@ -59,7 +60,7 @@
 							<button type="button" class="btn btn-sm btn-success mybtn">正常模式</button>
 							<button id="preview" style="float: right" type="button" class="btn mybtn btn-sm">预览</button>
 							<a href="javascript:;" style="color: #f40" data-toggle="tooltip" data-placement="top"
-								title="简洁模式:过滤样式排版;正常模式:保留原来样式排版"><img src="images/aui-icon-question.png" width="25"
+								title="简洁模式:过滤样式排版;正常模式:保留原来样式排版"><img th:src="@{/images/aui-icon-question.png}" width="25"
 								height="25" /></a> <label style="color: #f40">正常模式粘贴需要耗费点时间,如果文本过长请分段粘贴</label>
 							<div id="wangEditor"></div>
 						</div>

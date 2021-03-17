@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+//权限表
 @Data
 @TableName("s_role")
 @AllArgsConstructor

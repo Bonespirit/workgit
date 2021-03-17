@@ -2,6 +2,7 @@ package com.pang.entity;
 
 import java.io.Serializable;
 
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import lombok.AllArgsConstructor;
@@ -18,6 +19,7 @@ import lombok.ToString;
 public class Majors implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
+	@TableId(value="id")
 	private Integer id;		//文章id
 	private String cid;		//学院代码
 	private String cname;	//学院名称

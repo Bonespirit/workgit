@@ -7,7 +7,9 @@ import java.util.List;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import lombok.AllArgsConstructor;
@@ -23,9 +25,11 @@ import lombok.ToString;
 public class User implements UserDetails{
 	private static final long serialVersionUID = 1L;
 	
+	@TableId(value="id",type=IdType.AUTO)
 	private Integer id;			//用户id
 	private String username;	//用户登录名
 	private String password;	//密码
+	private String name;		//姓名
 	private String telephone;	//联系电话
 	private String email;		//邮箱
 	private Date createdate;	//创建时间

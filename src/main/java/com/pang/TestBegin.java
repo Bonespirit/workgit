@@ -11,7 +11,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 //mapper扫描 不需要再每个mapper添加@mapper注解
 @MapperScan("com.pang.mapper")
 @SpringBootApplication
-//@EnableCaching  	//开启缓存注解
+@EnableCaching  	//开启缓存注解
 //@EnableRabbit 		//开启rabbitmq注解模式
 @EnableAsync		//开启异步注解模式
 //@EnableScheduling	//开启定时任务注解

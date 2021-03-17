@@ -37,10 +37,10 @@ public class UserDetailsServiceImpl implements UserDetailsService{
 			throw new UsernameNotFoundException("用户不存在！");
 		}
 		List<UserRole> userRoles = userRoleMapper.selectList(
-				new QueryWrapper<UserRole>().lambda().eq(UserRole::getUserID, user.getId())
+				new QueryWrapper<UserRole>().lambda().eq(UserRole::getUserid, user.getId())
 		);
 		if (userRoles != null && !userRoles.isEmpty()) {
-			List<Integer> roleIds = userRoles.stream().map(UserRole::getRoleID).collect(Collectors.toList());
+			List<Integer> roleIds = userRoles.stream().map(UserRole::getRoleid).collect(Collectors.toList());
 			List<Role> roles = roleMapper.selectList(
 					new QueryWrapper<Role>().lambda().in(Role::getId, roleIds)
 			);

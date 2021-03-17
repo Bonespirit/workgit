@@ -36,8 +36,8 @@ public class ViewsController {
 	//获取宣讲会申请表和来访人员名单信息 teachin_exam、visitors
 	@GetMapping("/shsqt/id/{id}")
 	public String goToShsqt(@PathVariable("id") Integer id,Model model) {
-		
-		model.addAttribute("teachin", viewService.getTeachinExamByid(id));
+
+		model.addAttribute("teachin", viewService.getTeachinExamById(id));
 		model.addAttribute("visitors", viewService.getVisitorsByLid(id));
 		return "views/shsqtview";
 	}

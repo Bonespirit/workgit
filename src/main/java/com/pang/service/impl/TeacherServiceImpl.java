@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pang.customfunc.customFunc;
 import com.pang.entity.CompanyExam;
+import com.pang.entity.Enclosure;
 import com.pang.entity.Jobfair;
 import com.pang.entity.Majors;
 import com.pang.entity.News;
@@ -23,6 +24,7 @@ import com.pang.entity.UserRole;
 import com.pang.entity.ZpHtml;
 import com.pang.mapper.CompanyExamMapper;
 import com.pang.mapper.CompanyMapper;
+import com.pang.mapper.EnclosureMapper;
 import com.pang.mapper.JobfairMapper;
 import com.pang.mapper.MajorsMapper;
 import com.pang.mapper.NewsMapper;
@@ -55,6 +57,8 @@ public class TeacherServiceImpl implements TeacherService{
 	@Autowired
 	NewsMapper newsMapper;
 	
+	@Autowired
+	EnclosureMapper enclosureMapper;
 	//权限表
 	@Autowired
 	RoleMapper roleMapper;
@@ -106,6 +110,8 @@ public class TeacherServiceImpl implements TeacherService{
 	public void dsiTeachinExam(Integer id, String email, TeachinRefuse teachinRefuse) {
 		//删除申请表
 		teachinExamMapper.deleteById(id);
+		//删除简章
+		zpHtmlMapper.deleteById(id);
 		//失败记录表
 		teachinRefuseMapper.insert(teachinRefuse);
 		//发送email通知
@@ -153,7 +159,6 @@ public class TeacherServiceImpl implements TeacherService{
 		//发送email通知
 		customFunc.sendEmailToCp(email, "注册成功", "您已经成功注册了，快来发布招聘信息吧！");
 	}
-
 	
 	@Transactional
 	@Override
@@ -178,27 +183,33 @@ public class TeacherServiceImpl implements TeacherService{
 	
 	@Transactional
 	@Override
-	public void pJobfair(Jobfair jobfair, String contents) {
+	public void pJobfair(Jobfair jobfair, String contents,String eurl) {
 		ZpHtml zpHtml = new ZpHtml();
+		Enclosure enclosure = new Enclosure();
 		zpHtml.setContents(contents);
 		zpHtmlMapper.insert(zpHtml);
 		jobfair.setId(zpHtml.getId());
 		jobfairMapper.insert(jobfair);
+		enclosure.setId(zpHtml.getId());
+		enclosure.setEnclosureurl(eurl);
+		enclosureMapper.insert(enclosure);
 	}
-
 	
 	@Transactional
 	@Override
-	public void pSxhInfo(SxhInfo sxhInfo, String contents) {
+	public void pSxhInfo(SxhInfo sxhInfo, String contents,String eurl) {
 		ZpHtml zpHtml = new ZpHtml();
+		Enclosure enclosure = new Enclosure();
 		zpHtml.setContents(contents);
 		zpHtmlMapper.insert(zpHtml);
 		sxhInfo.setTime(sxhInfo.getBtime()+"-"+sxhInfo.getEtime());
 		sxhInfo.setId(zpHtml.getId());
 		sxhInfoMapper.insert(sxhInfo);
+		enclosure.setId(zpHtml.getId());
+		enclosure.setEnclosureurl(eurl);
+		enclosureMapper.insert(enclosure);
 	}
 
-	
 	@Transactional
 	@Override
 	public void pTeachin(Teachin teachin, String contents,Integer cid) {
@@ -210,7 +221,6 @@ public class TeacherServiceImpl implements TeacherService{
 		teachinMapper.insert(teachin);
 	}
 
-	
 	@Transactional
 	@Override
 	public void pMajors(Majors majors, String contents) {

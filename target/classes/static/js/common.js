@@ -11,7 +11,7 @@ editor.config.uploadImgHeaders = {
 		'X-CSRF-TOKEN': token,
 }
 editor.config.uploadImgParams = {
-		ipAddr: $("#ipAddr"),
+    ipAddr: $("#ipAddr").val(),
 }
 editor.config.debug = true;
 editor.config.uploadImgMaxSize = 1024 * 1024;
@@ -25,9 +25,9 @@ editor.config.uploadImgHooks = {
 				alert("您上传次数已超30次!")
 			}
 		},
-		success: function(xhr) {
-	        console.log('success', xhr)
-	    },
+//		success: function(xhr) {
+//			console.log(xhr)
+//		},
 		error: function(xhr, editor, resData) {
 			alert('error', xhr, resData)
 		},
@@ -35,6 +35,24 @@ editor.config.uploadImgHooks = {
 editor.config.onchange = function (newHtml) {
 	oCont.value = newHtml;
 };
+editor.create();
+function msubmit(){
+	if($("#contents")[0].value == ""){
+		alert("请输入招聘简章");
+		return;
+	}else if($("#title")[0].value == ""){
+		alert("请输入标题");
+		return;
+	}
+	let imgsrc = new Array()
+	let wimg = $("#wangEditor img");
+	let mlength = wimg.length;
+	for(let i=0;i<mlength;i++){
+		imgsrc.push(wimg[i].src.split("/").pop())
+	}
+	$("#validurl").attr("value",imgsrc);
+	$("form")[0].submit();
+}
 $("#rich-text button")
 .eq(0)
 .on("click", function () {
@@ -59,7 +77,6 @@ $("#pre-show button").on("click", function () {
 	$("#pre-show").hide();
 	$("#pre-show iframe")[0].contentWindow.location.reload(true);
 });
-editor.create();
 $(function () {
 	let oA = $("#center #publish #column").siblings(".link").children();
 	$("#center #publish #column").on("change", function () {

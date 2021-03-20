@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>桂林电子科技大学就业网</title>
-	<link th:include="commonhf::mhead"></link>
-	<script th:src="@{/js/index.js}" async></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>桂林电子科技大学就业网</title>
+<link th:include="commonhf::mhead"></link>
+<script th:src="@{/js/index.js}" async></script>
+<script src="js/doT.min.js" th:src="@{/js/doT.min.js}"></script>
 </head>
 <body style="height: 1570px">
 	<canvas height="1370"></canvas>
@@ -40,13 +41,10 @@
 					</div>
 				</div>
 				<!-- 轮播（Carousel）导航 -->
-				<a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
-					<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-					<span class="sr-only">Previous</span>
-				</a>
-				<a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
-					<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-					<span class="sr-only">Next</span>
+				<a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev"> <span
+					class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> <span class="sr-only">Previous</span>
+				</a> <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next"> <span
+					class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> <span class="sr-only">Next</span>
 				</a>
 			</div>
 			<div class="content2 row">
@@ -54,50 +52,19 @@
 				<div class="col-md-4 col-sm-4 leftcontent" style="height: 100%; padding: 0">
 					<div class="leftcontent-nav">
 						<ul>
-							<li class="active">
-								<span>通知公告</span>
-							</li>
-							<li>
-								<span>就业公示</span>
-							</li>
+							<li class="active"><span>通知公告</span></li>
+							<li><span>就业公示</span></li>
 						</ul>
-						<a href="javascript:;">MORE >></a>
+						<a href="javascript:;">MORE >></a> <a hidden="hidden" th:href="@{/news/column/0/page/1}"></a>
+						<a hidden="hidden" th:href="@{/news/column/1/page/1}"></a>
 					</div>
 					<div class="leftcontent-content">
 						<div class="notice-content">
 							<ul>
 								<!-- 通知公告 -->
-								<li>
-									<a href="javascript:;">关于举办桂林电子科技大学2021届毕业</a>
-									<span>2021-01-28</span>
-								</li>
-								<li>
-									<a href="javascript:;">关于举办桂林电子科技大学2021届毕业</a>
-									<span>2021-01-28</span>
-								</li>
-								<li>
-									<a href="javascript:;">关于举办桂林电子科技大学2021届毕业</a>
-									<span>2021-01-28</span>
-								</li>
-								<li>
-									<a href="javascript:;">关于举办桂林电子科技大学2021届毕业</a>
-									<span>2021-01-28</span>
-								</li>
-								<li>
-									<a href="javascript:;">关于举办桂林电子科技大学2021届毕业</a>
-									<span>2021-01-28</span>
-								</li>
-								<li>
-									<a href="javascript:;">关于举办桂林电子科技大学2021届毕业</a>
-									<span>2021-01-28</span>
-								</li>
-								<li>
-									<a href="javascript:;">关于举办桂林电子科技大学2021届毕业</a>
-									<span>2021-01-28</span>
-								</li>
-								<li>
-									<a href="javascript:;">关于举办桂林电子科技大学2021届毕业</a>
-									<span>2021-01-28</span>
+								<li th:each="item : ${tpage.records}"><span style="color: #f40; float: left"
+									th:if="${item.grade eq 1}">[置顶]</span> <span class="date" th:text="${item.pdate}">2021-01-28</span>
+									<a th:href="@{views/news/id/}+${item.id}" th:text="${item.title}" th:title="${item.title}">关于举办桂林电子科技大学2021届毕业</a>
 								</li>
 							</ul>
 						</div>
@@ -105,37 +72,9 @@
 						<div class="public-content">
 							<ul>
 								<!-- 公示 -->
-								<li>
-									<a href="javascript:;">关于2021届硕士毕业生郑华星违约的公示</a>
-									<span>2021-02-14</span>
-								</li>
-								<li>
-									<a href="javascript:;">关于2021届硕士毕业生郑华星违约的公示</a>
-									<span>2021-02-14</span>
-								</li>
-								<li>
-									<a href="javascript:;">关于2021届硕士毕业生郑华星违约的公示</a>
-									<span>2021-02-14</span>
-								</li>
-								<li>
-									<a href="javascript:;">关于2021届硕士毕业生郑华星违约的公示</a>
-									<span>2021-02-14</span>
-								</li>
-								<li>
-									<a href="javascript:;">关于2021届硕士毕业生郑华星违约的公示</a>
-									<span>2021-02-14</span>
-								</li>
-								<li>
-									<a href="javascript:;">关于2021届硕士毕业生郑华星违约的公示</a>
-									<span>2021-02-14</span>
-								</li>
-								<li>
-									<a href="javascript:;">关于2021届硕士毕业生郑华星违约的公示</a>
-									<span>2021-02-14</span>
-								</li>
-								<li>
-									<a href="javascript:;">关于2021届硕士毕业生郑华星违约的公示</a>
-									<span>2021-02-14</span>
+								<li th:each="item : ${jpage.records}"><span style="color: #f40; float: left"
+									th:if="${item.grade eq 1}">[置顶]</span> <span class="date" th:text="${item.pdate}">2021-01-28</span>
+									<a th:href="@{views/news/id/}+${item.id}" th:text="${item.title}" th:title="${item.title}">关于举办桂林电子科技大学2021届毕业</a>
 								</li>
 							</ul>
 						</div>
@@ -145,20 +84,17 @@
 				<div class="col-md-4 col-sm-4 middlecontent" style="height: 430px; padding: 0">
 					<h3>招聘会</h3>
 					<div class="recruid">
-						<a href="http://127.0.0.1:5500/src/zcxj.html">
-							<img th:src="@{/images/zhuanchang.png}" alt="专场" />
+						<a href="http://127.0.0.1:5500/src/zcxj.html"> <img th:src="@{/images/zhuanchang.png}"
+							alt="专场" />
 							<h4>专场</h4>
-						</a>
-						<a href="http://127.0.0.1:5500/src/sxh.html">
-							<img th:src="@{/images/shuangxuan.png}" alt="双选" />
+						</a> <a href="http://127.0.0.1:5500/src/sxh.html"> <img th:src="@{/images/shuangxuan.png}"
+							alt="双选" />
 							<h4>双选</h4>
-						</a>
-						<a href="http://127.0.0.1:5500/src/ztzp-s.html">
-							<img th:src="@{/images/zutuan.png}" alt="组团" />
+						</a> <a href="http://127.0.0.1:5500/src/ztzp-s.html"> <img th:src="@{/images/zutuan.png}"
+							alt="组团" />
 							<h4>组团</h4>
-						</a>
-						<a href="http://127.0.0.1:5500/src/zxzp.html">
-							<img th:src="@{/images/network.png}" alt="网络" />
+						</a> <a href="http://127.0.0.1:5500/src/zxzp.html"> <img th:src="@{/images/network.png}"
+							alt="网络" />
 							<h4>在线</h4>
 						</a>
 					</div>
@@ -167,41 +103,13 @@
 				<div class="col-md-4 col-sm-4 rightcontent" style="height: 430px; padding: 0">
 					<div class="title">
 						<h3>新闻热点</h3>
-						<a href="javascript:;">MORE>></a>
+						<a th:href="@{/news/column/2/page/1}">MORE>></a>
 					</div>
 					<div class="news">
 						<ul>
-							<li>
-								<a href="javascript:;">vivo广西2021届管培生校园招聘宣讲会在艺术与设计学院成功举办</a>
-								<span>2021-02-14</span>
-							</li>
-							<li>
-								<a href="javascript:;">vivo广西2021届管培生校园招聘宣讲会在艺术与设计学院成功举办</a>
-								<span>2021-02-14</span>
-							</li>
-							<li>
-								<a href="javascript:;">vivo广西2021届管培生校园招聘宣讲会在艺术与设计学院成功举办</a>
-								<span>2021-02-14</span>
-							</li>
-							<li>
-								<a href="javascript:;">vivo广西2021届管培生校园招聘宣讲会在艺术与设计学院成功举办</a>
-								<span>2021-02-14</span>
-							</li>
-							<li>
-								<a href="javascript:;">vivo广西2021届管培生校园招聘宣讲会在艺术与设计学院成功举办</a>
-								<span>2021-02-14</span>
-							</li>
-							<li>
-								<a href="javascript:;">vivo广西2021届管培生校园招聘宣讲会在艺术与设计学院成功举办</a>
-								<span>2021-02-14</span>
-							</li>
-							<li>
-								<a href="javascript:;">vivo广西2021届管培生校园招聘宣讲会在艺术与设计学院成功举办</a>
-								<span>2021-02-14</span>
-							</li>
-							<li>
-								<a href="javascript:;">vivo广西2021届管培生校园招聘宣讲会在艺术与设计学院成功举办</a>
-								<span>2021-02-14</span>
+							<li th:each="item : ${xpage.records}"><span style="color: #f40; float: left"
+								th:if="${item.grade eq 1}">[置顶]</span> <span class="date" th:text="${item.pdate}">2021-01-28</span>
+								<a th:href="@{views/news/id/}+${item.id}" th:text="${item.title}" th:title="${item.title}">关于举办桂林电子科技大学2021届毕业</a>
 							</li>
 						</ul>
 					</div>
@@ -211,30 +119,25 @@
 				<div class="col-md-4 col-sm-4 personnellink" style="height: 100%; padding: 0">
 					<h4>全国大学生就业公共服务一体化平台</h4>
 					<div class="link">
-						<a target="_blank" href="https://www.gxrc.com/">
-							<img th:src="@{/images/gxrcw.png}" alt="广西人才网" />
-						</a>
-						<a target="_blank" href="https://www.gxbys.com/">
-							<img th:src="@{/images/gxbysjyw.png}" alt="广西毕业生就业网" />
-						</a>
-						<a target="_blank" href="https://jybzp.chsi.com.cn/home/index">
-							<img th:src="@{/images/jybrcfww.png}" alt="教育部人才服务网" />
-						</a>
-						<a target="_blank" href="https://www.ncss.org.cn/">
-							<img th:src="@{/images/xzy.png}" alt="新职业" />
-						</a>
-						<a target="_blank" href="http://www.chtec.org/">
-							<img th:src="@{/images/zgjyrcw.png}" alt="中国教育人才网" />
-						</a>
-						<a target="_blank" href="http://www.newjobs.com.cn/">
-							<img th:src="@{/images/zggjrcw.png}" alt="中国国家人才网" />
+						<a target="_blank" href="https://www.gxrc.com/"> <img th:src="@{/images/gxrcw.png}"
+							alt="广西人才网" />
+						</a> <a target="_blank" href="https://www.gxbys.com/"> <img th:src="@{/images/gxbysjyw.png}"
+							alt="广西毕业生就业网" />
+						</a> <a target="_blank" href="https://jybzp.chsi.com.cn/home/index"> <img
+							th:src="@{/images/jybrcfww.png}" alt="教育部人才服务网" />
+						</a> <a target="_blank" href="https://www.ncss.org.cn/"> <img th:src="@{/images/xzy.png}"
+							alt="新职业" />
+						</a> <a target="_blank" href="http://www.chtec.org/"> <img th:src="@{/images/zgjyrcw.png}"
+							alt="中国教育人才网" />
+						</a> <a target="_blank" href="http://www.newjobs.com.cn/"> <img
+							th:src="@{/images/zggjrcw.png}" alt="中国国家人才网" />
 						</a>
 					</div>
 				</div>
 				<div class="col-md-8 col-sm-8 recruidinfo" style="height: 100%; padding: 0">
 					<div class="nav">
 						<ul style="width: 400px; display: inline-block">
-							<li class="active">宣讲会</li>
+							<li class="mactive">宣讲会</li>
 							<li>校友专场</li>
 							<li>在线招聘</li>
 							<li>实习招聘</li>
@@ -246,479 +149,76 @@
 						<div class="tab-cont-item" style="display: block">
 							<div class="career-list">
 								<ul>
-									<li class="item">
-										<a href="javascript:;">
+									<li class="item" th:each="item,itemStat: ${teachin.records}"><a
+										th:href="@{/views/xjh/id/}+${item.id}">
 											<div class="date">
-												<span class="month">02月</span>
-												<span class="day">14日</span>
+												<span class="month">[[${mdate[itemStat.index].month}]]月</span> <span class="day">[[${mdate[itemStat.index].day}]]日</span>
 											</div>
 											<div class="time-hot">
-												<p class="time">10:00</p>
+												<p class="time" th:text="${item.btime}">10:00</p>
 												<p class="hot">
-													<span class="glyphicon glyphicon-fire" style="color: #f40"></span>
-													<span class="number">1000</span>
+													<span class="glyphicon glyphicon-fire" style="color: #f40"></span> <span class="number"
+														th:text="${item.hot}">1000</span>
 												</p>
 											</div>
 											<div class="main">
-												<p class="enterprise">广西新港湾工程有限公司广西新港湾工程有限公</p>
-												<p class="address">红亮学生活动中心110宣讲室</p>
+												<p class="enterprise" th:text="${item.title}" th:title="${item.title}">广西新港湾工程有限公司广西新港湾工程有限公</p>
+												<p class="address" th:text="${item.address}" th:title="${item.address}">红亮学生活动中心110宣讲室</p>
 											</div>
-										</a>
-									</li>
-									<li class="item">
-										<a href="javascript:;">
-											<div class="date">
-												<span class="month">02月</span>
-												<span class="day">14日</span>
-											</div>
-											<div class="time-hot">
-												<p class="time">10:00</p>
-												<p class="hot">
-													<span class="glyphicon glyphicon-fire" style="color: #f40"></span>
-													<span class="number">1000</span>
-												</p>
-											</div>
-											<div class="main">
-												<p class="enterprise">广西新港湾工程有限公司</p>
-												<p class="address">红亮学生活动中心110宣讲室</p>
-											</div>
-										</a>
-									</li>
-									<li class="item">
-										<a href="javascript:;">
-											<div class="date">
-												<span class="month">02月</span>
-												<span class="day">14日</span>
-											</div>
-											<div class="time-hot">
-												<p class="time">10:00</p>
-												<p class="hot">
-													<span class="glyphicon glyphicon-fire" style="color: #f40"></span>
-													<span class="number">1000</span>
-												</p>
-											</div>
-											<div class="main">
-												<p class="enterprise">广西新港湾工程有限公司</p>
-												<p class="address">红亮学生活动中心110宣讲室</p>
-											</div>
-										</a>
-									</li>
-									<li class="item">
-										<a href="javascript:;">
-											<div class="date">
-												<span class="month">02月</span>
-												<span class="day">14日</span>
-											</div>
-											<div class="time-hot">
-												<p class="time">10:00</p>
-												<p class="hot">
-													<span class="glyphicon glyphicon-fire" style="color: #f40"></span>
-													<span class="number">1000</span>
-												</p>
-											</div>
-											<div class="main">
-												<p class="enterprise">广西新港湾工程有限公司</p>
-												<p class="address">红亮学生活动中心110宣讲室</p>
-											</div>
-										</a>
-									</li>
-									<li class="item">
-										<a href="javascript:;">
-											<div class="date">
-												<span class="month">02月</span>
-												<span class="day">14日</span>
-											</div>
-											<div class="time-hot">
-												<p class="time">10:00</p>
-												<p class="hot">
-													<span class="glyphicon glyphicon-fire" style="color: #f40"></span>
-													<span class="number">1000</span>
-												</p>
-											</div>
-											<div class="main">
-												<p class="enterprise">广西新港湾工程有限公司</p>
-												<p class="address">红亮学生活动中心110宣讲室</p>
-											</div>
-										</a>
-									</li>
-									<li class="item">
-										<a href="javascript:;">
-											<div class="date">
-												<span class="month">02月</span>
-												<span class="day">14日</span>
-											</div>
-											<div class="time-hot">
-												<p class="time">10:00</p>
-												<p class="hot">
-													<span class="glyphicon glyphicon-fire" style="color: #f40"></span>
-													<span class="number">1000</span>
-												</p>
-											</div>
-											<div class="main">
-												<p class="enterprise">广西新港湾工程有限公司</p>
-												<p class="address">红亮学生活动中心110宣讲室</p>
-											</div>
-										</a>
-									</li>
+									</a></li>
 								</ul>
 							</div>
 						</div>
 						<!-- 校友专场 -->
-						<div class="tab-cont-item">
-							<div class="career-list">
-								<ul>
-									<li class="item">
-										<a href="javascript:;">
-											<div class="date">
-												<span class="month">02月</span>
-												<span class="day">16日</span>
-											</div>
-											<div class="time-hot">
-												<p class="time">10:00</p>
-												<p class="hot">
-													<span class="glyphicon glyphicon-fire" style="color: #f40"></span>
-													<span class="number">1000</span>
-												</p>
-											</div>
-											<div class="main">
-												<p class="enterprise">广西新港湾工程有限公司广西新港湾工程有限公</p>
-												<p class="address">红亮学生活动中心110宣讲室</p>
-											</div>
-										</a>
-									</li>
-									<li class="item">
-										<a href="javascript:;">
-											<div class="date">
-												<span class="month">02月</span>
-												<span class="day">16日</span>
-											</div>
-											<div class="time-hot">
-												<p class="time">10:00</p>
-												<p class="hot">
-													<span class="glyphicon glyphicon-fire" style="color: #f40"></span>
-													<span class="number">1000</span>
-												</p>
-											</div>
-											<div class="main">
-												<p class="enterprise">广西新港湾工程有限公司</p>
-												<p class="address">红亮学生活动中心110宣讲室</p>
-											</div>
-										</a>
-									</li>
-									<li class="item">
-										<a href="javascript:;">
-											<div class="date">
-												<span class="month">02月</span>
-												<span class="day">16日</span>
-											</div>
-											<div class="time-hot">
-												<p class="time">10:00</p>
-												<p class="hot">
-													<span class="glyphicon glyphicon-fire" style="color: #f40"></span>
-													<span class="number">1000</span>
-												</p>
-											</div>
-											<div class="main">
-												<p class="enterprise">广西新港湾工程有限公司</p>
-												<p class="address">红亮学生活动中心110宣讲室</p>
-											</div>
-										</a>
-									</li>
-									<li class="item">
-										<a href="javascript:;">
-											<div class="date">
-												<span class="month">02月</span>
-												<span class="day">16日</span>
-											</div>
-											<div class="time-hot">
-												<p class="time">10:00</p>
-												<p class="hot">
-													<span class="glyphicon glyphicon-fire" style="color: #f40"></span>
-													<span class="number">1000</span>
-												</p>
-											</div>
-											<div class="main">
-												<p class="enterprise">广西新港湾工程有限公司</p>
-												<p class="address">红亮学生活动中心110宣讲室</p>
-											</div>
-										</a>
-									</li>
-									<li class="item">
-										<a href="javascript:;">
-											<div class="date">
-												<span class="month">02月</span>
-												<span class="day">16日</span>
-											</div>
-											<div class="time-hot">
-												<p class="time">10:00</p>
-												<p class="hot">
-													<span class="glyphicon glyphicon-fire" style="color: #f40"></span>
-													<span class="number">1000</span>
-												</p>
-											</div>
-											<div class="main">
-												<p class="enterprise">广西新港湾工程有限公司</p>
-												<p class="address">红亮学生活动中心110宣讲室</p>
-											</div>
-										</a>
-									</li>
-									<li class="item">
-										<a href="javascript:;">
-											<div class="date">
-												<span class="month">02月</span>
-												<span class="day">16日</span>
-											</div>
-											<div class="time-hot">
-												<p class="time">10:00</p>
-												<p class="hot">
-													<span class="glyphicon glyphicon-fire" style="color: #f40"></span>
-													<span class="number">1000</span>
-												</p>
-											</div>
-											<div class="main">
-												<p class="enterprise">广西新港湾工程有限公司</p>
-												<p class="address">红亮学生活动中心110宣讲室</p>
-											</div>
-										</a>
-									</li>
-								</ul>
-							</div>
-						</div>
+						<div class="tab-cont-item"></div>
 						<!-- 在线招聘 -->
-						<div class="tab-cont-item">
-							<div class="online-list career-list">
-								<ul>
-									<li class="item">
-										<a href="javascript:;">
-											<div class="date">
-												<span class="month">02-14</span>
-												<span class="day">2021</span>
-											</div>
-											<div class="time-hot">
-												<p class="hot">
-													<span class="glyphicon glyphicon-fire" style="color: #f40"></span>
-													<span class="number">1000</span>
-												</p>
-											</div>
-											<div class="main">
-												<p class="enterprise">广西新港湾工程有限公司广西新港湾工程有限公</p>
-												<p class="address">公司简介:公司成立于1900年,目前规模为1000人</p>
-											</div>
-										</a>
-									</li>
-									<li class="item">
-										<a href="javascript:;">
-											<div class="date">
-												<span class="month">02-14</span>
-												<span class="day">2021</span>
-											</div>
-											<div class="time-hot">
-												<p class="hot">
-													<span class="glyphicon glyphicon-fire" style="color: #f40"></span>
-													<span class="number">1000</span>
-												</p>
-											</div>
-											<div class="main">
-												<p class="enterprise">广西新港湾工程有限公司</p>
-												<p class="address">公司简介:公司成立于1900年,目前规模为1000人</p>
-											</div>
-										</a>
-									</li>
-									<li class="item">
-										<a href="javascript:;">
-											<div class="date">
-												<span class="month">02-14</span>
-												<span class="day">2021</span>
-											</div>
-											<div class="time-hot">
-												<p class="hot">
-													<span class="glyphicon glyphicon-fire" style="color: #f40"></span>
-													<span class="number">1000</span>
-												</p>
-											</div>
-											<div class="main">
-												<p class="enterprise">广西新港湾工程有限公司</p>
-												<p class="address">公司简介:公司成立于1900年,目前规模为1000人</p>
-											</div>
-										</a>
-									</li>
-									<li class="item">
-										<a href="javascript:;">
-											<div class="date">
-												<span class="month">02-14</span>
-												<span class="day">2021</span>
-											</div>
-											<div class="time-hot">
-												<p class="hot">
-													<span class="glyphicon glyphicon-fire" style="color: #f40"></span>
-													<span class="number">1000</span>
-												</p>
-											</div>
-											<div class="main">
-												<p class="enterprise">广西新港湾工程有限公司</p>
-												<p class="address">公司简介:公司成立于1900年,目前规模为1000人</p>
-											</div>
-										</a>
-									</li>
-									<li class="item">
-										<a href="javascript:;">
-											<div class="date">
-												<span class="month">02-14</span>
-												<span class="day">2021</span>
-											</div>
-											<div class="time-hot">
-												<p class="hot">
-													<span class="glyphicon glyphicon-fire" style="color: #f40"></span>
-													<span class="number">1000</span>
-												</p>
-											</div>
-											<div class="main">
-												<p class="enterprise">广西新港湾工程有限公司</p>
-												<p class="address">公司简介:公司成立于1900年,目前规模为1000人</p>
-											</div>
-										</a>
-									</li>
-									<li class="item">
-										<a href="javascript:;">
-											<div class="date">
-												<span class="month">02-14</span>
-												<span class="day">2021</span>
-											</div>
-											<div class="time-hot">
-												<p class="hot">
-													<span class="glyphicon glyphicon-fire" style="color: #f40"></span>
-													<span class="number">1000</span>
-												</p>
-											</div>
-											<div class="main">
-												<p class="enterprise">广西新港湾工程有限公司</p>
-												<p class="address">公司简介:公司成立于1900年,目前规模为1000人</p>
-											</div>
-										</a>
-									</li>
-								</ul>
-							</div>
-						</div>
+						<div class="tab-cont-item"></div>
 						<!-- 实习招聘 -->
-						<div class="tab-cont-item">
-							<div class="online-list career-list">
-								<ul>
-									<li class="item">
-										<a href="javascript:;">
-											<div class="date">
-												<span class="month">02-14</span>
-												<span class="day">2020</span>
-											</div>
-											<div class="time-hot">
-												<p class="hot">
-													<span class="glyphicon glyphicon-fire" style="color: #f40"></span>
-													<span class="number">1000</span>
-												</p>
-											</div>
-											<div class="main">
-												<p class="enterprise">广西新港湾工程有限公司广西新港湾工程有限公</p>
-												<p class="address">公司简介:公司成立于1900年,目前规模为1000人</p>
-											</div>
-										</a>
-									</li>
-									<li class="item">
-										<a href="javascript:;">
-											<div class="date">
-												<span class="month">02-14</span>
-												<span class="day">2020</span>
-											</div>
-											<div class="time-hot">
-												<p class="hot">
-													<span class="glyphicon glyphicon-fire" style="color: #f40"></span>
-													<span class="number">1000</span>
-												</p>
-											</div>
-											<div class="main">
-												<p class="enterprise">广西新港湾工程有限公司</p>
-												<p class="address">公司简介:公司成立于1900年,目前规模为1000人</p>
-											</div>
-										</a>
-									</li>
-									<li class="item">
-										<a href="javascript:;">
-											<div class="date">
-												<span class="month">02-14</span>
-												<span class="day">2020</span>
-											</div>
-											<div class="time-hot">
-												<p class="hot">
-													<span class="glyphicon glyphicon-fire" style="color: #f40"></span>
-													<span class="number">1000</span>
-												</p>
-											</div>
-											<div class="main">
-												<p class="enterprise">广西新港湾工程有限公司</p>
-												<p class="address">公司简介:公司成立于1900年,目前规模为1000人</p>
-											</div>
-										</a>
-									</li>
-									<li class="item">
-										<a href="javascript:;">
-											<div class="date">
-												<span class="month">02-14</span>
-												<span class="day">2020</span>
-											</div>
-											<div class="time-hot">
-												<p class="hot">
-													<span class="glyphicon glyphicon-fire" style="color: #f40"></span>
-													<span class="number">1000</span>
-												</p>
-											</div>
-											<div class="main">
-												<p class="enterprise">广西新港湾工程有限公司</p>
-												<p class="address">公司简介:公司成立于1900年,目前规模为1000人</p>
-											</div>
-										</a>
-									</li>
-									<li class="item">
-										<a href="javascript:;">
-											<div class="date">
-												<span class="month">02-14</span>
-												<span class="day">2020</span>
-											</div>
-											<div class="time-hot">
-												<p class="hot">
-													<span class="glyphicon glyphicon-fire" style="color: #f40"></span>
-													<span class="number">1000</span>
-												</p>
-											</div>
-											<div class="main">
-												<p class="enterprise">广西新港湾工程有限公司</p>
-												<p class="address">公司简介:公司成立于1900年,目前规模为1000人</p>
-											</div>
-										</a>
-									</li>
-									<li class="item">
-										<a href="javascript:;">
-											<div class="date">
-												<span class="month">02-14</span>
-												<span class="day">2020</span>
-											</div>
-											<div class="time-hot">
-												<p class="hot">
-													<span class="glyphicon glyphicon-fire" style="color: #f40"></span>
-													<span class="number">1000</span>
-												</p>
-											</div>
-											<div class="main">
-												<p class="enterprise">广西新港湾工程有限公司</p>
-												<p class="address">公司简介:公司成立于1900年,目前规模为1000人</p>
-											</div>
-										</a>
-									</li>
-								</ul>
-							</div>
-						</div>
+						<div class="tab-cont-item"></div>
 					</div>
 				</div>
 			</div>
 		</div>
 		<div th:replace="commonhf::#footer"></div>
 	</div>
+	<script type="text/x-dot-template" id="myData1">
+	  <div class="career-list">
+		<table class="table">
+			{{~it.news.records:value}}
+	        	<tr>
+					<td><a href="@{/views/news/id/{{=value.id}}}" title="{{=value.title}}">{{=value.title}}</a></td>
+					<td>{{=value.pdate}}</td>
+				</tr>
+	      	{{~}}
+		</table>
+	  </div>
+	</script>
+	<script type="text/x-dot-template" id="myData2">
+		<div class="career-list">
+		    <ul>
+		      {{~it.teachin.records:value:index}}
+		        <li class="item">
+		          <a href="@{/views/xjh/id/{{=value.id}}}">
+		            <div class="date">
+		              <span class="month">{{=it.mdate[index].month}}月</span>
+		              <span class="day">{{=it.mdate[index].day}}日</span>
+		            </div>
+		            <div class="time-hot">
+		              <p class="time">{{=value.btime}}</p>
+		              <p class="hot">
+		                <span class="glyphicon glyphicon-fire" style="color: #f40"></span>
+		                <span class="number">{{=value.hot}}</span>
+		              </p>
+		            </div>
+		            <div class="main">
+		              <p class="enterprise" title="{{=value.title}}">{{=value.title}}</p>
+		              <p class="address" title="{{=value.address}}">{{=value.address}}</p>
+		            </div>
+		          </a>
+		        </li>
+		      {{~}}
+		    </ul>
+	  	</div>
+	</script>
 </body>
 </html>

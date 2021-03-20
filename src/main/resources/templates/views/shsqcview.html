@@ -33,7 +33,7 @@
 							<td class="keyname">单位名称</td>
 							<td th:text="${company.cname}"></td>
 						</tr>
-						<tr>
+						<tr th:if="${company.card ne '-1'}">
 							<td class="keyname">校友卡号</td>
 							<td th:text="${company.card}"></td>
 						</tr>

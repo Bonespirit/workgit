@@ -2,6 +2,8 @@ package com.pang.entity;
 
 import org.springframework.security.core.GrantedAuthority;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import lombok.AllArgsConstructor;
@@ -17,6 +19,7 @@ public class Role implements GrantedAuthority{
 
 	private static final long serialVersionUID = 1L;
 	
+	@TableId(value="id",type=IdType.AUTO)
 	private Integer id;			//权限ID
 	private String rolename;	//权限名称：ROLE_student(学生)、ROLE_admin(管理员)、ROLE_enterprise(企业)
 	private String remark;		//备注 解析权限

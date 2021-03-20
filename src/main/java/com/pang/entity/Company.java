@@ -35,9 +35,10 @@ public class Company implements Serializable{
 	private String scale;			//单位规模
 	private String location;		//单位所在地
 	private String address;			//单位详细地址
-	private String isschoolmate;	//是否校友
 	private String licenseurl;		//营业执照license url路径
 	
+	@TableField(exist=false)
+	private String isschoolmate;	//是否校友
 	@TableField(exist=false)
 	private String provinceSel; 	//省份
 	@TableField(exist=false)

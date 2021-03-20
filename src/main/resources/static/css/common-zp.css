@@ -64,8 +64,27 @@
 }
 #center .right .search-info .table td a {
   display: block;
-  width: 400px;
+  width: 300px;
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
+}
+#center .right .xjh-bar {
+  padding: 10px;
+  margin: 10px 0px;
+}
+#center .right .xjh-bar li {
+  margin-right: 50px;
+}
+#center .right .xjh-bar button {
+  outline: none;
+  border: none;
+  font-size: 20px;
+}
+#center .right .search-info .refuse {
+  margin-bottom: 20px;
+}
+#center .right .search-info .refuse li {
+  padding: 10px;
+  background-color: #f6f6f6;
 }

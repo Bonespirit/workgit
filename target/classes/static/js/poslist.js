@@ -94,7 +94,7 @@ function postData(from) {
 			$("#total").val(data.pages);
 			eachPage(data.curPage, data.pages);
 			addListenToLi();
-			let tmpltxt3 = doT.template($("#positionData")[0].innerHTML);
+			let tmpltxt = doT.template($("#positionData")[0].innerHTML);
 			$("#itemlist").html(tmpltxt(data));
 		},
 		error:function(e){

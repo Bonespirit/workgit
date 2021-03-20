@@ -15,9 +15,9 @@
 		<div id="center">
 			<div th:replace="commonhf::enterpriseNav('修改密码')"></div>
 			<div th:replace="commonhf::enterpriseLeft"></div>
-			<div class="right" style="height: 520px">
+			<div class="right" style="height: 480px">
 				<div style="width: 600px; margin: 30px auto">
-					<form id="alterpw" th:action="@{/enterprise/xgmm}" class="form-horizontal" role="form">
+					<form id="alterpw" th:action="@{/xgmm}" method="post" class="form-horizontal" role="form">
 						<div class="form-group">
 							<label for="oldpw" class="col-sm-2 control-label"> 旧密码: </label>
 							<div class="col-sm-10">

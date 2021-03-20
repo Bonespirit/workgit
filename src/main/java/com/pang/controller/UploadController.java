@@ -38,7 +38,7 @@ public class UploadController {
 	public JsonObject uploadWangEditor(HttpServletRequest request,
 			@RequestParam("ipAddr") String ipAddr) throws IOException {
 		MultipartHttpServletRequest params=((MultipartHttpServletRequest) request);
-		return uploadService.uploadWangEditorImg(params.getFileMap(),request);
+		return uploadService.uploadWangEditorImg(params.getFileMap(),request,ipAddr);
 	}
 	
 	//附件上传处理

@@ -3,6 +3,7 @@ package com.pang.service.impl;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -14,30 +15,31 @@ import com.pang.entity.Role;
 import com.pang.entity.User;
 import com.pang.entity.UserRole;
 import com.pang.mapper.RoleMapper;
-import com.pang.mapper.UserMapper;
 import com.pang.mapper.UserRoleMapper;
+import com.pang.service.UserService;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService{
 	
-	private RoleMapper roleMapper;
-	private UserMapper userMapper;
-	private UserRoleMapper userRoleMapper;
+	@Autowired
+	RoleMapper roleMapper;
+	@Autowired
+	UserService userService;
+	@Autowired
+	UserRoleMapper userRoleMapper;
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		
+		System.out.println("开始验证");
 		if (StringUtils.isEmpty(username)) {
 			throw new UsernameNotFoundException("用户名不能为空！");
 		}
-		User user = userMapper.selectOne(
-				new QueryWrapper<User>().lambda().eq(User::getUsername, username)
-		);
+		User user = userService.getOne(new QueryWrapper<User>().eq("username", username));
 		if (user == null) {
 			throw new UsernameNotFoundException("用户不存在！");
 		}
 		List<UserRole> userRoles = userRoleMapper.selectList(
-				new QueryWrapper<UserRole>().lambda().eq(UserRole::getUserid, user.getId())
+				new QueryWrapper<UserRole>().eq("userid", user.getId())
 		);
 		if (userRoles != null && !userRoles.isEmpty()) {
 			List<Integer> roleIds = userRoles.stream().map(UserRole::getRoleid).collect(Collectors.toList());
@@ -49,5 +51,4 @@ public class UserDetailsServiceImpl implements UserDetailsService{
 		}
 		return user;
 	}
-
 }

@@ -5,7 +5,7 @@ $("#input-ke-2").fileinput({
 	uploadAsync : false,
 	enctype : 'multipart/form-data',
 	minFileCount : 0,
-	maxFileCount : 20,
+	maxFileCount : 10,
 	hideThumbnailContent : false,
 	showClose : false,
 	showCaption : false,
@@ -89,9 +89,9 @@ $('#input-ke-2').on('filebatchuploadsuccess', function(event, data, previewId, i
 	console.log(data)
 	$("#enclosure")[0].value = data.response
 	console.log("上传附件成功111");
-	setTimeout(function(){
-		$(event.target).fileinput('clear')
-    },2000)
+//	setTimeout(function(){
+//		$(event.target).fileinput('clear')
+//    },2000)
 });
 //全部上传成功回调
 //上传成功回调 uploadAsync=true

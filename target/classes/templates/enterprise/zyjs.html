@@ -8,7 +8,6 @@
 <link rel="stylesheet" th:href="@{/css/index.css}" />
 <script th:src="@{/js/jquery-3.3.1.min.js}"></script>
 <script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
-<script th:inline="javascript" th:src="@{/js/zyjs.js}"></script>
 <script th:src="@{/js/doT.min.js}"></script>
 </head>
 <body style="height: auto; background-color: #f6f6f6">
@@ -39,15 +38,27 @@
 			<div style="clear: both"></div>
 		</div>
 		<div th:replace="commonhf::#footer"></div>
-		</div>
 	</div>
 	<script type="text/x-dot-template" id="collegeData">
       {{~it:value:index}}
-        <a th:href="@{/view/{{=value.cid}}/{{=value.hid}}.html}" target="_blank">{{=value.name}}</a>
+        <a th:href="@{/views/zyjs/id/{{=value.id}}}" target="_blank">{{=value.mname}}</a>
       {{~}}
     </script>
-	<script>
-      $("#center .left li")[8].className = "uactive";
+	<script type="text/javascript" th:inline="javascript">
+		$("#center .left li")[8].className = "uactive";
+	    function getMajors(code, item) {
+	   	  $("#center .right .item #major").remove();
+	   	  let mdiv = $('<div id="major"></div>');
+	   	  $(item).after(mdiv);
+	   	  let tmpltxt = doT.template($("#collegeData")[0].innerHTML); //生成doT模板
+	   	  $.ajax({
+	   	    url: [[@{/enterprise/college/}]] + code,
+	   	    type: "get",
+	   	    success: function (data) {
+	   	      $("#major").html(tmpltxt(data));
+	   	    },
+	   	  });
+	   	}
     </script>
 </body>
 </html>

@@ -13,7 +13,7 @@
 		<div id="center">
 			<div th:replace="commonhf::enterpriseNav('生源信息')"></div>
 			<div th:replace="commonhf::enterpriseLeft"></div>
-			<div class="right">
+			<div class="right" style="min-height: 480px">
 				<table class="table table-condensed">
 					<thead>
 						<tr>
@@ -21,13 +21,9 @@
 							<th>发布时间</th>
 						</tr>
 					</thead>
-					<tr>
-						<td><a href="javascript:;">2021届毕业生生源一览表</a></td>
-						<td>2021-01-23</td>
-					</tr>
-					<tr>
-						<td><a href="javascript:;">2020届毕业生生源一览表</a></td>
-						<td>2020-01-23</td>
+					<tr th:each="item : ${news}">
+						<td><a th:href="@{/views/news/id/{id}(id=${item.id})}" th:text="${item.title}" th:title="${item.title}">2021届毕业生生源一览表</a></td>
+						<td th:text="${item.pdate}">2021-01-23</td>
 					</tr>
 				</table>
 			</div>

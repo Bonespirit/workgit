@@ -40,6 +40,20 @@ public interface UploadService {
 	 * @throws IOException
 	 */
 	public JsonObject uploadWangEditorImg(Map<String, MultipartFile> map,
-			HttpServletRequest request) throws IOException;
+			HttpServletRequest request,String ip) throws IOException;
 	
+	/**
+	 * 获取请求ip并在记录ip于redis中
+	 * @param request
+	 * @return
+	 */
+	public String getIpAndPutInRedis(HttpServletRequest request);
+	
+	/**
+	 * 更新redis中wnagEditor图片上传的master和branch的数据
+	 * 删除ip key(branch同样)，将残留url更新到master中等待定时任务删除图片
+	 * @param ip
+	 * @param validurl
+	 */
+	public void updateWangImgMaster(String ip,String validurl);
 }

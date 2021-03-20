@@ -3,6 +3,7 @@ package com.pang.customfunc;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,6 +20,8 @@ import org.springframework.stereotype.Component;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.pang.entity.MyDate;
+import com.pang.entity.Teachin;
 
 @Component("customFunc")
 public class customFuncCpImpl implements customFunc{
@@ -40,6 +43,15 @@ public class customFuncCpImpl implements customFunc{
 		Gson gson = new Gson();
 		JsonObject object = gson.fromJson(content.toString(), JsonObject.class);
 		JsonArray provinceList = object.get("provinceList").getAsJsonArray();
+		//如果只是省份
+		if (cityCode.equals(provinceCode)) {
+			for(int i=0;i<provinceList.size();i++) {
+				JsonObject o = provinceList.get(i).getAsJsonObject();
+				if (o.get("no").getAsString().equals(provinceCode)) {
+					return o.get("name").getAsString();
+				}
+			}
+		}
 		List<String> mList = new ArrayList<>();
 		JsonArray citylist=null;
 		for(int i=0;i<provinceList.size();i++) {
@@ -262,5 +274,37 @@ public class customFuncCpImpl implements customFunc{
             ip = ip.substring(ip.lastIndexOf(",") + 1, ip.length()).trim();
         }
         return ip;
+	}
+	
+	@Override
+	public Map<String, String> getCnameByColumn(Integer column) {
+		String scale = "[{\"cname\":\"通知公告\",\"curl\":\"news/column/0/page/1\",\"no\":\"0\"},"
+				+ "{\"cname\":\"就业公示\",\"curl\":\"news/column/1/page/1\",\"no\":\"1\"},"
+				+ "{\"cname\":\"新闻热点\",\"curl\":\"news/column/2/page/1\",\"no\":\"2\"},"
+				+ "{\"cname\":\"就业指导\",\"curl\":\"news/column/3/page/1\",\"no\":\"3\"},"
+				+ "{\"cname\":\"就业政策\",\"curl\":\"news/column/4/page/1\",\"no\":\"4\"}]";
+		Gson gson = new Gson();
+		Map<String, String> map = new HashMap<>();
+		JsonArray arry = gson.fromJson(scale.toString(), JsonArray.class);
+		for(int i=0;i<arry.size();i++) {
+			JsonObject o = arry.get(i).getAsJsonObject();
+			if (o.get("no").getAsString().equals(""+column)) {
+				map.put("cname", o.get("cname").getAsString());
+				map.put("curl", o.get("curl").getAsString());
+				return map;
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public List<MyDate> apartDate(List<Teachin> source) {
+		List<MyDate> myDates = new ArrayList<>();
+		SimpleDateFormat day = new SimpleDateFormat("dd");  
+		SimpleDateFormat month = new SimpleDateFormat("MM");
+		for(Teachin date:source) {
+			myDates.add(new MyDate(month.format(date.getTdate()), day.format(date.getTdate())));
+		}
+		return myDates;
 	}
 }

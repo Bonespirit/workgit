@@ -10,6 +10,7 @@
 <link th:include="commonhf::wbc"></link>
 </head>
 <body style="height: auto">
+	<input hidden="hidden" type="text" th:value="${ipAddr}" id="ipAddr" />
 	<div th:replace="commonhf::#pre-show"></div>
 	<div th:replace="commonhf::sheader"></div>
 	<div style="width: 100%; height: auto; position: absolute; top: 110px">
@@ -17,9 +18,10 @@
 			<div th:replace="commonth::teacherNav('组团招聘会发布')"></div>
 			<div th:replace="commonth::thLeft"></div>
 			<div class="right" style="min-height: 360px">
-				<form th:action="@{/teacher/ztzp}" method="post" id="post-jobinfo" class="form-horizontal"
-					role="form">
-					<input hidden type="text" name="enclosureurl" id="enclosure" />
+				<form th:action="@{/teacher/ztzp(ipAddr=${ipAddr})}" method="post" id="post-jobinfo"
+					class="form-horizontal" role="form">
+					<input hidden="hidden" type="text" name="enclosureurl" id="enclosure" /> <input type="text"
+						name="validurl" id="validurl" hidden="hidden" />
 					<div class="appointment-details">
 						<h4>招聘详情</h4>
 						<hr />
@@ -58,15 +60,15 @@
 						</div>
 					</div>
 					<div th:replace="commonhf::recruit"></div>
-					<div style="width: 110px; margin: 50px auto 0 auto">
-						<button id="submitBtn" type="button" class="btn mybtn">发布</button>
-					</div>
 				</form>
 				<br />
 				<h3>附件</h3>
 				<br />
 				<div class="file-loading" style="height: 100px">
 					<input id="input-ke-2" type="file" name="menclosure" multiple />
+				</div>
+				<div style="width: 110px; margin: 50px auto 0 auto">
+					<button id="submitBtn" type="button" class="btn mybtn">发布</button>
 				</div>
 			</div>
 			<div style="clear: both"></div>
@@ -80,7 +82,8 @@
 			$("[data-toggle='tooltip']").tooltip();
 		});
 	</script>
-	<script th:inline="javascript" src="js/bootstrap-fileinput.js" th:src="@{/js/bootstrap-fileinput.js}"></script>
+	<script th:inline="javascript" src="js/bootstrap-fileinput.js"
+		th:src="@{/js/bootstrap-fileinput.js}"></script>
 	<script src="js/common.js" th:src="@{/js/common.js}"></script>
 	<script type="text/javascript">
 		$(function() {

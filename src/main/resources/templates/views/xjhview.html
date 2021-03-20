@@ -19,10 +19,14 @@
 			</div>
 			<div class="contents">
 				<div class="header" style="text-align: left">
-					<h4 th:text="${teachin.title}">北京国林系统家具有限公司</h4>
+					<h4 th:text="${teachin.title}">
+						北京国林系统家具有限公司
+						<button th:if="${teachin.isschoolmate eq '1'}" type="button" class="btn btn-default btn-success">校友</button>
+					</h4>
 					<div>
 						<p>
-							宣讲时间: <span th:text="${teachin.tdate}">2021年03月10日</span>&nbsp;<span th:text="${teachin.btime}">19:00</span>
+							宣讲时间: <span th:text="${teachin.tdate}">2021年03月10日</span>&nbsp;<span
+								th:text="${teachin.btime}">19:00</span>
 						</p>
 						<p>
 							宣讲学校: <span th:text="${teachin.school}">桂林电子科技大学</span>
@@ -31,12 +35,13 @@
 							宣讲地点: <span th:text="${teachin.address}">红亮大学生活动中心</span>
 						</p>
 						<p>
-							热度: <span th:text="${teachin.hot}">453</span> <span style="color: #f40" class="glyphicon glyphicon-fire"></span>
+							热度: <span th:text="${teachin.hot}">453</span> <span style="color: #f40"
+								class="glyphicon glyphicon-fire"></span>
 						</p>
 					</div>
 					<div style="clear: both"></div>
 				</div>
-				<div class="section" th:text="${contents}"></div>
+				<div class="section" th:utext="${contents}"></div>
 				<div class="footer">
 					<h4>招聘职位</h4>
 					<br />
@@ -48,17 +53,20 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td><a href="@{/views/jobs/id/}+${position.id}">
+							<tr th:each="item : ${position.jobs}">
+								<td><a href="@{/views/jobs/id/}+${item.id}">
 										<div class="position">
-											<p class="name" th:text="${position.pname}">Java开发工程师</p>
+											<p class="name" th:text="${item.pname}">Java开发工程师</p>
 											<p>
-												<span class="salary" th:text="${position.salary}">4千-6千</span> <span th:text="${position.workplace}">广西-桂林</span> <span th:text="${/position.nature}">全职</span> <span th:text="${position.edu}">本科</span>
+												<span class="salary" th:text="${item.salary}">4千-6千</span> <span
+													th:text="${item.workplace}">广西-桂林</span> <span th:text="${/position.wnature}">全职</span>
+												<span th:text="${item.edu}">本科</span>
 											</p>
 										</div>
 								</a></td>
 								<td>
-									<p th:text="${position.speciality}" th:title="${position.speciality}">【本科】产品设计、产品设计、未填写、绘画、视觉传达设计、【硕士】艺术设计、设计学 【本科】产品设计、产品设计、未填写、绘画、视觉传达设计、【硕士】艺术设计、设计学</p>
+									<p th:text="${item.speciality}" th:title="${item.speciality}">【本科】产品设计、产品设计、未填写、绘画、视觉传达设计、【硕士】艺术设计、设计学
+										【本科】产品设计、产品设计、未填写、绘画、视觉传达设计、【硕士】艺术设计、设计学</p>
 								</td>
 							</tr>
 						</tbody>

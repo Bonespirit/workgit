@@ -1,5 +1,7 @@
 package com.pang.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,7 +35,6 @@ public class TeacherController {
 	TeacherService teacherService;
 	@Autowired
 	ZpHtmlMapper zpHtmlMapper;
-	
 	
 	//查看招聘简章
 	@GetMapping("/preview/id/{id}")
@@ -87,83 +88,108 @@ public class TeacherController {
 		return "redirect:/teacher/shsq/page/1";
 	}
 	
-	
-	//宣讲会编辑模块
+	//宣讲会编辑模块,并且开始记录主机操作
 	@GetMapping("/xjh")
-	public String goToXjh() {
+	public String goToXjh(HttpServletRequest request,Model model) {
+		model.addAttribute("ipAddr", uploadService.getIpAndPutInRedis(request));
 		return "teacher/xjh";
 	}
 	//宣讲会信息发布
 	@PostMapping("/xjh")
-	public String putTeachin(Teachin teachin,@RequestParam("contents") String contents) {
+	public String putTeachin(Teachin teachin,
+			@RequestParam("contents") String contents,
+			@RequestParam("validurl") String validurl,
+			@RequestParam("ipAddr") String ip) {
+		uploadService.updateWangImgMaster(ip, validurl);
 		teacherService.pTeachin(teachin, contents, -1);
-		return "redirect:teacher/xjh";
+		return "redirect:/teacher/xjh";
 	}
 	
 	//发布内容编辑模块
 	@GetMapping("/fbnr")
-	public String goToFbnr() {
+	public String goToFbnr(HttpServletRequest request,Model model) {
+		model.addAttribute("ipAddr", uploadService.getIpAndPutInRedis(request));
 		return "teacher/fbnr";
 	}
 	//发布内容
 	@PostMapping("/fbnr")
-	public String putNews(News news,@RequestParam("contents") String contents) {
+	public String putNews(News news,
+			@RequestParam("contents") String contents,
+			@RequestParam("validurl") String validurl,
+			@RequestParam("ipAddr") String ip) {
+		uploadService.updateWangImgMaster(ip, validurl);
 		teacherService.pNews(news, contents);
-		return "redirect:teacher/fbnr";
+		return "redirect:/teacher/fbnr";
 	}
 	
 	//组团招聘编辑模块
 	@GetMapping("/ztzp")
-	public String goToZtzp() {
+	public String goToZtzp(HttpServletRequest request,Model model) {
+		model.addAttribute("ipAddr", uploadService.getIpAndPutInRedis(request));
 		return "teacher/ztzp";
 	}
 	//组团招聘信息发布
 	@PostMapping("/ztzp")
-	public String putJobfair(Jobfair jobfair,@RequestParam("contents") String contents) {
-		teacherService.pJobfair(jobfair, contents);
-		return "redirect:teacher/ztzp";
+	public String putJobfair(Jobfair jobfair,@RequestParam("contents") String contents,
+			@RequestParam("validurl") String validurl,
+			@RequestParam("enclosureurl") String eurl,
+			@RequestParam("ipAddr") String ip) {
+		uploadService.updateWangImgMaster(ip, validurl);
+		teacherService.pJobfair(jobfair, contents,eurl);
+		return "redirect:/teacher/ztzp";
 	}
 	
 	//双选会编辑模块
 	@GetMapping("/sxh")
-	public String goToSxh() {
+	public String goToSxh(HttpServletRequest request,Model model) {
+		model.addAttribute("ipAddr", uploadService.getIpAndPutInRedis(request));
 		return "teacher/sxh";
 	}
 	//双选会信息发布
 	@PostMapping("/sxh")
-	public String putSxhInfo(SxhInfo sxhInfo,@RequestParam("contents") String contents) {
-		teacherService.pSxhInfo(sxhInfo, contents);
-		return "redirect:teacher/sxh";
+	public String putSxhInfo(SxhInfo sxhInfo,@RequestParam("contents") String contents,
+			@RequestParam("validurl") String validurl,
+			@RequestParam("enclosureurl") String eurl,
+			@RequestParam("ipAddr") String ip) {
+		uploadService.updateWangImgMaster(ip, validurl);
+		teacherService.pSxhInfo(sxhInfo, contents,eurl);
+		return "redirect:/teacher/sxh";
 	}
 	
 	//在线招聘编辑模块
 	@GetMapping("/zxzp")
-	public String goToZxzp() {
+	public String goToZxzp(HttpServletRequest request,Model model) {
+		model.addAttribute("ipAddr", uploadService.getIpAndPutInRedis(request));
 		return "teacher/zxzp";
 	}
 	//在线招聘发布
 	@PostMapping("/zxzp")
-	public String putRecruit(Recruit recruit,@RequestParam("contents") String contents) {
+	public String putRecruit(Recruit recruit,
+			@RequestParam("contents") String contents,
+			@RequestParam("validurl") String validurl,
+			@RequestParam("ipAddr") String ip) {
+		uploadService.updateWangImgMaster(ip, validurl);
 		teacherService.pRecruit(recruit, contents,-1);
-		return "redirect:teacher/zxzp";
+		return "redirect:/teacher/zxzp";
 	}
 	
 	//生源信息编辑模块
 	@GetMapping("/syxx")
-	public String goToSyxx(News news,@RequestParam("contents") String contents) {
-		teacherService.pNews(news, contents);
+	public String goToSyxx(HttpServletRequest request,Model model) {
+		model.addAttribute("ipAddr", uploadService.getIpAndPutInRedis(request));
 		return "teacher/syxx";
 	}
 	
 	//专业介绍编辑模块
 	@GetMapping("/zyjs")
-	public String goToZyjs() {
+	public String goToZyjs(HttpServletRequest request,Model model) {
+		model.addAttribute("ipAddr", uploadService.getIpAndPutInRedis(request));
 		return "teacher/zyjs";
 	}
 	//专业介绍内容发布
 	@PostMapping("/zyjs")
 	public String putMajors(Majors majors,@RequestParam("contents") String contents) {
 		teacherService.pMajors(majors, contents);
-		return "redirect:teacher/zyjs";
+		return "redirect:/teacher/zyjs";
 	}
 }

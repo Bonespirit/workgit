@@ -34,8 +34,9 @@ public class User implements UserDetails{
 	private String email;		//邮箱
 	private Date createdate;	//创建时间
 	private Integer foreignkey;	//外联表
+	private String isschoolmate;//是否校友
 	
-	@TableField(exist=true)
+	@TableField(exist=false)
 	private List<Role> roleList;//用户拥有权限列表
 	
 	@Override

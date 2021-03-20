@@ -3,7 +3,8 @@ package com.pang.entity;
 import java.io.Serializable;
 import java.sql.Date;
 
-import com.baomidou.mybatisplus.annotation.IdType;
+import com.alibaba.fastjson.annotation.JSONField;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
@@ -20,11 +21,17 @@ import lombok.ToString;
 public class News implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
-	@TableId(value="id",type=IdType.AUTO)
+	@TableId(value="id")
 	private Integer id;		//文章id
 	private String title;	//文章标题
-	private Integer column;	//文章栏目
+	private Integer mcolumn;	//文章栏目
 	private Integer grade;	//文章
+	@JSONField(format = "yyyy-MM-dd")
 	private Date pdate;		//发布时间
 	private Integer hot;	//浏览次数
+	
+	@TableField(exist=false)
+	private String cname;	//栏目名称
+	@TableField(exist=false)
+	private String curl;	//栏目导航地址
 }

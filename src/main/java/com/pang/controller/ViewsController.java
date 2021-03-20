@@ -11,7 +11,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.pang.entity.Company;
+import com.pang.entity.Recruit;
+import com.pang.entity.Teachin;
+import com.pang.service.MyElasticsearchService;
+import com.pang.service.NewsHtmlService;
 import com.pang.service.ViewService;
+import com.pang.service.ZpHtmlService;
 
 @Controller
 @RequestMapping("/views")
@@ -19,6 +24,15 @@ public class ViewsController {
 	
 	@Autowired
 	ViewService viewService;
+	
+	@Autowired
+	ZpHtmlService zpHtmlService;
+	
+	@Autowired
+	MyElasticsearchService myElasticsearchService;
+	
+	@Autowired
+	NewsHtmlService newsHtmlService;
 	
 	//获取单位注册申请表信息
 	@GetMapping("/shsqc/id/{id}")
@@ -40,5 +54,33 @@ public class ViewsController {
 		model.addAttribute("teachin", viewService.getTeachinExamById(id));
 		model.addAttribute("visitors", viewService.getVisitorsByLid(id));
 		return "views/shsqtview";
+	}
+	
+	//获取news文章内容
+	@GetMapping("/news/id/{id}")
+	public String getNews(@PathVariable("id")Integer id,Model model) {
+		model.addAttribute("news", viewService.getNewsInfoById(id));
+		model.addAttribute("contents", newsHtmlService.getById(id).getContents());
+		return "views/browse";
+	}
+	
+	//宣讲会详情信息
+	@GetMapping("/xjh/id/{id}")
+	public String getTeachinInfo(@PathVariable("id") Integer id,Model model) throws IOException {
+		model.addAttribute("contents", zpHtmlService.getById(id));
+		Teachin teachin = viewService.getTeachinInfo(id);
+		model.addAttribute("position", myElasticsearchService.MyMatchAllByCid2(teachin.getCid()));
+		model.addAttribute("teachin", teachin);
+		return "views/xjhview";
+	}
+	
+	//在线招聘信息详情
+	@GetMapping("/zxzp/id/{id}")
+	public String getRecruitInfo(@PathVariable("id") Integer id,Model model) throws IOException {
+		model.addAttribute("contents", zpHtmlService.getById(id));
+		Recruit recruit = viewService.getRecruitInfo(id);
+		model.addAttribute("position", myElasticsearchService.MyMatchAllByCid2(recruit.getCid()));
+		model.addAttribute("recruit", recruit);
+		return "views/zxzpview";
 	}
 }

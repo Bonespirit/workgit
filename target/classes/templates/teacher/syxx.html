@@ -10,6 +10,7 @@
 <link th:include="commonhf::wbc"></link>
 </head>
 <body style="height: auto">
+	<input hidden="hidden" type="text" th:value="${ipAddr}" id="ipAddr"/>
 	<div th:replace="commonhf::#pre-show"></div>
 	<div th:replace="commonhf::sheader"></div>
 	<div style="width: 100%; height: auto; position: absolute; top: 110px">
@@ -17,8 +18,9 @@
 			<div th:replace="commonth::teacherNav('生源信息发布')"></div>
 			<div th:replace="commonth::thLeft"></div>
 			<div class="right" style="min-height: 360px">
-				<form th:action="@{/teacher/fbnr}" method="post" id="post-jobinfo" class="form-horizontal"
+				<form th:action="@{/teacher/fbnr(ipAddr=${ipAddr})}" method="post" id="post-jobinfo" class="form-horizontal"
 					role="form">
+					<input type="text" name="validurl" id="validurl" hidden="hidden"/>
 					<div class="recruit">
 						<h4>生源信息一览表</h4>
 						<hr />
@@ -35,7 +37,7 @@
 								栏目
 							</label>
 							<div class="col-sm-11">
-								<input hidden type="text" value="9" name="column"/>
+								<input hidden="hidden" type="text" value="9" name="mcolumn"/>
 								<input type="text" class="form-control" id="column" disabled />
 							</div>
 						</div>
@@ -50,7 +52,7 @@
 								</select>
 							</div>
 						</div>
-						<textarea hidden name="contents" id="contents" cols="30" rows="10"></textarea>
+						<textarea hidden="hidden" name="contents" id="contents" cols="30" rows="10"></textarea>
 						<br /> <label class="control-label" style="font-size: 16px"> <span
 							style="color: #f40">*</span> 正文
 						</label> <br /> <br /> <br />

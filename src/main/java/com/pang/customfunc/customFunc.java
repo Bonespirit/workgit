@@ -1,9 +1,13 @@
 package com.pang.customfunc;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+
+import com.pang.entity.MyDate;
+import com.pang.entity.Teachin;
 
 public interface customFunc {
 	//获取省份、城市名称
@@ -42,4 +46,18 @@ public interface customFunc {
 	 * @return
 	 */
 	public String getVisitorIp(HttpServletRequest request);
+	
+	/**
+	 * 根据栏目标号获取栏目名称和导航地址
+	 * @param column
+	 * @return
+	 */
+	public Map<String, String> getCnameByColumn(Integer column);
+	
+	/**
+	 * 将数据集里的日期格式化为分开的年月日存入MyDate实体中
+	 * @param source 原数据
+	 * @return
+	 */
+	public List<MyDate> apartDate(List<Teachin> source);
 }

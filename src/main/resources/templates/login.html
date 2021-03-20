@@ -20,16 +20,17 @@
 				</h4>
 				<h4 class="text-danger">(推荐使用谷歌浏览器)</h4>
 				<div class="login-form" style="margin-top: 30px">
-					<form action="ssfs" role="form">
+					<span style="color:#f40" th:text="${msg}"></span>
+					<form th:action="@{/login}" method="post" role="form">
 						<div class="input-group" style="margin-top: 10px">
 							<span class="input-group-addon"> <span class="glyphicon glyphicon-user"></span>
-							</span> <input title="学工号" type="text" class="form-control" placeholder="请输入学工号"
+							</span> <input title="学工号" type="text" name="username" class="form-control" placeholder="请输入学工号"
 								onblur="testUsername(this)" /> <label>账号不能为空</label> <label>输入英文字母、数字和下划线不能以下划线开头和结尾</label>
 						</div>
 						<br />
 						<div class="input-group" style="margin-top: 10px">
 							<span class="input-group-addon"> <span class="glyphicon glyphicon-lock"></span>
-							</span> <input title="密码" id="password" type="password" class="form-control" placeholder="请输入密码"
+							</span> <input title="密码" id="password" name="password" type="password" class="form-control" placeholder="请输入密码"
 								onblur="testPassword(this)" /> <label>密码不能为空</label> <label>长度为8-16之间的数字、字母组合！</label>
 							<span class="input-group-addon view"> <span class="glyphicon glyphicon-eye-close"
 								style="cursor: pointer"></span>

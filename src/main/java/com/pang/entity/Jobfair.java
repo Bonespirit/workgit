@@ -3,6 +3,7 @@ package com.pang.entity;
 import java.io.Serializable;
 import java.sql.Date;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
@@ -27,6 +28,7 @@ public class Jobfair implements Serializable{
 	private Date hdate;			//举办时间
 	private String btime;		//开始时间
 	private String address;		//举办地点
+	@JSONField(format = "yyyy-MM-dd")
 	private Date pdate;			//发布时间
 	private Integer hot;		//浏览次数
 }

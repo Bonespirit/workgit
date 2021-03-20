@@ -1,7 +1,6 @@
 $(function () {
 	$("#alterpw").bootstrapValidator({
 		excluded: [":hidden"],
-		submitButtons: "#submitBtn",
 		fields: {
 			oldpw: {
 				selector: "#oldpw",

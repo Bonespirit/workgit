@@ -10,6 +10,7 @@
 <link th:include="commonhf::wbc"></link>
 </head>
 <body style="height: auto">
+	<input hidden="hidden" type="text" th:value="${ipAddr}" id="ipAddr"/>
 	<div th:replace="commonhf::#pre-show"></div>
 	<div th:replace="commonhf::sheader"></div>
 	<div style="width: 100%; height: auto; position: absolute; top: 110px">
@@ -17,7 +18,8 @@
 			<div th:replace="commonth::teacherNav('宣讲会发布')"></div>
 			<div th:replace="commonth::thLeft"></div>
 			<div class="right" style="min-height: 360px">
-				<form th:action="@{/teacher/xjh}" method="post" id="post-jobinfo" class="form-horizontal" role="form">
+				<form th:action="@{/teacher/xjh(ipAddr=${ipAddr})}" method="post" id="post-jobinfo" class="form-horizontal" role="form">
+					<input type="text" name="validurl" id="validurl" hidden="hidden"/>
 					<div class="appointment-details">
 						<h4>宣讲会详情</h4>
 						<hr />

@@ -20,6 +20,11 @@ spring:
     host: 192.168.197.112
     port: 6379
   
+  session:
+    store-type: redis
+    redis:
+      namespace: ShortCache
+  
   rabbitmq:
     host: 192.168.197.112
     password: guest
@@ -37,14 +42,14 @@ spring:
   
     
 #elasticsearch7.10+配置
-#elasticsearch:
-#  address: 192.168.197.112:9200
-#  schema: http
-#  connectTimeout: 5000
-#  socketTimeout: 5000
-#  connectionRequestTimeout: 5000
-#  maxConnectNum: 100
-#  maxConnectPerRoute: 100
+elasticsearch:
+  address: 192.168.197.112:9200
+  schema: http
+  connectTimeout: 5000
+  socketTimeout: 5000
+  connectionRequestTimeout: 5000
+  maxConnectNum: 100
+  maxConnectPerRoute: 100
 
 
 #mybatisplus配置  

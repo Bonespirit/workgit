@@ -13,10 +13,9 @@ import com.pang.service.NewsHtmlService;
 @Service
 public class NewsHtmlServiceImpl extends ServiceImpl<NewsHtmlMapper, NewsHtml> implements NewsHtmlService{
 	
-	@Cacheable(value="newshtml",key="#id")
+	@Cacheable(value="ShortCache",keyGenerator="myKeyGenerator")
 	@Override
 	public NewsHtml getById(Serializable id) {
-		// TODO Auto-generated method stub
 		return super.getById(id);
 	}
 }

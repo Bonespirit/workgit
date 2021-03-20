@@ -3,6 +3,7 @@ package com.pang.entity;
 import java.io.Serializable;
 import java.sql.Date;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
@@ -30,4 +31,15 @@ public class TeachinExam implements Serializable{
 	private String size;		//期望参会人数
 	private Date vdate;			//来访时间安排
 	private String time;		//预选时间段
+	
+	@TableField(exist=false)
+	private String[] name;		//姓名
+	@TableField(exist=false)	
+	private String[] idcard;	//身份证
+	@TableField(exist=false)
+	private String[] gender;	//性别
+	@TableField(exist=false)
+	private String[] duty;		//职务
+	@TableField(exist=false)
+	private String[] telephone;	//电话
 }

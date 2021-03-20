@@ -54,6 +54,13 @@ $("#submitBtn").on("click", function () {
 	bootstrapValidator.validate();
 	if (bootstrapValidator.isValid()) {
 		//表单提交的方法、比如ajax提交
+		let imgsrc = new Array()
+		let wimg = $("#wangEditor img");
+		let mlength = wimg.length;
+		for(let i=0;i<mlength;i++){
+			imgsrc.push(wimg[i].src.split("/").pop())
+		}
+		$("#validurl").attr("value",imgsrc);
 		$("#post-jobinfo")[0].submit();
 	}
 });

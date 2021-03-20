@@ -37,7 +37,7 @@
 		<h4 style="color: #f40">请说明原因方便企业修改</h4>
 		<form th:action="@{/url/fail}" method="POST">
 			<textarea required name="explain" id="explain" cols="60" rows="5"></textarea>
-			<input type="text" name="email" hidden value="" />
+			<input type="text" name="email" hidden="hidden" value="" />
 			<div>
 				<button type="button" class="btn mybtn">取消</button>
 				<button type="submit" class="btn mybtn">确定</button>
@@ -66,6 +66,5 @@
 		    }
 		  });
 	</script>
-
 </body>
 </html>

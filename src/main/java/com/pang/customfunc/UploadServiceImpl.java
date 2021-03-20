@@ -3,6 +3,7 @@ package com.pang.customfunc;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -61,57 +63,73 @@ public class UploadServiceImpl implements UploadService{
 
 	@Override
 	public JsonObject uploadWangEditorImg(Map<String, MultipartFile> wangEditor,
-			HttpServletRequest request) throws IOException {
+			HttpServletRequest request,String ip) throws IOException {
 		List<String> fileurl = new ArrayList<String>();
 		WangEditorResult result = new WangEditorResult();
 		List<WangEditorData> datas = new ArrayList<WangEditorData>();
+		ValueOperations<String, String> operations = redisTemplate.opsForValue();
 		Gson gson = new Gson();
-		//获取IP地址用于记录上传次数
-		String ip = customFunc.getVisitorIp(request).replace(":", "");
 		result.setErrno(0);
-		for(MultipartFile file:wangEditor.values()) {
-			String filename = file.getOriginalFilename();
-			String exiten = filename.substring(filename.indexOf("."));
-			String turl = UUID.randomUUID().toString().replace("-", "")+exiten;
-			file.transferTo(new File("F://eims/file/wangEditor/images/"+turl));
-			fileurl.add("/upload/wangEditor/images/"+turl);
-		}
-		for(String url:fileurl) {
-			datas.add(new WangEditorData(url, null, null));
-		}
-		result.setIpaddr(ip);
-		return (JsonObject) gson.toJsonTree(result);
 		//判断上传次数 合理执行
-//		if (judgeNumber(fileurl,ip)) {
-//			for(String url:fileurl) {
-//				datas.add(new WangEditorData(url, null, null));
-//			}
-//			result.setIpaddr(ip);
-//			return (JsonObject) gson.toJsonTree(result);
-//		}
+		if (operations.get(ip).split(",").length <= 30) {
+			for(MultipartFile file:wangEditor.values()) {
+				String filename = file.getOriginalFilename();
+				String exiten = filename.substring(filename.indexOf("."));
+				String turl = UUID.randomUUID().toString().replace("-", "")+exiten;
+				file.transferTo(new File("F://eims/file/wangEditor/images/"+turl));
+				datas.add(new WangEditorData("/upload/wangEditor/images/"+turl, null, null));
+				fileurl.add(turl);
+			}
+			operations.set(ip,(String.join(",", fileurl)+","+operations.get(ip)));
+			result.setData(datas);
+			return (JsonObject) gson.toJsonTree(result);
+		}
 		//超过次数
-//		result.setErrno(-999);
-//		return (JsonObject) gson.toJsonTree(result);
+		result.setErrno(-999);
+		return (JsonObject) gson.toJsonTree(result);
 	}
 	
-	public boolean judgeNumber(List<String> urls,String ip) {
-		int number=0;
-		ValueOperations<String, String> operations = redisTemplate.opsForValue();
-		//redis记录ip上传次数
-		if (operations.get(ip) == null) {
-			number = urls.size();
-		}else {
-			number = Integer.parseInt(operations.get(ip))+urls.size();
+	@Override
+	public String getIpAndPutInRedis(HttpServletRequest request) {
+		//分支的key
+		String branch = "eims:upload:wangEditor:img:branch";
+		//获取ip地址
+		String ipAddr = "wangEditor:"+customFunc.getVisitorIp(request).replace(":", "");
+		ValueOperations<String , String> operations = redisTemplate.opsForValue();
+		//如果redis中没有ip记录，则创建记录并添加进wangEditor图片上传分支中
+		if (operations.get(ipAddr) == null) {
+			operations.set(ipAddr, "");
+			operations.set(branch,
+					(operations.get(branch) == null || operations.get(branch).length() < 5) ? ipAddr : operations.get(branch)+","+ipAddr);
 		}
-		//超过30次禁止
-		if (number > 5) {
-			return false;
+		return ipAddr;
+	}
+	
+	@Async
+	@Override
+	public void updateWangImgMaster(String ip, String validurl) {
+		//分支
+		String branch = "eims:upload:wangEditor:img:branch";
+		//主块
+		String master = "eims:upload:wangEditor:img:master";
+		ValueOperations<String , String> operations = redisTemplate.opsForValue();
+		String[] urls = validurl.split(",");
+		List<String> urllist = new ArrayList<String>(Arrays.asList(operations.get(ip).split(",")));
+		//循环删除有效的图片，无效的将转到master域中等待定时任务删除多余图片
+		for(String url:urls) {
+			if (urllist.contains(url)) {
+				urllist.remove(url);
+			}
 		}
-		//否则叠加次数
-		operations.set(ip,number+"");
-		//redis记录所有url
-		operations.set("eims:upload:wangEditor:img", 
-				(String.join(",", urls)+","+operations.get("eims:upload:wangEditor:img")));
-		return true;
+		List<String> branchlist = new ArrayList<String>(
+				Arrays.asList(operations.get(branch).split(",")));
+		branchlist.remove(ip);
+		redisTemplate.delete(ip);
+		operations.set(branch, String.join(",", branchlist));
+		//如果url不为空，存在多余图片，则转入master中
+		if (urllist.size() != 0) {
+			operations.set(master, String.join(",", urllist)+","+(
+					operations.get(master) ==null ? "":operations.get(master)));
+		}
 	}
 }

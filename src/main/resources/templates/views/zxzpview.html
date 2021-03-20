@@ -19,7 +19,11 @@
 			</div>
 			<div class="contents">
 				<div class="header">
-					<h3 th:text="${recruit.title}">北京国林系统家具有限公司</h3>
+					<h3 th:text="${recruit.title}">
+						北京国林系统家具有限公司
+						<button th:if="${recruit.isschoolmate eq '1'}" type="button"
+							class="btn btn-default btn-success">校友</button>
+					</h3>
 					<ul class="list-inline">
 						<li>发布时间:<span th:text="${recruit.pdate}">2021-03-08</span></li>
 						<li>浏览次数:<span th:text="${recruit.hot}">456</span></li>
@@ -38,19 +42,19 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td><a th:href="@{/views/jobs/id/}+${position.id}">
+							<tr th:each="item : ${position.jobs}">
+								<td><a th:href="@{/views/jobs/id/}+${item.id}">
 										<div class="position">
-											<p class="name" th:text="${position.pname}">Java开发工程师</p>
+											<p class="name" th:text="${item.pname}">Java开发工程师</p>
 											<p>
-												<span class="salary" th:text="${position.salary}">4千-6千</span> <span
-													th:text="${position.workplace}">广西-桂林</span> <span th:text="${/position.nature}">全职</span>
-												<span th:text="${position.edu}">本科</span>
+												<span class="salary" th:text="${item.salary}">4千-6千</span> <span
+													th:text="${item.workplace}">广西-桂林</span> <span th:text="${item.wnature}">全职</span>
+												<span th:text="${item.edu}">本科</span>
 											</p>
 										</div>
 								</a></td>
 								<td>
-									<p th:text="${position.speciality}" th:title="${position.speciality}">【本科】产品设计、产品设计、未填写、绘画、视觉传达设计、【硕士】艺术设计、设计学
+									<p th:text="${item.speciality}" th:title="${item.speciality}">【本科】产品设计、产品设计、未填写、绘画、视觉传达设计、【硕士】艺术设计、设计学
 										【本科】产品设计、产品设计、未填写、绘画、视觉传达设计、【硕士】艺术设计、设计学</p>
 								</td>
 							</tr>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+<title>宣讲会预约</title>
+<link th:include="commonhf::mhead"></link>
+<link rel="stylesheet" href="css/common-zp.css" th:href="@{/css/common-zp.css}" />
+<style type="text/css">
+th {
+	background-color: #e9e8e8
+}
+</style>
+</head>
+<body style="height: auto">
+	<canvas height="900px"></canvas>
+	<div th:replace="commonhf::sheader"></div>
+	<div style="width: 100%; height: auto; position: absolute; top: 110px">
+		<div id="center">
+			<div th:replace="commonhf::enterpriseNav('宣讲会预约')"></div>
+			<div th:replace="commonhf::enterpriseLeft"></div>
+			<div class="right">
+				<ul class="list-inline xjh-bar">
+					<li><a th:href="@{/enterprise/xjhyy}">
+							<button type="button" class="btn btn-default">已发布</button>
+					</a></li>
+					<li><a th:href="@{/enterprise/xjhyye}">
+							<button type="button" class="btn btn-default">待审核</button>
+					</a></li>
+					<li><a th:href="@{/enterprise/xjhyyu}">
+							<button type="button" class="btn btn-default btn-danger">未通过</button>
+					</a></li>
+				</ul>
+				<div class="search-info">
+					<ul class="refuse">
+						<li th:each="item : ${page.records}">
+							<p style="vertical-align: middle">
+								标题：<a href="javascript:;" th:text="${item.title}"
+									th:title="${item.title}">先进科技（中国）有限公司2021校园招聘先进科技（中国）有限公司2021校园招聘</a>
+							</p>
+							<p>
+								申请时间：<span th:text="${item.adate}">2021-03-16</span>
+							</p>
+							<p>
+								失败原因： <span th:text="${item.reason}">啊哦哦四实阿达阿发生萨福嫂阿发是否是否</span>
+							</p>
+						</li>
+					</ul>
+					<a th:href="@{/enterprise/xjhyyp}">
+						<button type="button" class="btn mybtn btn">+新增</button>
+					</a>
+				</div>
+			</div>
+			<div style="clear: both"></div>
+		</div>
+		<div th:replace="commonhf::#footer"></div>
+	</div>
+	<script>
+		$("#center .left li")[4].className = "uactive";
+		$(function() {
+			$("[data-toggle='tooltip']").tooltip();
+		});
+	</script>
+</body>
+</html>

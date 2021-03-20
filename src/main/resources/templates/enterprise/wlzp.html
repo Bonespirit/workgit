@@ -10,6 +10,7 @@
 <link th:include="commonhf::wbc"></link>
 </head>
 <body style="height: auto">
+	<input hidden="hidden" type="text" th:value="${ipAddr}" id="ipAddr"/>
 	<canvas height="1420px"></canvas>
 	<div th:replace="commonhf::#pre-show"></div>
 	<div th:replace="commonhf::sheader"></div>
@@ -29,6 +30,12 @@
 		</div>
 		<div th:replace="commonhf::#footer"></div>
 	</div>
+	<script>
+		$("#center .left li")[3].className = "uactive";
+		$(function() {
+			$("[data-toggle='tooltip']").tooltip();
+		});
+	</script>
 	<script th:src="@{/js/common.js}"></script>
 </body>
 </html>

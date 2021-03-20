@@ -60,7 +60,7 @@
 	<div th:fragment="header" id="header" class="container-fluid">
 		<div class="row" style="width: 1120px; margin: 0 auto">
 			<div class="top-logo col-sm-4 col-xs-4">
-				<a th:href="@{/}" target="_blank"> <img th:src="@{/images/registerlogo.png}" alt="桂林电子科技大学" />
+				<a th:href="@{/}"> <img th:src="@{/images/registerlogo.png}" alt="桂林电子科技大学" />
 				</a>
 			</div>
 			<div class="row top-item col-sm-8 col-xs-8">
@@ -71,8 +71,8 @@
 					学生 <span class="more"></span>
 					<ul class="list-inline">
 						<li><a href="javascript:;">招聘信息</a></li>
-						<li><a href="javascript:;">就业政策</a></li>
-						<li><a href="javascript:;">就业指导</a></li>
+						<li><a th:href="@{/news/column/4/page/1}">就业政策</a></li>
+						<li><a th:href="@{/news/column/3/page/1}">就业指导</a></li>
 						<li><a href="javascript:;">毕业填报</a></li>
 						<li><a th:href="@{/student/czsc}">操作手册</a></li>
 					</ul>
@@ -81,9 +81,9 @@
 					雇主 <span class="more"></span>
 					<ul class="list-inline" style="width: 420px">
 						<li><a th:href="@{/enterprise/zpzn}">办事指南</a></li>
-						<li><a href="javascript:;">生源信息</a></li>
-						<li><a href="javascript:;">招聘发布</a></li>
-						<li><a href="javascript:;">双选会预约</a></li>
+						<li><a th:href="@{/enterprise/syxx}">生源信息</a></li>
+						<li><a th:href="@{/enterprise/wlzp}">招聘发布</a></li>
+						<li><a th:href="@{/search/sxh/page/1}">双选会预约</a></li>
 					</ul>
 				</div>
 				<div class="col-md-2 col-sm-2 item">
@@ -121,7 +121,7 @@
 			<div class="footer-top row">
 				<div class="col-md-8 aboutus" style="height: 100%; padding: 0">
 					<div class="logo">
-						<a href="https://www.guet.edu.cn/"> <img th:src="@{/images/logo.png}" alt="桂林电子科技大学" />
+						<a href="https://www.guet.edu.cn/" target="_blank"> <img th:src="@{/images/logo.png}" alt="桂林电子科技大学" />
 						</a>
 					</div>
 					<div class="content">
@@ -214,7 +214,7 @@
 				</select>
 			</div>
 		</div>
-		<textarea hidden name="contents" id="contents" cols="30" rows="10"></textarea>
+		<textarea hidden="hidden" name="contents" id="contents" cols="30" rows="10"></textarea>
 		<br /> <label class="control-label" style="font-size: 16px"> <span style="color: #f40">*</span>
 			招聘文本
 		</label> <br /> <br /> <br />
@@ -296,7 +296,7 @@
 				//表单提交的方法、比如ajax提交
 				let formdata = new FormData($("#alterpw")[0]);
 				$.ajax({
-					url: [[@{/enterprise/xgmm}]],
+					url: [[@{/xgmm}]],
 					type: "put",
 					data: formdata,
 					dataType: "JSON",
@@ -304,8 +304,12 @@
 					contentType: false,
 					processData: false,
 					success: function (data) {
-						alert(data)
-						location.reload()
+						if(data == "success"){
+							alert("修改成功")
+							location.reload()
+						}else{
+							alert("密码错误,请重新输入")
+						}
 					},
 				});
 			}
@@ -313,11 +317,11 @@
     </script>
 
 	<!-- new nav -->
-	<div th:fragment="newsNav(cur)" class="nav">
+	<div th:fragment="newsNav" class="nav">
 		<ul class="list-inline">
 			<li><a th:href="@{/}">首页</a> <span>></span></li>
 		</ul>
-		<span>[[${cur}]]</span>
+		<span th:text="${news.cname}"></span>
 	</div>
 
 	<!-- news left new -->
@@ -326,27 +330,22 @@
 			<li><span class="glyphicon glyphicon-list-alt"></span> <a th:href="@{/news/column/0/page/1}">通知公告</a></li>
 			<li><span class="glyphicon glyphicon-list-alt"></span> <a th:href="@{/news/column/1/page/1}">就业公示</a></li>
 			<li><span class="glyphicon glyphicon-list-alt"></span> <a th:href="@{/news/column/2/page/1}">新闻热点</a></li>
-		</ul>
-	</div>
-	<!-- news left student -->
-	<div th:fragment="newsLefts" class="left">
-		<ul>
 			<li><span class="glyphicon glyphicon-list-alt"></span> <a th:href="@{/news/column/3/page/1}">就业指导</a></li>
 			<li><span class="glyphicon glyphicon-list-alt"></span> <a th:href="@{/news/column/4/page/1}">就业政策</a></li>
 		</ul>
 	</div>
 
 	<!-- news search -->
-	<div th:fragment="newsSearch(column)" class="search">
+	<div th:fragment="newsSearch" class="search">
 		<h5>关键字</h5>
-		<div class="input-group">
-			<form th:action="@{/search/news/column/}+${column}">
+		<form th:action="@{/search/news/column/}+${news.mcolumn}">
+			<div class="input-group">
 				<input type="text" name="keyword" class="form-control" placeholder="请输入搜索内容" /> <span
 					class="input-group-btn">
 					<button class="btn mybtn" type="submit">搜索</button>
 				</span>
-			</form>
-		</div>
+			</div>
+		</form>
 	</div>
 
 	<!-- news searchinfo -->
@@ -360,7 +359,7 @@
 			</thead>
 			<tr th:each="item : ${page.records}">
 				<td><span style="color: #f40" th:if="${item.grade eq 1}">[置顶]</span><a
-					th:href="@{/news/id/}+${item.id}" th:text="${item.title}" th:title="${item.title}">2020届毕业生生源一览表</a></td>
+					th:href="@{/views/news/id/}+${item.id}" th:text="${item.title}" th:title="${item.title}">2020届毕业生生源一览表</a></td>
 				<td th:text="${item.pdate}">2020-01-23</td>
 			</tr>
 		</table>
@@ -395,7 +394,7 @@
 			<li><a th:href="@{/search/sxh/page/1}">双选会</a></li>
 		</ul>
 	</div>
-	
+
 	<!-- search search -->
 	<div th:fragment="searchSearch(url)" class="search">
 		<h5>关键字</h5>

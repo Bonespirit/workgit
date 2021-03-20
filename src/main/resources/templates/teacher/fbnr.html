@@ -10,6 +10,7 @@
 <script src="js/wangEditor.min.js" th:src="@{/js/wangEditor.min.js}"></script>
 </head>
 <body style="height: auto">
+	<input hidden="hidden" type="text" th:value="${ipAddr}" id="ipAddr"/>
 	<div th:replace="commonhf::#pre-show"></div>
 	<div th:replace="commonhf::sheader"></div>
 	<div style="width: 100%; height: auto; position: absolute; top: 110px">
@@ -17,8 +18,8 @@
 			<div th:replace="commonth::teacherNav('发布内容')"></div>
 			<div th:replace="commonth::thLeft"></div>
 			<div class="right" style="min-height: 360px">
-				<form th:action="@{/teacher/fbnr}" method="POST" id="publish" class="form-horizontal" role="form">
-					<input hidden="hidden" disabled="disabled" type="text" value="0" id="ipAddr"/>
+				<form th:action="@{/teacher/fbnr(ipAddr=${ipAddr})}" method="POST" id="publish" class="form-horizontal" role="form">
+					<input type="text" name="validurl" id="validurl" hidden="hidden"/>
 					<div class="recruit">
 						<div class="form-group">
 							<label for="title" class="col-sm-1 control-label"> <span style="color: #f40">*</span>
@@ -34,7 +35,7 @@
 								栏目
 							</label>
 							<div class="col-sm-2">
-								<select name="column" id="column" class="form-control">
+								<select name="mcolumn" id="column" class="form-control">
 									<option value="0">通知公告</option>
 									<option value="1">就业公示</option>
 									<option value="2">新闻热点</option>
@@ -46,8 +47,8 @@
 									<option value="8">双选会</option>
 								</select>
 								<div class="link">
-									<a th:href="@{/teacher/zxzp}" hidden></a> <a th:href="@{/teacher/xjh}" hidden></a> <a
-										th:href="@{/teacher/ztzp}" hidden></a> <a th:href="@{/teacher/sxh}" hidden></a>
+									<a th:href="@{/teacher/zxzp}" hidden="hidden"></a> <a th:href="@{/teacher/xjh}" hidden="hidden"></a> <a
+										th:href="@{/teacher/ztzp}" hidden="hidden"></a> <a th:href="@{/teacher/sxh}" hidden="hidden"></a>
 								</div>
 							</div>
 						</div>
@@ -62,7 +63,7 @@
 								</select>
 							</div>
 						</div>
-						<textarea hidden name="contents" id="contents" cols="30" rows="10"></textarea>
+						<textarea hidden="hidden" name="contents" id="contents" cols="30" rows="10"></textarea>
 						<hr />
 						<label class="control-label" style="font-size: 16px"> <span style="color: #f40">*</span>
 							文章正文
@@ -79,7 +80,7 @@
 						</div>
 					</div>
 					<div style="width: 110px; margin: 50px auto 0 auto">
-						<button type="submit" class="btn mybtn">发布</button>
+						<button onclick="msubmit()" type="button" class="btn mybtn">发布</button>
 					</div>
 				</form>
 			</div>

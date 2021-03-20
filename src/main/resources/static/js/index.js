@@ -2,7 +2,7 @@
 let oNoticeLi = document.querySelectorAll(
   "#section .content2 .leftcontent .leftcontent-nav ul li"
 );
-let oNoticeMore = document.querySelector(
+let oNoticeMore = document.querySelectorAll(
   "#section .content2 .leftcontent .leftcontent-nav a"
 );
 let oNoticeC = document.querySelector(
@@ -11,12 +11,11 @@ let oNoticeC = document.querySelector(
 let oPublicC = document.querySelector(
   "#section .content2 .leftcontent .leftcontent-content .public-content"
 );
-oNoticeMore.onclick = () => {
+oNoticeMore[0].onclick = () => {
   if (oNoticeLi[0].className === "mactive") {
-    //ajax请求数据
-    alert("通知公告");
+    oNoticeMore[1].click();
   } else {
-    alert("就业公示");
+    oNoticeMore[2].click();
   }
 };
 oNoticeLi[0].onmouseover = () => {
@@ -38,6 +37,7 @@ let oRcruidNav = document.querySelectorAll(
 let oCareerList = document.querySelectorAll(
   "#section .content3 .recruidinfo .tab-cont-list .tab-cont-item"
 );
+let urls = ["/ajax/id/1","/ajax/id/2","/ajax/id/3"]
 for (let i = 0; i < 4; i++) {
   oRcruidNav[i].onmouseover = () => {
     for (let index = 0; index < 4; index++) {
@@ -46,7 +46,22 @@ for (let i = 0; i < 4; i++) {
     }
     oRcruidNav[i].className = "mactive";
     $(oCareerList[i]).show(300);
-    // oCareerList[i].style.display = "block";
+    if(i > 0 && oCareerList[i].innerHTML==""){
+    	$.ajax({
+    		url: urls[i-1],
+    		type: "get",
+    		success:function(data){
+    			console.log(i)
+    			if(i > 1){
+    				let tmpltxt = doT.template($("#myData1")[0].innerHTML);
+    				$(oCareerList[i]).html(tmpltxt(data));
+    			}else{
+    				let tmpltxt = doT.template($("#myData2")[0].innerHTML);
+    				$(oCareerList[i]).html(tmpltxt(data));
+    			}
+    		},
+        })
+    }
   };
 }
 

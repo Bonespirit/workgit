@@ -1,5 +1,7 @@
 package com.pang.controller;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,13 +10,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.pang.customfunc.customFunc;
 import com.pang.entity.News;
 import com.pang.entity.NewsHtml;
 import com.pang.mapper.NewsHtmlMapper;
-import com.pang.mapper.NewsMapper;
 import com.pang.service.NewsHtmlService;
+import com.pang.service.ViewService;
 
 //文章内容板块
 @Controller
@@ -22,7 +23,7 @@ import com.pang.service.NewsHtmlService;
 public class NewsController {
 	
 	@Autowired
-	NewsMapper newsMapper;
+	ViewService viewService;
 	
 	@Autowired
 	NewsHtmlMapper newsHtmlMapper;
@@ -30,51 +31,32 @@ public class NewsController {
 	@Autowired
 	NewsHtmlService newsHtmlService;
 	
+	@Autowired
+	customFunc customFunc;
 	
-	//通知公告模块
+	//通过栏目获取数据并翻页
 	@GetMapping("/column/{col}/page/{pg}")
 	public String goToTzgg(@PathVariable("col") Integer column,@PathVariable("pg") Integer pg,Model model) {
-		
-		Page<News> newsPage = new Page<>(pg,15);
-		QueryWrapper<News> queryWrapper = new QueryWrapper<>();
-		queryWrapper.eq("column", column);
-		Page<News> page = newsMapper.selectPage(newsPage, queryWrapper);
-		model.addAttribute("page", page);
-		
-		return "news/tzgg";
+		News news = new News();
+		Map<String, String> map = customFunc.getCnameByColumn(column);
+		news.setCname(map.get("cname"));
+		news.setMcolumn(column);
+		model.addAttribute("page", viewService.getNewsListByColumn(column, pg, 15));
+		model.addAttribute("news", news);
+		return "news/browse";
 	}
 	
 	@GetMapping("/id/{id}")
 	@ResponseBody
 	public NewsHtml getArtById(@PathVariable("id") Integer id) {
-		System.out.println("获取文章");
 		NewsHtml newsHtml = new NewsHtml();
 		newsHtml = newsHtmlService.getById(id);
 		System.out.println(newsHtml.toString());
 		return newsHtml;
 	}
 	
-	//就业公示模块
-	@GetMapping("/jygs")
-	public String goToJygs() {
-		return "news/jygs";
-	}
-	
-	//新闻热点模块
-	@GetMapping("/xwrd")
-	public String goToXwrd() {
-		return "news/xwrd";
-	}
-	
-	//就业指导模块
-	@GetMapping("/jyzd")
-	public String goToJyzd() {
-		return "news/jyzd";
-	}
-	
-	//就业政策模块
-	@GetMapping("/jyzc")
-	public String goToJyzc() {
-		return "news/jyzc";
+	@GetMapping("/browse")
+	public String hoToBrowse() {
+		return "news/browse";
 	}
 }

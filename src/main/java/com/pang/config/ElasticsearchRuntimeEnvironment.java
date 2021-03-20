@@ -13,10 +13,10 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-//@Component
-//@ConfigurationProperties(prefix = "elasticsearch")
+@Component
+@ConfigurationProperties(prefix = "elasticsearch")
 //前置配置条件，必须配置地址
-//@ConditionalOnProperty("elasticsearch.address")
+@ConditionalOnProperty("elasticsearch.address")
 public class ElasticsearchRuntimeEnvironment {
 	/**
      * es连接地址，如果有多个用,隔开

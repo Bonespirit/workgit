@@ -79,14 +79,14 @@ public interface TeacherService{
 	 * @param jobfair
 	 * @param contents
 	 */
-	public void pJobfair(Jobfair jobfair,String contents);
+	public void pJobfair(Jobfair jobfair,String contents,String eurl);
 	
 	/**
 	 * 双选会信息发布
 	 * @param sxhInfo
 	 * @param contents
 	 */
-	public void pSxhInfo(SxhInfo sxhInfo,String contents);
+	public void pSxhInfo(SxhInfo sxhInfo,String contents,String eurl);
 	
 	/**
 	 * 宣讲会信息发布
@@ -102,4 +102,5 @@ public interface TeacherService{
 	 * @param contents
 	 */
 	public void pMajors(Majors majors,String contents);
+	
 }

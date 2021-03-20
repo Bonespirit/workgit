@@ -15,7 +15,7 @@
 			<div th:replace="commonhf::studentNav('修改密码')"></div>
 			<div th:replace="commonhf::studentLeft"></div>
 			<div class="right" style="min-height: 600px">
-				<form id="alterpw" th:action="@{/enterprise/xgmm}" th:method="POST" class="form-horizontal" role="form">
+				<form id="alterpw" th:action="@{/xgmm}" method="POST" class="form-horizontal" role="form">
 					<input type="hidden" name="_method" th:value="PUT" />
 					<div class="form-group">
 						<label for="oldpw" class="col-sm-2 control-label"> 旧密码: </label>

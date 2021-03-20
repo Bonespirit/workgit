@@ -17,8 +17,8 @@
 			<div th:replace="commonth::teacherNav('专业介绍发布')"></div>
 			<div th:replace="commonth::thLeft"></div>
 			<div class="right" style="min-height: 360px">
-				<form th:action="@{/teacher/zyjs}" method="post" id="post-jobinfo" class="form-horizontal"
-					role="form">
+				<form th:action="@{/teacher/zyjs}" method="post" id="post-jobinfo"
+					class="form-horizontal" role="form">
 					<div class="appointment-details">
 						<h4>专业情况</h4>
 						<hr />
@@ -59,18 +59,7 @@
 						<h4>专业介绍</h4>
 						<hr />
 						<textarea hidden="hidden" name="contents" id="contents" cols="30" rows="10"></textarea>
-						<div id="rich-text">
-							<button type="button" class="btn btn-sm btn-success">简洁模式</button>
-							<label style="color: #f40">(推荐)</label>
-							<button type="button" class="btn btn-sm btn-success mybtn">正常模式</button>
-							<button id="preview" style="float: right" type="button" class="btn mybtn btn-sm">
-								预览</button>
-							<a href="javascript:;" style="color: #f40" data-toggle="tooltip" data-placement="top"
-								title="简洁模式:过滤样式排版;正常模式:保留原来样式排版"><img
-								th:src="@{/images/aui-icon-question.png}" width="25" height="25" /></a> <label
-								style="color: #f40">正常模式粘贴需要耗费点时间,如果文本过长请分段粘贴</label>
-							<div id="wangEditor"></div>
-						</div>
+						<div id="wangEditor"></div>
 					</div>
 					<div style="width: 110px; margin: 50px auto 0 auto">
 						<button id="submitBtn" type="button" class="btn mybtn">发布</button>
@@ -82,12 +71,22 @@
 		<div th:replace="commonhf::#footer"></div>
 	</div>
 	<script>
+		let oCont = document.getElementById("contents");
+		const E = window.wangEditor;
+		const editor = new E("#wangEditor");
+		editor.config.height = 200;
+		editor.config.showFullScreen = false;
+		editor.config.menus = [ "bold", "head", "italic", "underline", "undo",
+				"redo", ];
+		editor.config.onchange = function(newHtml) {
+			oCont.value = newHtml;
+		};
+		editor.create();
 		$("#center .left li")[4].className = "uactive";
 		$("#column").val("专业介绍");
 		$(function() {
 			$("[data-toggle='tooltip']").tooltip();
 		});
 	</script>
-	<script src="js/common.js" th:src="@{/js/common.js}"></script>
 </body>
 </html>

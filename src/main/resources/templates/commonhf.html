@@ -71,8 +71,8 @@
 					学生 <span class="more"></span>
 					<ul class="list-inline">
 						<li><a href="javascript:;">招聘信息</a></li>
-						<li><a th:href="@{/news/column/4/page/1}">就业政策</a></li>
-						<li><a th:href="@{/news/column/3/page/1}">就业指导</a></li>
+						<li><a th:href="@{/news/search(column=4,page=1)}">就业政策</a></li>
+						<li><a th:href="@{/news/search(column=3,page=1)}">就业指导</a></li>
 						<li><a href="javascript:;">毕业填报</a></li>
 						<li><a th:href="@{/student/czsc}">操作手册</a></li>
 					</ul>
@@ -83,11 +83,11 @@
 						<li><a th:href="@{/enterprise/zpzn}">办事指南</a></li>
 						<li><a th:href="@{/enterprise/syxx}">生源信息</a></li>
 						<li><a th:href="@{/enterprise/wlzp}">招聘发布</a></li>
-						<li><a th:href="@{/search/sxh/page/1}">双选会预约</a></li>
+						<li><a th:href="@{/search/sxh(page=1)}">双选会预约</a></li>
 					</ul>
 				</div>
 				<div class="col-md-2 col-sm-2 item">
-					<a th:href="@{/teacher/shsq/page/1}">教职工</a>
+					<a th:href="@{/teacher/shsq(page=1)}">教职工</a>
 				</div>
 				<div class="col-md-2 col-sm-2 item1" style="font-size: 16px">
 					<span id="search-click" class="glyphicon glyphicon-search"
@@ -121,7 +121,8 @@
 			<div class="footer-top row">
 				<div class="col-md-8 aboutus" style="height: 100%; padding: 0">
 					<div class="logo">
-						<a href="https://www.guet.edu.cn/" target="_blank"> <img th:src="@{/images/logo.png}" alt="桂林电子科技大学" />
+						<a href="https://www.guet.edu.cn/" target="_blank"> <img th:src="@{/images/logo.png}"
+							alt="桂林电子科技大学" />
 						</a>
 					</div>
 					<div class="content">
@@ -159,7 +160,7 @@
 			<li><span class="glyphicon glyphicon-list-alt"></span> <a th:href="@{/enterprise/zwgl}">职位管理</a></li>
 			<li><span class="glyphicon glyphicon-list-alt"></span> <a th:href="@{/enterprise/wlzp}">网络招聘</a></li>
 			<li><span class="glyphicon glyphicon-list-alt"></span> <a th:href="@{/enterprise/xjhyy}">宣讲会预约</a></li>
-			<li><span class="glyphicon glyphicon-list-alt"></span> <a th:href="@{/search/sxh/page/1}">双选会预约</a></li>
+			<li><span class="glyphicon glyphicon-list-alt"></span> <a th:href="@{/search/sxh(page=1)}">双选会预约</a></li>
 			<li class="tag" style="background-color: #60b0f4"><a href="javascript:;">关于学校</a></li>
 			<li><span class="glyphicon glyphicon-list-alt"></span> <a th:href="@{/enterprise/syxx}">生源信息</a></li>
 			<li><span class="glyphicon glyphicon-list-alt"></span> <a th:href="@{/enterprise/zyjs}">专业介绍</a></li>
@@ -275,7 +276,7 @@
 			<li><span class="glyphicon glyphicon-download-alt"></span> <a th:href="@{/student/download}">常用下载</a></li>
 			<li class="tag" style="background-color: #60b0f4"><a href="javascript:;">求职之路</a></li>
 			<li><span class="glyphicon glyphicon-list-alt"></span> <a th:href="@{/student/wdjl}">我的简历</a></li>
-			<li><span class="glyphicon glyphicon-list-alt"></span> <a th:href="@{/search/zxzp/page/1}">招聘信息</a></li>
+			<li><span class="glyphicon glyphicon-list-alt"></span> <a th:href="@{/search/zxzp(page=1)}">招聘信息</a></li>
 			<li><span class="glyphicon glyphicon-list-alt"></span> <a th:href="@{/search/jobs}">职位申请</a></li>
 			<li><span class="glyphicon glyphicon-bell"></span> <a th:href="@{/student/wdxx}">我的消息</a></li>
 			<li><span class="glyphicon glyphicon-list-alt"></span> <a th:href="@{/student/wdtd}">我的投递</a></li>
@@ -327,11 +328,11 @@
 	<!-- news left new -->
 	<div th:fragment="newsLeftn" class="left">
 		<ul>
-			<li><span class="glyphicon glyphicon-list-alt"></span> <a th:href="@{/news/column/0/page/1}">通知公告</a></li>
-			<li><span class="glyphicon glyphicon-list-alt"></span> <a th:href="@{/news/column/1/page/1}">就业公示</a></li>
-			<li><span class="glyphicon glyphicon-list-alt"></span> <a th:href="@{/news/column/2/page/1}">新闻热点</a></li>
-			<li><span class="glyphicon glyphicon-list-alt"></span> <a th:href="@{/news/column/3/page/1}">就业指导</a></li>
-			<li><span class="glyphicon glyphicon-list-alt"></span> <a th:href="@{/news/column/4/page/1}">就业政策</a></li>
+			<li><span class="glyphicon glyphicon-list-alt"></span> <a th:href="@{/news/search(column=0,page=1)}">通知公告</a></li>
+			<li><span class="glyphicon glyphicon-list-alt"></span> <a th:href="@{/news/search(column=1,page=1)}">就业公示</a></li>
+			<li><span class="glyphicon glyphicon-list-alt"></span> <a th:href="@{/news/search(column=2,page=1)}">新闻热点</a></li>
+			<li><span class="glyphicon glyphicon-list-alt"></span> <a th:href="@{/news/search(column=3,page=1)}">就业指导</a></li>
+			<li><span class="glyphicon glyphicon-list-alt"></span> <a th:href="@{/news/search(column=4,page=1)">就业政策</a></li>
 		</ul>
 	</div>
 
@@ -368,44 +369,56 @@
 	<!-- 前端分页 -->
 	<div th:fragment="pageHelper(murl)" style="float: right" th:if="${page.pages gt 1}">
 		<ul class="pagination">
-			<li><a th:href="@{/{url}/page/1(url=${murl})}">首页</a></li>
-			<li th:if="${page.hasPrevious}"><a th:href="@{/(page=${page.current - 1})}"
-				aria-label="Previous"> <span aria-hidden="false">&laquo;</span>
+			<li th:if="${ page.current != 1}"><a th:href="@{/{url}(url=${murl},page=1)}">首页</a></li>
+			<li th:if="${page.hasPrevious}"><a
+				th:href="@{/{url}(url=${murl},page=${page.current - 1})}" aria-label="Previous">
+					<span aria-hidden="false">&laquo;</span>
 			</a></li>
 			<th:block th:each="i : ${#numbers.sequence(begin,end)}">
-				<a th:href="@{/{url}/page/{p}(url=${murl},p=${i})}" th:text="${i}" th:if="${i != page.current}"></a>
-				<span style="font-weight: bold" th:if="${i == page.current}" th:text="${i}"></span>
+				<li th:class="${i == page.current} ? 'active'"><a
+					th:href="@{/{url}(url=${murl},page=${i})}" th:text="${i}" th:if="${i != page.current}"></a>
+					<span style="font-weight: bold" th:if="${i == page.current}" th:text="${i}"></span></li>
 			</th:block>
-			<li th:if="${page.hasNext}"><a th:href="@{/(page=${page.current + 1})}" aria-label="Next">
-					<span aria-hidden="false">&raquo;</span>
+			<li th:if="${page.hasNext}"><a
+				th:href="@{/{url}(url=${murl},page=${page.current + 1})}" aria-label="Next"> <span
+					aria-hidden="false">&raquo;</span>
 			</a></li>
-			<li><a th:href="@{/{url}/page/p(url=${murl},p=${page.pages})}">末页</a></li>
+			<li th:if="${ page.current != page.pages}"><a
+				th:href="@{/{url}(url=${murl},page=${page.pages})}">末页</a></li>
 		</ul>
+	</div>
+
+	<!-- search nav -->
+	<div th:fragment="searchNav(cur)" class="nav">
+		<ul class="list-inline">
+			<li><a th:href="@{/}">首页</a> <span>></span></li>
+		</ul>
+		<span>[[${cur}]]</span>
 	</div>
 
 	<!-- search left -->
 	<div th:fragment="searchLeft" class="left">
 		<ul>
 			<li><a th:href="@{/search/jobs}">高级检索</a></li>
-			<li><a th:href="@{/search/zxzp/page/1}">在线招聘</a></li>
-			<li><a th:href="@{/search/sxzp/page/1}">实习招聘</a></li>
-			<li><a th:href="@{/search/zcxj/page/1}">专场宣讲</a></li>
-			<li><a th:href="@{/search/ztzp/page/1}">组团招聘</a></li>
-			<li><a th:href="@{/search/sxh/page/1}">双选会</a></li>
+			<li><a th:href="@{/search/zxzp(page=1)}">在线招聘</a></li>
+			<li><a th:href="@{/search/sxzp(page=1)}">实习招聘</a></li>
+			<li><a th:href="@{/search/zcxj(page=1)}">专场宣讲</a></li>
+			<li><a th:href="@{/search/ztzp(page=1)}">组团招聘</a></li>
+			<li><a th:href="@{/search/sxh(page=1)}">双选会</a></li>
 		</ul>
 	</div>
 
 	<!-- search search -->
 	<div th:fragment="searchSearch(url)" class="search">
 		<h5>关键字</h5>
-		<div class="input-group">
-			<form th:action="@{/search/}+${url}" method="post">
+		<form th:action="@{/search/search/{url}(url=${url},page=1)}" method="get">
+			<div class="input-group">
 				<input type="text" name="keyword" class="form-control" placeholder="请输入搜索内容" /> <span
 					class="input-group-btn">
 					<button class="btn mybtn" type="submit">搜索</button>
 				</span>
-			</form>
-		</div>
+			</div>
+		</form>
 	</div>
 </body>
 </html>

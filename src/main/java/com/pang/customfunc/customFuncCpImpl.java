@@ -16,7 +16,9 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
+import org.springframework.ui.Model;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -217,15 +219,15 @@ public class customFuncCpImpl implements customFunc{
 	}
 
 	@Override
-	public Map<String, Integer> getBeEnd(int cur,int pages) {
-		Map<String, Integer> map = new HashMap<String, Integer>();
-		int curp,maxp;
+	public Map<String, Long> getBeEnd(Long cur,Long pages) {
+		Map<String, Long> map = new HashMap<String, Long>();
+		Long curp,maxp;
 		if (pages < 5) {
-			curp = 1;
+			curp = 1l;
 			maxp = pages;
 		}else {
 			if (cur < 3) {
-				curp = 1;
+				curp = 1l;
 			}else if(cur != pages){
 				curp = cur + 2 > pages ? cur - 3 : cur - 2;
 			}else {
@@ -306,5 +308,29 @@ public class customFuncCpImpl implements customFunc{
 			myDates.add(new MyDate(month.format(date.getTdate()), day.format(date.getTdate())));
 		}
 		return myDates;
+	}
+	
+//	@SuppressWarnings("null")
+	@Override
+	public <T> void getModelByPage(Page<T> page,Model model) {
+		Long cur=page.getCurrent();
+		Long pages = page.getPages();
+		Long curp,maxp;
+		if (pages < 5) {
+			curp = 1l;
+			maxp = pages;
+		}else {
+			if (cur < 3) {
+				curp = 1l;
+			}else if(cur != pages){
+				curp = cur + 2 > pages ? cur - 3 : cur - 2;
+			}else {
+				curp = cur - 4;
+			}
+			maxp = curp+4;
+		}
+		model.addAttribute("begin", curp);
+		model.addAttribute("end", maxp);
+		model.addAttribute("page", page);
 	}
 }

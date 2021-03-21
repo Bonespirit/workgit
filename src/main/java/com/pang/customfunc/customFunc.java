@@ -6,6 +6,9 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.ui.Model;
+
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pang.entity.MyDate;
 import com.pang.entity.Teachin;
 
@@ -29,8 +32,8 @@ public interface customFunc {
 	//获取单位规模
 	public String getScale(String code);
 	//分页获取开始和结束
-	public Map<String, Integer> getBeEnd(int cur,int pages);
-	
+	public Map<String, Long> getBeEnd(Long cur,Long pages);
+	public <T> void getModelByPage(Page<T> page,Model model);
 	/**
      * 发送通知消息邮件--->单位
      *

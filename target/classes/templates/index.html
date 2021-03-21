@@ -55,8 +55,8 @@
 							<li class="active"><span>通知公告</span></li>
 							<li><span>就业公示</span></li>
 						</ul>
-						<a href="javascript:;">MORE >></a> <a hidden="hidden" th:href="@{/news/column/0/page/1}"></a>
-						<a hidden="hidden" th:href="@{/news/column/1/page/1}"></a>
+						<a href="javascript:;">MORE >></a> <a hidden="hidden" th:href="@{/news/search(column=0,page=1)}"></a>
+						<a hidden="hidden" th:href="@{/news/search(column=1,page=1)}"></a>
 					</div>
 					<div class="leftcontent-content">
 						<div class="notice-content">
@@ -103,7 +103,7 @@
 				<div class="col-md-4 col-sm-4 rightcontent" style="height: 430px; padding: 0">
 					<div class="title">
 						<h3>新闻热点</h3>
-						<a th:href="@{/news/column/2/page/1}">MORE>></a>
+						<a th:href="@{/news/search(column=2,page=1)}">MORE>></a>
 					</div>
 					<div class="news">
 						<ul>

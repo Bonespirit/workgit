@@ -1,8 +1,12 @@
 package com.pang.service;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pang.entity.JobPage;
+import com.pang.entity.SearchKey;
 
 public interface MyElasticsearchService {
 	
@@ -22,4 +26,24 @@ public interface MyElasticsearchService {
 	 * @throws IOException
 	 */
 	public JobPage MyMatchAllByCid2(Integer cid) throws IOException;
+	
+	/**
+	 * 通过关键字查询信息并翻页，并高亮显示查询关键字
+	 * @param keyword	关键字
+	 * @param index		索引名称
+	 * @param sortname	排序字段
+	 * @param pg		当前页
+	 * @return
+	 * @throws IOException
+	 */
+	public Page<Map<String, Object>> getSearchResult(
+			List<String> keyword,String index,String sortname,Integer pg) throws IOException;
+	
+	/**
+	 * 高级检索并翻页
+	 * @param searchKey	检索key实体
+	 * @param pg		当前页
+	 * @return
+	 */
+	public Page<Map<String, Object>> advancedSearch(SearchKey searchKey,Integer pg) throws IOException;
 }

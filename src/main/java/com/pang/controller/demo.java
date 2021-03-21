@@ -6,9 +6,7 @@ import java.util.List;
 
 public class demo {
 	public static void main(String[] args) throws Exception {
-		List<String> mList = new ArrayList<>();
-		mList.add("北京");
-		System.out.println(String.join("-", mList));
+		System.out.println(20/15);
 	}
 
 }

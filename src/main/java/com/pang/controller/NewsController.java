@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.pang.customfunc.customFunc;
@@ -35,8 +36,8 @@ public class NewsController {
 	customFunc customFunc;
 	
 	//通过栏目获取数据并翻页
-	@GetMapping("/column/{col}/page/{pg}")
-	public String goToTzgg(@PathVariable("col") Integer column,@PathVariable("pg") Integer pg,Model model) {
+	@GetMapping("/search")
+	public String goToTzgg(@RequestParam("column") Integer column,@RequestParam("page") Integer pg,Model model) {
 		News news = new News();
 		Map<String, String> map = customFunc.getCnameByColumn(column);
 		news.setCname(map.get("cname"));

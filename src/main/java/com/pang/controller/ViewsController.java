@@ -83,4 +83,20 @@ public class ViewsController {
 		model.addAttribute("recruit", recruit);
 		return "views/zxzpview";
 	}
+	
+	//组团招聘信息详情
+	@GetMapping("/ztzp/id/{id}")
+	public String getJObfair(@PathVariable("id") Integer id,Model model) {
+		model.addAttribute("contents", zpHtmlService.getById(id));
+		model.addAttribute("jobfair", viewService.getJobfairInfo(id));
+		return "views/ztzpview";
+	}
+	
+	//双选会招聘信息详情
+	@GetMapping("/sxh/id/{id}")
+	public String getSxhInfo(@PathVariable("id") Integer id,Model model) {
+		model.addAttribute("contents", zpHtmlService.getById(id));
+		model.addAttribute("sxh", viewService.getSxhInfo(id));
+		return "views/sxhview";
+	}
 }

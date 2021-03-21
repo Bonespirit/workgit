@@ -11,14 +11,18 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pang.customfunc.customFunc;
 import com.pang.entity.Company;
+import com.pang.entity.Jobfair;
 import com.pang.entity.News;
 import com.pang.entity.Recruit;
+import com.pang.entity.SxhInfo;
 import com.pang.entity.Teachin;
 import com.pang.entity.TeachinExam;
 import com.pang.entity.Visitors;
 import com.pang.mapper.CompanyMapper;
+import com.pang.mapper.JobfairMapper;
 import com.pang.mapper.NewsMapper;
 import com.pang.mapper.RecruitMapper;
+import com.pang.mapper.SxhInfoMapper;
 import com.pang.mapper.TeachinExamMapper;
 import com.pang.mapper.TeachinMapper;
 import com.pang.mapper.VisitorMapper;
@@ -26,6 +30,12 @@ import com.pang.service.ViewService;
 
 @Service
 public class ViewServiceImpl implements ViewService{
+	
+	@Autowired
+	SxhInfoMapper sxhInfoMapper;
+	
+	@Autowired
+	JobfairMapper jobfairMapper;
 	
 	@Autowired
 	RecruitMapper recruitMapper;
@@ -99,7 +109,6 @@ public class ViewServiceImpl implements ViewService{
 		queryWrapper.orderByDesc("tdate").select("id","title","tdate","btime","address","school","hot");
 		return teachinMapper.selectPage(cPage, queryWrapper);
 	}
-
 	
 	@Override
 	public Page<Recruit> getRecruitInfoPage(Integer pg, Integer number, String isschoolmate, String nature) {
@@ -114,7 +123,6 @@ public class ViewServiceImpl implements ViewService{
 		queryWrapper.orderByDesc("pdate").select("id","title","pdate");
 		return recruitMapper.selectPage(cPage, queryWrapper);
 	}
-
 	
 	@Override
 	public Teachin getTeachinInfo(Integer id) {
@@ -122,12 +130,44 @@ public class ViewServiceImpl implements ViewService{
 		queryWrapper.eq("id", id).select("cid","title","isschoolmate","tdate","btime","address","school","hot");
 		return teachinMapper.selectOne(queryWrapper);
 	}
-
 	
 	@Override
 	public Recruit getRecruitInfo(Integer id) {
 		QueryWrapper<Recruit> queryWrapper = new QueryWrapper<>();
 		queryWrapper.eq("id", id).select("cid","title","isschoolmate","pdate","hot");
 		return recruitMapper.selectOne(queryWrapper);
+	}
+
+	@Override
+	public Jobfair getJobfairInfo(Integer id) {
+		QueryWrapper<Jobfair> queryWrapper = new QueryWrapper<>();
+		queryWrapper.eq("id", id).select("title","isschoolmate","btime","address","hdate","hot");
+		return jobfairMapper.selectOne(queryWrapper);
+	}
+
+	
+	@Override
+	public SxhInfo getSxhInfo(Integer id) {
+		QueryWrapper<SxhInfo> queryWrapper = new QueryWrapper<>();
+		queryWrapper.eq("id", id).select("title","time","address","hdate","hot");
+		return sxhInfoMapper.selectOne(queryWrapper);
+	}
+
+	
+	@Override
+	public Page<SxhInfo> getSxhInfoPage(Integer pg, Integer number) {
+		Page<SxhInfo> cPage =  new Page<>(pg,number);
+		QueryWrapper<SxhInfo> queryWrapper = new QueryWrapper<>();
+		queryWrapper.orderByDesc("pdate").select("id","title","pdate");
+		return sxhInfoMapper.selectPage(cPage, queryWrapper);
+	}
+
+	
+	@Override
+	public Page<Jobfair> getJobfairInfoPage(Integer pg, Integer number) {
+		Page<Jobfair> cPage =  new Page<>(pg,number);
+		QueryWrapper<Jobfair> queryWrapper = new QueryWrapper<>();
+		queryWrapper.orderByDesc("hdate").select("id","title","hdate","btime","address");
+		return jobfairMapper.selectPage(cPage, queryWrapper);
 	}
 }

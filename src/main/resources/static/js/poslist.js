@@ -52,6 +52,10 @@ function addListenToLi() {
 function postData(from) {
 	console.log("发送ajax请求" + "第" + from + "页");
 	function eachPage(cur, pages) {
+		if (pages == 1) {
+	       $("#center .right .search-info .nav-bar").addClass("one");
+	       return false;
+	    }
 		let oul = $("#center .right .search-info .nav-bar .page");
 		let html = [];
 		let maxp = 0,
@@ -79,7 +83,7 @@ function postData(from) {
 	}
 	let formdata = new FormData($("#search-job")[0]);
 	$.ajax({
-		url: "http://localhost:8080/jobs/search",
+		url: "/search/jobs/"+from,
 		type: "post",
 		data: formdata,
 		dataType: "JSON",
@@ -88,14 +92,17 @@ function postData(from) {
 		processData: false,
 		success: function (data) {
 			if (data.length == 0) {
+				$("#center .right .search-info .nav-bar").addClass("one");
 				$("#itemlist").html("");
 				$("#itemlist").siblings(".nodata").addClass("mactive");
+				
+			}else{
+				$("#total").val(data.pages);
+				eachPage(data.current, data.pages);
+				addListenToLi();
+				let tmpltxt = doT.template($("#positionData")[0].innerHTML);
+				$("#itemlist").html(tmpltxt(data));
 			}
-			$("#total").val(data.pages);
-			eachPage(data.curPage, data.pages);
-			addListenToLi();
-			let tmpltxt = doT.template($("#positionData")[0].innerHTML);
-			$("#itemlist").html(tmpltxt(data));
 		},
 		error:function(e){
 			console.log(e.responseText)

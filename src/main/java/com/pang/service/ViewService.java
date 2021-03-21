@@ -5,8 +5,10 @@ import java.util.List;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pang.entity.Company;
+import com.pang.entity.Jobfair;
 import com.pang.entity.News;
 import com.pang.entity.Recruit;
+import com.pang.entity.SxhInfo;
 import com.pang.entity.Teachin;
 import com.pang.entity.TeachinExam;
 import com.pang.entity.Visitors;
@@ -22,14 +24,14 @@ public interface ViewService {
 	public TeachinExam getTeachinExamById(Integer id);
 	
 	/**
-	 * 通过文章id获取内容
+	 * 通过文章id获取文章数据
 	 * @param id
 	 * @return
 	 */
 	public News getNewsInfoById(Integer id);
 	
 	/**
-	 * 通过栏目获取相关数据并翻页
+	 * 通过栏目获取文章类模块相关数据并翻页
 	 * @param column	栏目代码
 	 * @param pg		页码
 	 * @param number	单页数据量
@@ -57,6 +59,22 @@ public interface ViewService {
 	public Page<Recruit> getRecruitInfoPage(Integer pg,Integer number,String isschoolmate,String nature);
 	
 	/**
+	 * 获取双选会信息并翻页
+	 * @param pg 页码
+	 * @param number	单页数据量
+	 * @return
+	 */
+	public Page<SxhInfo> getSxhInfoPage(Integer pg,Integer number);
+	
+	/**
+	 * 获取组团招聘信息并翻页
+	 * @param pg
+	 * @param number
+	 * @return
+	 */
+	public Page<Jobfair> getJobfairInfoPage(Integer pg,Integer number);
+	
+	/**
 	 * 通过id获取宣讲会内容
 	 * @param id
 	 * @return
@@ -69,4 +87,19 @@ public interface ViewService {
 	 * @return
 	 */
 	public Recruit getRecruitInfo(Integer id);
+	
+	/**
+	 * 通过id获取招聘会信息
+	 * @param id
+	 * @return
+	 */
+	public Jobfair getJobfairInfo(Integer id);
+	
+	/**
+	 * 通过id获取双选会信息
+	 * @param id
+	 * @return
+	 */
+	public SxhInfo getSxhInfo(Integer id);
+	
 }

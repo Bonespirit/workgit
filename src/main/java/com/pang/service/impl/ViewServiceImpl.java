@@ -11,6 +11,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pang.customfunc.customFunc;
 import com.pang.entity.Company;
+import com.pang.entity.Download;
 import com.pang.entity.Jobfair;
 import com.pang.entity.News;
 import com.pang.entity.Recruit;
@@ -26,10 +27,14 @@ import com.pang.mapper.SxhInfoMapper;
 import com.pang.mapper.TeachinExamMapper;
 import com.pang.mapper.TeachinMapper;
 import com.pang.mapper.VisitorMapper;
+import com.pang.service.DownloadService;
 import com.pang.service.ViewService;
 
 @Service
 public class ViewServiceImpl implements ViewService{
+	
+	@Autowired
+	DownloadService downloadService;
 	
 	@Autowired
 	SxhInfoMapper sxhInfoMapper;
@@ -102,7 +107,7 @@ public class ViewServiceImpl implements ViewService{
 	public Page<Teachin> getTeahinInfoPage(Integer pg, Integer number,String isschoolmate) {
 		Page<Teachin> cPage =  new Page<>(pg,number);
 		QueryWrapper<Teachin> queryWrapper = new QueryWrapper<>();
-		if (isschoolmate == null) {
+		if (isschoolmate.isEmpty()) {
 		}else {
 			queryWrapper.eq("isschoolmate", isschoolmate);
 		}
@@ -114,7 +119,7 @@ public class ViewServiceImpl implements ViewService{
 	public Page<Recruit> getRecruitInfoPage(Integer pg, Integer number, String isschoolmate, String nature) {
 		Page<Recruit> cPage =  new Page<>(pg,number);
 		QueryWrapper<Recruit> queryWrapper = new QueryWrapper<>();
-		if (isschoolmate != null) {
+		if (!isschoolmate.isEmpty()) {
 			queryWrapper.eq("isschoolmate", isschoolmate);
 		}
 		if (nature !=null) {
@@ -144,7 +149,6 @@ public class ViewServiceImpl implements ViewService{
 		queryWrapper.eq("id", id).select("title","isschoolmate","btime","address","hdate","hot");
 		return jobfairMapper.selectOne(queryWrapper);
 	}
-
 	
 	@Override
 	public SxhInfo getSxhInfo(Integer id) {
@@ -152,7 +156,6 @@ public class ViewServiceImpl implements ViewService{
 		queryWrapper.eq("id", id).select("title","time","address","hdate","hot");
 		return sxhInfoMapper.selectOne(queryWrapper);
 	}
-
 	
 	@Override
 	public Page<SxhInfo> getSxhInfoPage(Integer pg, Integer number) {
@@ -161,13 +164,22 @@ public class ViewServiceImpl implements ViewService{
 		queryWrapper.orderByDesc("pdate").select("id","title","pdate");
 		return sxhInfoMapper.selectPage(cPage, queryWrapper);
 	}
-
 	
 	@Override
-	public Page<Jobfair> getJobfairInfoPage(Integer pg, Integer number) {
+	public Page<Jobfair> getJobfairInfoPage(Integer pg, Integer number,String isschoolmate) {
 		Page<Jobfair> cPage =  new Page<>(pg,number);
 		QueryWrapper<Jobfair> queryWrapper = new QueryWrapper<>();
+		if (isschoolmate.isEmpty()) {
+		}else {
+			queryWrapper.eq("isschoolmate", isschoolmate);
+		}
 		queryWrapper.orderByDesc("hdate").select("id","title","hdate","btime","address");
 		return jobfairMapper.selectPage(cPage, queryWrapper);
+	}
+
+	@Override
+	public Page<Download> getDownloadPage(Integer pg) {
+		Page<Download> dPage = new Page<>(pg,15);
+		return downloadService.page(dPage, null);
 	}
 }

@@ -16,7 +16,7 @@
 				<div th:replace="commonhf::newsSearch"></div>
 				<hr />
 				<div th:replace="commonhf::newsSearchInfo"></div>
-				<div th:replace="commonhf::pageHelper('news/column/${news.mcolumn}')"></div>
+				<div th:replace="commonhf::pageHelper(''+${curl})"></div>
 			</div>
 			<div style="clear: both"></div>
 		</div>

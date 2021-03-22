@@ -87,7 +87,7 @@
 					</ul>
 				</div>
 				<div class="col-md-2 col-sm-2 item">
-					<a th:href="@{/teacher/shsq(page=1)}">教职工</a>
+					<a th:href="@{/teacher/shsq/page/1}">教职工</a>
 				</div>
 				<div class="col-md-2 col-sm-2 item1" style="font-size: 16px">
 					<span id="search-click" class="glyphicon glyphicon-search"
@@ -272,8 +272,6 @@
 			<li><span class="glyphicon glyphicon-list-alt"></span> <a th:href="@{/student/czsc}">操作手册</a></li>
 			<li><span class="glyphicon glyphicon-edit"></span> <a th:href="@{/student/bytb}">毕业填报</a></li>
 			<li><span class="glyphicon glyphicon-pencil"></span> <a th:href="@{/student/jybl}">解约办理</a></li>
-			<li><span class="glyphicon glyphicon-print"></span> <a th:href="@{/student/dysq}">打印申请</a></li>
-			<li><span class="glyphicon glyphicon-download-alt"></span> <a th:href="@{/student/download}">常用下载</a></li>
 			<li class="tag" style="background-color: #60b0f4"><a href="javascript:;">求职之路</a></li>
 			<li><span class="glyphicon glyphicon-list-alt"></span> <a th:href="@{/student/wdjl}">我的简历</a></li>
 			<li><span class="glyphicon glyphicon-list-alt"></span> <a th:href="@{/search/zxzp(page=1)}">招聘信息</a></li>
@@ -332,14 +330,15 @@
 			<li><span class="glyphicon glyphicon-list-alt"></span> <a th:href="@{/news/search(column=1,page=1)}">就业公示</a></li>
 			<li><span class="glyphicon glyphicon-list-alt"></span> <a th:href="@{/news/search(column=2,page=1)}">新闻热点</a></li>
 			<li><span class="glyphicon glyphicon-list-alt"></span> <a th:href="@{/news/search(column=3,page=1)}">就业指导</a></li>
-			<li><span class="glyphicon glyphicon-list-alt"></span> <a th:href="@{/news/search(column=4,page=1)">就业政策</a></li>
+			<li><span class="glyphicon glyphicon-list-alt"></span> <a th:href="@{/news/search(column=4,page=1)}">就业政策</a></li>
+			<li><span class="glyphicon glyphicon-download-alt"></span> <a th:href="@{/news/download(page=1)}">常用下载</a></li>
 		</ul>
 	</div>
 
 	<!-- news search -->
 	<div th:fragment="newsSearch" class="search">
 		<h5>关键字</h5>
-		<form th:action="@{/search/news/column/}+${news.mcolumn}">
+		<form th:action="@{/search/news(column=${news.mcolumn},page=1)}">
 			<div class="input-group">
 				<input type="text" name="keyword" class="form-control" placeholder="请输入搜索内容" /> <span
 					class="input-group-btn">

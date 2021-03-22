@@ -35,6 +35,14 @@ public class NewsController {
 	@Autowired
 	customFunc customFunc;
 	
+	//常用下载
+	@GetMapping("/download")
+	public String getDownloadList(@RequestParam("page") Integer pg,Model model) {
+		model.addAttribute("page", viewService.getDownloadPage(pg));
+		model.addAttribute("curl", "news/download");
+		return "news/download";
+	}
+	
 	//通过栏目获取数据并翻页
 	@GetMapping("/search")
 	public String goToTzgg(@RequestParam("column") Integer column,@RequestParam("page") Integer pg,Model model) {
@@ -44,6 +52,7 @@ public class NewsController {
 		news.setMcolumn(column);
 		model.addAttribute("page", viewService.getNewsListByColumn(column, pg, 15));
 		model.addAttribute("news", news);
+		model.addAttribute("curl", "news/search?column="+column);
 		return "news/browse";
 	}
 	

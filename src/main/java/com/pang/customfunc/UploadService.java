@@ -31,7 +31,7 @@ public interface UploadService {
 	 * @return
 	 * @throws IOException
 	 */
-	public String uploadEnclosure(MultipartFile[] enclosure) throws IOException;
+	public void uploadEnclosure(MultipartFile[] enclosure,Integer id) throws IOException;
 	/**
 	 * 上传wangEditor图片
 	 * @param map
@@ -56,4 +56,10 @@ public interface UploadService {
 	 * @param validurl
 	 */
 	public void updateWangImgMaster(String ip,String validurl);
+	
+	/**
+	 * 上传资源文件
+	 * @param sourcefile
+	 */
+	public void uploadSourceFile(MultipartFile[] sourcefile) throws  IOException;
 }

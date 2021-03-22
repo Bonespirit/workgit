@@ -20,8 +20,8 @@
 			<div class="right" style="min-height: 360px">
 				<form th:action="@{/teacher/ztzp(ipAddr=${ipAddr})}" method="post" id="post-jobinfo"
 					class="form-horizontal" role="form">
-					<input hidden="hidden" type="text" name="enclosureurl" id="enclosure" /> <input type="text"
-						name="validurl" id="validurl" hidden="hidden" />
+					<input hidden="hidden" type="text" disabled="disabled" id="enclosure" />
+					<input type="text" name="validurl" id="validurl" hidden="hidden" />
 					<div class="appointment-details">
 						<h4>招聘详情</h4>
 						<hr />

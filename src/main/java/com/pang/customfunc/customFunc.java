@@ -19,7 +19,13 @@ public interface customFunc {
 	public String getSkill(String code) throws IOException;
 	//获取行业类别名称
 	public String getIndustry(String code) throws IOException;
-	//获取需求专业
+	
+	/**
+	 * 待删除方法
+	 * @param code
+	 * @return
+	 * @throws IOException
+	 */
 	public String getMajor(String code) throws IOException;
 	//获取学历要求
 	public String getEdu(String code);
@@ -31,11 +37,22 @@ public interface customFunc {
 	public String getComNature(String code);
 	//获取单位规模
 	public String getScale(String code);
-	//分页获取开始和结束
+	
+	/**
+	 *	待删除方法
+	 * @param cur
+	 * @param pages
+	 * @return
+	 */
 	public Map<String, Long> getBeEnd(Long cur,Long pages);
+	/**
+	 * 	分页获取开始和结束
+	 * @param page
+	 * @param model
+	 */
 	public <T> void getModelByPage(Page<T> page,Model model);
 	/**
-     * 发送通知消息邮件--->单位
+     * 	发送通知消息邮件--->单位
      *
      * @param email 目的邮箱地址
      * @param title 邮件标题
@@ -63,4 +80,11 @@ public interface customFunc {
 	 * @return
 	 */
 	public List<MyDate> apartDate(List<Teachin> source);
+	
+	/**
+	 * 获取专业的中文解释
+	 * @param mList	需求专业集合
+	 * @return
+	 */
+	public String getMajorsString(List<String> mList) throws IOException;
 }

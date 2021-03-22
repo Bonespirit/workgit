@@ -6,10 +6,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pang.customfunc.customFunc;
 import com.pang.entity.CompanyExam;
-import com.pang.entity.Enclosure;
+import com.pang.entity.Download;
 import com.pang.entity.Jobfair;
 import com.pang.entity.Majors;
 import com.pang.entity.News;
@@ -24,7 +25,6 @@ import com.pang.entity.UserRole;
 import com.pang.entity.ZpHtml;
 import com.pang.mapper.CompanyExamMapper;
 import com.pang.mapper.CompanyMapper;
-import com.pang.mapper.EnclosureMapper;
 import com.pang.mapper.JobfairMapper;
 import com.pang.mapper.MajorsMapper;
 import com.pang.mapper.NewsMapper;
@@ -36,29 +36,38 @@ import com.pang.mapper.TeachinMapper;
 import com.pang.mapper.TeachinRefuseMapper;
 import com.pang.mapper.UserRoleMapper;
 import com.pang.mapper.ZpHtmlMapper;
+import com.pang.service.DownloadService;
 import com.pang.service.NewsHtmlService;
 import com.pang.service.TeacherService;
 import com.pang.service.UserService;
 
 @Service
 public class TeacherServiceImpl implements TeacherService{
+	
+	@Autowired
+	DownloadService downloadService;
+	
 	@Autowired
 	MajorsMapper majorsMapper;
+	
 	@Autowired
 	JobfairMapper jobfairMapper;
+	
 	@Autowired
 	SxhInfoMapper sxhInfoMapper;
+	
 	@Autowired
 	RecruitMapper recruitMapper;
+	
 	@Autowired
 	ZpHtmlMapper zpHtmlMapper;
+	
 	@Autowired
 	NewsHtmlService newsHtmlService;
+	
 	@Autowired
 	NewsMapper newsMapper;
 	
-	@Autowired
-	EnclosureMapper enclosureMapper;
 	//权限表
 	@Autowired
 	RoleMapper roleMapper;
@@ -183,31 +192,31 @@ public class TeacherServiceImpl implements TeacherService{
 	
 	@Transactional
 	@Override
-	public void pJobfair(Jobfair jobfair, String contents,String eurl) {
+	public void pJobfair(Jobfair jobfair, String contents,Integer id) {
 		ZpHtml zpHtml = new ZpHtml();
-		Enclosure enclosure = new Enclosure();
 		zpHtml.setContents(contents);
 		zpHtmlMapper.insert(zpHtml);
-		jobfair.setId(zpHtml.getId());
+		int zid = zpHtml.getId();
+		jobfair.setId(zid);
 		jobfairMapper.insert(jobfair);
-		enclosure.setId(zpHtml.getId());
-		enclosure.setEnclosureurl(eurl);
-		enclosureMapper.insert(enclosure);
+		UpdateWrapper<Download> updateWrapper = new UpdateWrapper<>();
+		updateWrapper.eq("hid", id).set("hid", zid);
+		downloadService.update(updateWrapper);
 	}
 	
 	@Transactional
 	@Override
-	public void pSxhInfo(SxhInfo sxhInfo, String contents,String eurl) {
+	public void pSxhInfo(SxhInfo sxhInfo, String contents,Integer id) {
 		ZpHtml zpHtml = new ZpHtml();
-		Enclosure enclosure = new Enclosure();
 		zpHtml.setContents(contents);
 		zpHtmlMapper.insert(zpHtml);
+		int zid = zpHtml.getId();
 		sxhInfo.setTime(sxhInfo.getBtime()+"-"+sxhInfo.getEtime());
-		sxhInfo.setId(zpHtml.getId());
+		sxhInfo.setId(zid);
 		sxhInfoMapper.insert(sxhInfo);
-		enclosure.setId(zpHtml.getId());
-		enclosure.setEnclosureurl(eurl);
-		enclosureMapper.insert(enclosure);
+		UpdateWrapper<Download> updateWrapper = new UpdateWrapper<>();
+		updateWrapper.eq("hid", id).set("hid", zid);
+		downloadService.update(updateWrapper);
 	}
 
 	@Transactional

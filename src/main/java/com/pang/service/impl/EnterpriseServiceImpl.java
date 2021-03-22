@@ -175,5 +175,4 @@ public class EnterpriseServiceImpl implements EnterpriseService{
 		positionMapper.insert(mposition);
 	}
 
-	
 }

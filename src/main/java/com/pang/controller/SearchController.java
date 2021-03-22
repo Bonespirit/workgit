@@ -47,6 +47,21 @@ public class SearchController {
 		return myElasticsearchService.advancedSearch(searchKey, pg);
 	}
 	
+	//获取news列表并翻页
+	@GetMapping("/news")
+	public String goToNews(@RequestParam("column") String mcolumn,
+			@RequestParam("page") Integer pg,
+			@RequestParam("keyword") String keyword,Model model) throws IOException {
+		List<String> oList = new ArrayList<String>();
+		oList.add(keyword);
+		oList.add(mcolumn);
+		Page<Map<String, Object>> page = 
+				myElasticsearchService.getSearchResult(oList, "news", "pdate", pg);
+		customFunc.getModelByPage(page,model);
+		model.addAttribute("curl", "search/news?column="+mcolumn+"&keyword="+keyword);
+		return "news/browse";
+	}
+	
 	//获取双选会列表并翻页
 	@GetMapping("/sxh")
 	public String goToSxh(@RequestParam("page") Integer pg,Model model) {
@@ -56,7 +71,7 @@ public class SearchController {
 		return "search/sxh";
 	}
 	//关键字查询双选会
-	@PostMapping("/search/sxh")
+	@GetMapping("/search/sxh")
 	public String searchSxhByKeyword(@RequestParam("keyword") String keyword,
 			@RequestParam("page")Integer pg,Model model) throws IOException {
 		List<String> oList = new ArrayList<String>();
@@ -70,14 +85,15 @@ public class SearchController {
 	
 	//获取宣讲会信息列表并翻页
 	@GetMapping("/zcxj")
-	public String goToTeachin(@RequestParam("page") Integer pg,Model model) {
-		Page<Teachin> page = viewService.getTeahinInfoPage(pg, 15, null);
+	public String goToTeachin(@RequestParam("page") Integer pg,
+			@RequestParam("schoolmate") String schoolmate,Model model) {
+		Page<Teachin> page = viewService.getTeahinInfoPage(pg, 15, schoolmate);
 		customFunc.getModelByPage(page,model);
 		model.addAttribute("curl", "search/zcxj");
 		return "search/zcxj";
 	}
 	//关键字查询宣讲会
-	@PostMapping("/search/zcxj")
+	@GetMapping("/search/zcxj")
 	public String searchTeachinByKeyword(@RequestParam("keyword") String keyword,
 			@PathVariable("page")Integer pg,Model model) throws IOException {
 		List<String> oList = new ArrayList<String>();
@@ -91,14 +107,15 @@ public class SearchController {
 	
 	//获取组团招聘信息列表
 	@GetMapping("/ztzp")
-	public String goToJobfair(@RequestParam("page") Integer pg,Model model) {
-		Page<Jobfair> page = viewService.getJobfairInfoPage(pg, 15);
+	public String goToJobfair(@RequestParam("page") Integer pg,
+			@RequestParam("schoolmate") String schoolmate,Model model) {
+		Page<Jobfair> page = viewService.getJobfairInfoPage(pg, 15,schoolmate);
 		customFunc.getModelByPage(page,model);
 		model.addAttribute("curl", "search/ztzp");
 		return "search/ztzp";
 	}
 	//关键字查询组团招聘会
-	@PostMapping("/search/ztzp")
+	@GetMapping("/search/ztzp")
 	public String searchJobfair(@RequestParam("keyword") String keyword,
 			@RequestParam("page")Integer pg,Model model) throws IOException {
 		List<String> oList = new ArrayList<String>();
@@ -112,14 +129,15 @@ public class SearchController {
 	
 	//获取在线招聘信息列表
 	@GetMapping("/zxzp")
-	public String goToRecruitOnline(@RequestParam("page") Integer pg,Model model) {
-		Page<Recruit> page = viewService.getRecruitInfoPage(pg, 4, null, "0");
+	public String goToRecruitOnline(@RequestParam("page") Integer pg,
+			@RequestParam("schoolmate") String schoolmate,Model model) {
+		Page<Recruit> page = viewService.getRecruitInfoPage(pg, 4, schoolmate, "0");
 		customFunc.getModelByPage(page,model);
 		model.addAttribute("curl", "search/zxzp");
 		return "search/zxzp";
 	}
 	//关键字查询在线招聘信息
-	@PostMapping("/search/zxzp")
+	@GetMapping("/search/zxzp")
 	public String searchRecruitOnline(@RequestParam("keyword") String keyword,
 			@RequestParam("page")Integer pg,Model model) throws IOException{
 		List<String> oList = new ArrayList<String>();
@@ -134,8 +152,9 @@ public class SearchController {
 	
 	//获取实习招聘信息列表
 	@GetMapping("/sxzp")
-	public String goToRecruitSx(@RequestParam("page") Integer pg,Model model) {
-		Page<Recruit> page = viewService.getRecruitInfoPage(pg, 4, null, "1");
+	public String goToRecruitSx(@RequestParam("page") Integer pg,
+			@RequestParam("schoolmate") String schoolmate,Model model) {
+		Page<Recruit> page = viewService.getRecruitInfoPage(pg, 4, schoolmate, "1");
 		customFunc.getModelByPage(page,model);
 		model.addAttribute("curl", "search/sxzp");
 		return "search/sxzp";

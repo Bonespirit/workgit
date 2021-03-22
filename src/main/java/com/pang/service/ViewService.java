@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pang.entity.Company;
+import com.pang.entity.Download;
 import com.pang.entity.Jobfair;
 import com.pang.entity.News;
 import com.pang.entity.Recruit;
@@ -72,7 +73,7 @@ public interface ViewService {
 	 * @param number
 	 * @return
 	 */
-	public Page<Jobfair> getJobfairInfoPage(Integer pg,Integer number);
+	public Page<Jobfair> getJobfairInfoPage(Integer pg,Integer number,String isschoolmate);
 	
 	/**
 	 * 通过id获取宣讲会内容
@@ -102,4 +103,10 @@ public interface ViewService {
 	 */
 	public SxhInfo getSxhInfo(Integer id);
 	
+	/**
+	 * 获取资源列表并翻页
+	 * @param id
+	 * @return
+	 */
+	public Page<Download> getDownloadPage(Integer pg);
 }

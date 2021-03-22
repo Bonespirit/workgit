@@ -3,6 +3,7 @@ package com.pang.service.impl;
 import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -20,9 +21,11 @@ import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightField;
 import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.pang.customfunc.customFunc;
 import com.pang.entity.JobPage;
 import com.pang.entity.Jobs;
 import com.pang.entity.SearchKey;
@@ -32,8 +35,12 @@ import com.pang.service.MyElasticsearchService;
 public class MyElasticsearchServiceImpl implements MyElasticsearchService{
 	
 	@Autowired
+	customFunc customFunc;
+	
+	@Autowired
 	RestHighLevelClient client;
 	
+	@Cacheable(value="ShortCache",keyGenerator="myKeyGenerator")
 	@Override
 	public JobPage MyMatchAllByCid1(Integer cid,Integer page) throws IOException {
 		//职位表分页
@@ -66,6 +73,7 @@ public class MyElasticsearchServiceImpl implements MyElasticsearchService{
 		return jobPage;
 	}
 	
+	@Cacheable(value="LongCache",keyGenerator="mykeyGenerator")
 	@Override
 	public JobPage MyMatchAllByCid2(Integer cid) throws IOException {
 		//职位表分页
@@ -85,28 +93,29 @@ public class MyElasticsearchServiceImpl implements MyElasticsearchService{
 		SearchHit[] searchHits = hits.getHits();
 		for(SearchHit searchHit:searchHits) {
 			Map<String, Object> source = searchHit.getSourceAsMap();
+			//将专业代码转为中文解释
+			String speciality = customFunc.getMajorsString(new ArrayList<>(Arrays.asList((String)source.get("speciality"))));
 			jobsList.add(new Jobs(searchHit.getId(),(String) source.get("pname"), (String) source.get("salary"), 
 					(String) source.get("wnature"), (String) source.get("edu"), (String) source.get("workplace"), 
-					null, null, null,null,(String)source.get("speciality")));
+					null, null, null,null,speciality));
 		}
 		jobPage.setJobs(jobsList);
 		return jobPage;
 	}
 	
+	@Override
 	public Page<Map<String, Object>> getSearchResult(
 			List<String> keyword,String index,String sortname,Integer pg) throws IOException {
 		Page<Map<String, Object>> page = new Page<>(pg,15);
 		pg = pg-1;
 		SearchRequest searchRequest = new SearchRequest(index);
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-		if (keyword.size() == 1) {
-			searchSourceBuilder.query(QueryBuilders.matchQuery("title", keyword.get(0)));
-		}else {
-			BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
-			boolQueryBuilder.must(QueryBuilders.matchQuery("title", keyword.get(0)));
-			boolQueryBuilder.must(QueryBuilders.termQuery("nature", keyword.get(1)));
-			searchSourceBuilder.query(boolQueryBuilder);
+		BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
+		boolQueryBuilder.must(QueryBuilders.matchQuery("title", keyword.get(0)));
+		if (keyword.size() > 1) {
+			boolQueryBuilder.filter(QueryBuilders.termQuery("extrakey", keyword.get(1)));
 		}
+		searchSourceBuilder.query(boolQueryBuilder);
 		searchSourceBuilder.from(pg*15);
 		searchSourceBuilder.size(15);
 		searchRequest.source(searchSourceBuilder);
@@ -147,7 +156,6 @@ public class MyElasticsearchServiceImpl implements MyElasticsearchService{
 		page.setRecords(olist);
 		return page;
 	}
-
 	
 	@Override
 	public Page<Map<String, Object>> advancedSearch(SearchKey searchKey,Integer pg) throws IOException {

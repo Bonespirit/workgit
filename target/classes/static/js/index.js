@@ -37,7 +37,15 @@ let oRcruidNav = document.querySelectorAll(
 let oCareerList = document.querySelectorAll(
   "#section .content3 .recruidinfo .tab-cont-list .tab-cont-item"
 );
+let oA = $("#section .content3 .recruidinfo .nav a");
 let urls = ["/ajax/id/1","/ajax/id/2","/ajax/id/3"]
+$("#section .content3 .recruidinfo .nav .more").on("click",function(){
+	for(let i=0;i<oRcruidNav.length;i++){
+		if(oRcruidNav[i].className == "mactive"){
+			oA[i+1].click()
+		}
+	}
+})
 for (let i = 0; i < 4; i++) {
   oRcruidNav[i].onmouseover = () => {
     for (let index = 0; index < 4; index++) {

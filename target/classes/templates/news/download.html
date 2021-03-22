@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>常用下载</title>
+<link th:include="commonhf::mhead"></link>
+</head>
+<body style="height: auto">
+	<div th:replace="commonhf::header"></div>
+	<div style="width: 100%; height: auto; position: absolute; top: 110px">
+		<div id="center">
+			<div th:replace="commonhf::searchNav('常用下载')"></div>
+			<div th:replace="commonhf::newsLeftn"></div>
+			<div class="right" style="min-height: 300px">
+				<div class="search-info">
+					<table class="table table-condensed table-hover">
+						<thead>
+							<tr>
+								<th style="background-color: #e9e8e8">标题</th>
+								<th style="background-color: #e9e8e8">发布时间</th>
+								<th style="background-color: #e9e8e8">操作</th>
+							</tr>
+						</thead>
+						<tr th:each="item : ${page.records}">
+							<td>
+							<a th:href="@{/}+${item.addr}" th:text="${item.filename}" th:title="${item.filename}">2020届毕业生生源一览表</a></td>
+							<td th:text="${item.pdate}">2020-01-23</td>
+							<td><a th:href="@{/}+${item.addr}">下载</a></td>
+						</tr>
+					</table>
+				</div>
+				<div th:replace="commonhf::pageHelper(''+${curl})"></div>
+			</div>
+			<div style="clear: both"></div>
+		</div>
+		<div th:replace="commonhf::#footer"></div>
+	</div>
+	<script th:inline="javascript">
+		let index = [[${news.mcolumn}]]
+    	$("#center .left li")[5].className = "uactive";
+    </script>
+	<canvas height="700px"></canvas>
+</body>
+</html>

@@ -43,7 +43,7 @@ public class MySecurityConfig{
 			//过滤
 			http.antMatcher("/enterprise/**")
 				.authorizeRequests()
-				.antMatchers("/views/**","/eplogin","/enterprise/register","/enterprise/forget").permitAll()
+				.antMatchers("/eplogin","/enterprise/register","/enterprise/forget").permitAll()
 				.antMatchers("/enterprise/**").hasAnyRole("enterprise","sadmin")
 				.and()
 				.exceptionHandling().accessDeniedHandler(myAccessDeniedHandler);
@@ -53,7 +53,8 @@ public class MySecurityConfig{
 				.loginPage("/eplogin")
 				.loginProcessingUrl("/eplogin")
 				.defaultSuccessUrl("/enterprise/zpzn")
-				.failureHandler(new MyAuthenticationFailureHandler());
+				.failureHandler(new MyAuthenticationFailureHandler())
+				.successHandler(new MyAuthenticationSuccessHandler());
 			
 			http.logout().deleteCookies("JSESSIONID");
 		}

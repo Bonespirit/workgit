@@ -19,8 +19,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.pang.entity.Download;
 import com.pang.entity.WangEditorData;
 import com.pang.entity.WangEditorResult;
+import com.pang.service.DownloadService;
 
 @Service
 public class UploadServiceImpl implements UploadService{
@@ -29,6 +31,8 @@ public class UploadServiceImpl implements UploadService{
 	RedisTemplate<String, String> redisTemplate;
 	@Autowired
 	customFunc customFunc;
+	@Autowired
+	DownloadService downloadService;
 	
 	@Override
 	public String uploadLogo(MultipartFile logo) throws IOException {
@@ -49,16 +53,16 @@ public class UploadServiceImpl implements UploadService{
 	}
 
 	@Override
-	public String uploadEnclosure(MultipartFile[] enclosure) throws IOException{
-		List<String> fileurl = new ArrayList<String>();
+	public void uploadEnclosure(MultipartFile[] enclosure,Integer id) throws IOException{
+		List<Download> downloads = new ArrayList<>();
 		for(MultipartFile file:enclosure) {
 			String filename = file.getOriginalFilename();
 			String exiten = filename.substring(filename.indexOf("."));
 			String turl = UUID.randomUUID().toString().replace("-", "")+exiten;
 			file.transferTo(new File("F://eims/file/enclosure/"+turl));
-			fileurl.add("upload/enclosure/"+turl);
+			downloads.add(new Download(null, id, filename, "upload/enclosure/"+turl, null, null));
 		}
-		return String.join(",", fileurl);
+		downloadService.saveBatch(downloads);
 	}
 
 	@Override
@@ -131,5 +135,18 @@ public class UploadServiceImpl implements UploadService{
 			operations.set(master, String.join(",", urllist)+","+(
 					operations.get(master) ==null ? "":operations.get(master)));
 		}
+	}
+	
+	@Override
+	public void uploadSourceFile(MultipartFile[] sourcefile) throws  IOException {
+		List<Download> downloads = new ArrayList<>();
+		for(MultipartFile file:sourcefile) {
+			String filename = file.getOriginalFilename();
+			String exiten = filename.substring(filename.indexOf("."));
+			String turl = UUID.randomUUID().toString().replace("-", "")+exiten;
+			file.transferTo(new File("F://eims/file/sourcefile/"+turl));
+			downloads.add(new Download(null, null, filename, "upload/sourcefile/"+turl, null, null));
+		}
+		downloadService.saveBatch(downloads);
 	}
 }

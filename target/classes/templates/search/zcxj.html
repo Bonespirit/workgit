@@ -22,7 +22,7 @@ th {
 			<div class="right" style="min-height: 300px">
 				<div th:replace="commonhf::searchSearch('zcxj')"></div>
 				<hr />
-				<a th:href="@{/search/zcxj/schoolmate}" style="color: #fff; float: right">
+				<a th:href="@{/search/zcxj(page=1,schoolmate=1)}" style="color: #fff; float: right">
 					<button type="button" class="btn mybtn btn-sm" style="">校友企业</button>
 				</a>
 				<div class="search-info">

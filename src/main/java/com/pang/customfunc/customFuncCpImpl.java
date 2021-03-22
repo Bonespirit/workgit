@@ -8,10 +8,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.scheduling.annotation.Async;
@@ -27,6 +30,9 @@ import com.pang.entity.Teachin;
 
 @Component("customFunc")
 public class customFuncCpImpl implements customFunc{
+	
+	@Autowired
+	RedisTemplate<String, String> redisTemplate;
 	
 	@Autowired
 	JavaMailSenderImpl mailSenderImpl;
@@ -310,7 +316,6 @@ public class customFuncCpImpl implements customFunc{
 		return myDates;
 	}
 	
-//	@SuppressWarnings("null")
 	@Override
 	public <T> void getModelByPage(Page<T> page,Model model) {
 		Long cur=page.getCurrent();
@@ -332,5 +337,61 @@ public class customFuncCpImpl implements customFunc{
 		model.addAttribute("begin", curp);
 		model.addAttribute("end", maxp);
 		model.addAttribute("page", page);
+	}
+
+	
+	@Override
+	public String getMajorsString(List<String> mList) throws IOException {
+		if (mList.size() == 0) {
+			return null;
+		}
+		ValueOperations<String , String> operations = redisTemplate.opsForValue();
+		//先从缓存中取数据，如果没有再从本地读取在缓存到redis中，方便读取
+		String content = operations.get("eims:redis:position:major.json");
+		if (content == null) {
+			@SuppressWarnings("resource")
+			BufferedReader reader = new BufferedReader(new FileReader("D:\\迅雷9\\major.json"));
+			StringBuffer tcontent = new StringBuffer();
+			String line=null;
+			while((line = reader.readLine()) != null) {
+				tcontent.append(line);
+			}
+			content = tcontent.toString();
+			operations.set("eims:redis:position:major.json", content);
+		}
+		Gson gson = new Gson();
+		JsonArray arry = gson.fromJson(content, JsonArray.class);
+		JsonArray majorList=null;
+		Map<String, String> map = new HashMap<>();
+		for(String str:mList) {
+			String college = str.substring(0, 2)+"00";
+			map.put(college, map.get(college)+","+str);
+		}
+		String college = null;
+		String majors = null;
+		List<String> majorsl = new ArrayList<>();
+		for(int i=0 ; i<arry.size();i++) {
+			//已经找完
+			if (mList.size() == 0) {
+				break;
+			}
+			JsonObject o = arry.get(i).getAsJsonObject();
+			college = o.get("no").getAsString();
+			if (map.containsKey(college)) {
+				majorList = o.get("majorList").getAsJsonArray();
+				//该学院包含的专业
+				majors = map.get(college);
+				for(int j=0;j<majorList.size();j++) {
+					JsonObject o2 = majorList.get(j).getAsJsonObject();
+					String cur = o2.get("no").getAsString();
+					//找到专业
+					if (Pattern.compile(cur).matcher(majors).find()) {
+						majorsl.add(o2.get("name").getAsString());
+						mList.remove(cur);
+					}
+				}
+			}
+		}
+		return String.join(",", majorsl);
 	}
 }

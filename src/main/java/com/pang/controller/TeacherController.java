@@ -3,6 +3,7 @@ package com.pang.controller;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,6 +22,7 @@ import com.pang.entity.Recruit;
 import com.pang.entity.SxhInfo;
 import com.pang.entity.Teachin;
 import com.pang.entity.TeachinRefuse;
+import com.pang.entity.User;
 import com.pang.mapper.ZpHtmlMapper;
 import com.pang.service.TeacherService;
 
@@ -132,10 +134,10 @@ public class TeacherController {
 	@PostMapping("/ztzp")
 	public String putJobfair(Jobfair jobfair,@RequestParam("contents") String contents,
 			@RequestParam("validurl") String validurl,
-			@RequestParam("enclosureurl") String eurl,
 			@RequestParam("ipAddr") String ip) {
+		User  user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		uploadService.updateWangImgMaster(ip, validurl);
-		teacherService.pJobfair(jobfair, contents,eurl);
+		teacherService.pJobfair(jobfair, contents,user.getId());
 		return "redirect:/teacher/ztzp";
 	}
 	
@@ -149,10 +151,10 @@ public class TeacherController {
 	@PostMapping("/sxh")
 	public String putSxhInfo(SxhInfo sxhInfo,@RequestParam("contents") String contents,
 			@RequestParam("validurl") String validurl,
-			@RequestParam("enclosureurl") String eurl,
 			@RequestParam("ipAddr") String ip) {
+		User  user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		uploadService.updateWangImgMaster(ip, validurl);
-		teacherService.pSxhInfo(sxhInfo, contents,eurl);
+		teacherService.pSxhInfo(sxhInfo, contents,user.getId());
 		return "redirect:/teacher/sxh";
 	}
 	

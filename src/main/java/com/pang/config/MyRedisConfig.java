@@ -66,8 +66,8 @@ public class MyRedisConfig {
 
 	private Map<String, RedisCacheConfiguration> getRedisCacheConfigurationMap() {
 		Map<String, RedisCacheConfiguration> redisCacheConfigurationMap = new HashMap<>();
-		redisCacheConfigurationMap.put("ShortCache", this.getRedisCacheConfigurationWithTtl(1));//10分钟的短缓存
-		redisCacheConfigurationMap.put("LongCache", this.getRedisCacheConfigurationWithTtl(60));//一个钟的长缓存
+		redisCacheConfigurationMap.put("ShortCache", this.getRedisCacheConfigurationWithTtl(10));//10分钟的短缓存
+		redisCacheConfigurationMap.put("LongCache", this.getRedisCacheConfigurationWithTtl(30));//一个钟的长缓存
 
 		return redisCacheConfigurationMap;
 	}

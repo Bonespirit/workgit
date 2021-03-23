@@ -66,7 +66,9 @@ public class ViewServiceImpl implements ViewService{
 	@Override
 	public Company getCompanyInfoById(Integer id) throws IOException {
 		Company company = CompanyMapper.selectById(id);
-		company.setLocation(customFunc.getCity(company.getLocation().split("&")[1]));
+		String[] citys = company.getLocation().split("&");
+		company.setLocation(
+				citys.length > 1 ? customFunc.getCity(citys[1]) : customFunc.getCity(citys[0]));
 		company.setIndustry(customFunc.getIndustry(company.getIndustry()));
 		company.setScale(customFunc.getScale(company.getScale()));
 		return company;

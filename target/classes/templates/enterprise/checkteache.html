@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title th:text="${teachin.title}"></title>
+<link th:include="commonth::thhead"></link>
+<script src="js/cexam.js" th:src="@{/js/cexam.js}"></script>
+</head>
+<body style="height: 960px">
+	<div th:replace="commonhf::sheader"></div>
+	<div style="width: 100%; height: auto; position: absolute; top: 110px">
+		<div id="center">
+			<div class="nav">
+				宣讲会申请 <span>></span><span th:text="${teachin.title}">中建八局装饰工程有限公司</span>
+			</div>
+			<div class="right" style="min-height: 360px;float: left;">
+				<div class="ttinfo" style="padding-top: 20px">
+					<div>
+						<p>
+							<span>标题：</span> <span th:text="${teachin.title}"></span> <span
+								th:if="${teachin.isschoolmate eq '1'}" class="schoolmate">校友</span>
+						</p>
+						<p>
+							<span>申请时间：</span> <span th:text="${teachin.adate}"></span>
+						</p>
+						<p>
+							<span>期望参会人数：</span> <span th:text="${teachin.size}"></span>
+						</p>
+						<p>
+							<span>来访时间安排：</span> <span th:text="${teachin.vdate}"></span>
+						</p>
+						<p>
+							<span>预选时间段：</span> <span th:text="${teachin.time}"></span>
+						</p>
+					</div>
+					<hr />
+					<h4>来访人员名单</h4>
+					<table class="table table-bordered table-hover">
+						<thead>
+							<tr>
+								<th>姓名</th>
+								<th>性别</th>
+								<th>职务</th>
+								<th>身份证号</th>
+								<th>联系电话</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="item : ${visitors}">
+								<td th:text="${item.name}"></td>
+								<td th:text="${item.gender}"></td>
+								<td th:text="${item.duty}"></td>
+								<td th:text="${item.idcard}"></td>
+								<td th:text="${item.telephone}"></td>
+							</tr>
+						</tbody>
+					</table>
+					<hr />
+					<h4>招聘简章</h4>
+					<br>
+					<div class="section" th:utext="${contents}"></div>
+					<div style="width: 150px; margin: 40px auto 0 auto">
+						<form th:action="@{/enterprise/cancel/}+${teachin.id}" method="post" style="display: inline-block;">
+							<input type="hidden" name="_method" value="delete"/>
+							<button type="submit" class="btn mybtn cancel">取消申请</button>
+						</form>
+					</div>
+				</div>
+			</div>
+			<div style="clear: both"></div>
+		</div>
+		<div th:replace="commonhf::#footer"></div>
+	</div>
+</body>
+</html>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -33,7 +34,7 @@
 							<td class="keyname">单位名称</td>
 							<td th:text="${company.cname}"></td>
 						</tr>
-						<tr th:if="${company.card ne '-1'}">
+						<tr th:if="${not #strings.isEmpty(company.card)}">
 							<td class="keyname">校友卡号</td>
 							<td th:text="${company.card}"></td>
 						</tr>

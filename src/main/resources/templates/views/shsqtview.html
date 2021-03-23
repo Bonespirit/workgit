@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -59,7 +60,7 @@
 			<div class="nav">
 				宣讲会申请 <span>></span><span th:text="${teachin.title}">中建八局装饰工程有限公司</span>
 			</div>
-			<div class="right" style="min-height: 360px">
+			<div class="right" style="min-height: 360px;float: left;">
 				<div class="info" style="padding-top: 20px">
 					<div>
 						<p>
@@ -93,11 +94,11 @@
 						</thead>
 						<tbody>
 							<tr th:each="item : ${visitors}">
-								<td th:text="${item.name}">庞如霆</td>
-								<td th:text="${item.gender}">男</td>
-								<td th:text="${item.duty}">人事经理</td>
-								<td th:text="${item.idcard}">450923199712278077</td>
-								<td th:text="${item.telephone}">18078461064</td>
+								<td th:text="${item.name}"></td>
+								<td th:text="${item.gender}"></td>
+								<td th:text="${item.duty}"></td>
+								<td th:text="${item.idcard}"></td>
+								<td th:text="${item.telephone}"></td>
 							</tr>
 						</tbody>
 					</table>

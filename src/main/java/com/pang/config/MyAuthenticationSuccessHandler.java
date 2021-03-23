@@ -38,11 +38,20 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
 			for(Role role:user.getRoleList()) {
 				if (role.getRolename().equals("ROLE_sadmin") || role.getRolename().equals("ROLE_gadmin")) {
 					response.sendRedirect(request.getContextPath()+"/teacher/shsq/page/1");
+					break;
+				}else if (role.getRolename().equals("ROLE_enterprise")) {
+					System.out.println("enter");
+					response.sendRedirect(request.getContextPath()+"/enterprise/zpzn");
+					break;
+				}else {
+					System.out.println("student");
+					response.sendRedirect(request.getContextPath()+"/student/czsc");
+					break;
 				}
 			}
-			response.sendRedirect(request.getContextPath()+"/student/czsc");
+		}else {
+			System.out.println(url);
+			response.sendRedirect(request.getContextPath()+url);
 		}
-		System.out.println(url);
-		response.sendRedirect(request.getContextPath()+url);
 	}
 }

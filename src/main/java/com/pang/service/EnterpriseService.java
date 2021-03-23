@@ -9,7 +9,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pang.entity.Company;
 import com.pang.entity.Majors;
 import com.pang.entity.Mposition;
-import com.pang.entity.News;
 import com.pang.entity.SxhInfo;
 import com.pang.entity.Teachin;
 import com.pang.entity.TeachinExam;
@@ -54,13 +53,6 @@ public interface EnterpriseService{
 	public Page<TeachinRefuse> getTeachinRefuseByid(Integer id);
 	
 	/**
-	 * 根据栏目id获取内容
-	 * @param scolumn 栏目id
-	 * @return
-	 */
-	public List<News> getNewsByColumnId(Integer scolumn);
-	
-	/**
 	 * 获取双选会信息列表
 	 * @return
 	 */
@@ -80,4 +72,23 @@ public interface EnterpriseService{
 	 */
 	public void putPositionInfo(Mposition mposition,String describe);
 	
+	/**
+	 * 检查手机号是否已被注册
+	 * @param telephone
+	 * @return
+	 */
+	public boolean testTelephone(String telephone);
+	
+	/**
+	 * 检查用户名是否已存在
+	 * @param username
+	 * @return
+	 */
+	public boolean testUsername(String username);
+	
+	/**
+	 * 删除宣讲会申请
+	 * @param id
+	 */
+	public void deleteTeachinE(Integer id);
 }

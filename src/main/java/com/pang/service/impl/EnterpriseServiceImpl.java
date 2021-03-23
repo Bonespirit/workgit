@@ -19,18 +19,17 @@ import com.pang.entity.Company;
 import com.pang.entity.CompanyExam;
 import com.pang.entity.Majors;
 import com.pang.entity.Mposition;
-import com.pang.entity.News;
 import com.pang.entity.PositionHtml;
 import com.pang.entity.SxhInfo;
 import com.pang.entity.Teachin;
 import com.pang.entity.TeachinExam;
 import com.pang.entity.TeachinRefuse;
+import com.pang.entity.User;
 import com.pang.entity.Visitors;
 import com.pang.entity.ZpHtml;
 import com.pang.mapper.CompanyExamMapper;
 import com.pang.mapper.CompanyMapper;
 import com.pang.mapper.MajorsMapper;
-import com.pang.mapper.NewsMapper;
 import com.pang.mapper.PositionHtmlMapper;
 import com.pang.mapper.PositionMapper;
 import com.pang.mapper.SxhInfoMapper;
@@ -39,10 +38,14 @@ import com.pang.mapper.TeachinMapper;
 import com.pang.mapper.TeachinRefuseMapper;
 import com.pang.mapper.ZpHtmlMapper;
 import com.pang.service.EnterpriseService;
+import com.pang.service.UserService;
 import com.pang.service.VisitorService;
 
 @Service
 public class EnterpriseServiceImpl implements EnterpriseService{
+	
+	@Autowired
+	UserService userService;
 	
 	@Autowired
 	MajorsMapper majorsMapper;
@@ -51,10 +54,8 @@ public class EnterpriseServiceImpl implements EnterpriseService{
 	SxhInfoMapper sxhInfoMapper;
 	
 	@Autowired
-	NewsMapper newsMapper;
-	
-	@Autowired
 	PositionMapper positionMapper;
+	
 	@Autowired
 	PositionHtmlMapper positionHtmlMapper;
 	
@@ -107,9 +108,7 @@ public class EnterpriseServiceImpl implements EnterpriseService{
 		ZpHtml zpHtml = new ZpHtml(null, contents);
 		zpHtmlMapper.insert(zpHtml);
 		int zphid = zpHtml.getId();
-		System.out.println("zphid"+zphid);
 		teachinExam.setId(zphid);
-		teachinExam.setCid(4);
 		teachinExamMapper.insert(teachinExam);
 		List<Visitors> visitorlist = new ArrayList<Visitors>();
 		for(int i=0;i<teachinExam.getName().length;i++) {
@@ -145,13 +144,6 @@ public class EnterpriseServiceImpl implements EnterpriseService{
 	}
 
 	@Override
-	public List<News> getNewsByColumnId(Integer mcolumn) {
-		QueryWrapper<News> queryWrapper = new QueryWrapper<>();
-		queryWrapper.eq("mcolumn", mcolumn).orderByDesc("pdate").select("id","title","pdate","hot");
-		return newsMapper.selectList(queryWrapper);
-	}
-	
-	@Override
 	public List<SxhInfo> getSxhInfo() {
 		QueryWrapper<SxhInfo> queryWrapper = new QueryWrapper<>();
 		queryWrapper.orderByDesc("hdate");
@@ -173,6 +165,37 @@ public class EnterpriseServiceImpl implements EnterpriseService{
 		System.out.println(i);
 		mposition.setId(positionHtml.getId());
 		positionMapper.insert(mposition);
+	}
+
+	@Override
+	public boolean testTelephone(String telephone) {
+		QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+		queryWrapper.eq("telephone", telephone);
+		if (userService.getOne(queryWrapper) !=null) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean testUsername(String username) {
+		QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+		queryWrapper.eq("username", username);
+		if (userService.getOne(queryWrapper) !=null) {
+			return true;
+		}
+		return false;
+	}
+
+	
+	@Transactional
+	@Override
+	public void deleteTeachinE(Integer id) {
+		QueryWrapper<Visitors> queryWrapper = new QueryWrapper<>();
+		queryWrapper.eq("lid", id);
+		visitorService.remove(queryWrapper);
+		teachinExamMapper.deleteById(id);
+		zpHtmlMapper.deleteById(id);
 	}
 
 }

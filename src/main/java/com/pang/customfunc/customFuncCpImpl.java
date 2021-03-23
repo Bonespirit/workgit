@@ -254,7 +254,11 @@ public class customFuncCpImpl implements customFunc{
 	    message.setText(contents);
 	    message.setTo(email);
 	    message.setFrom("pangruting@qq.com");
-	    mailSenderImpl.send(message);
+	    try {
+	    	mailSenderImpl.send(message);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public String getVisitorIp(HttpServletRequest request){
@@ -338,7 +342,6 @@ public class customFuncCpImpl implements customFunc{
 		model.addAttribute("end", maxp);
 		model.addAttribute("page", page);
 	}
-
 	
 	@Override
 	public String getMajorsString(List<String> mList) throws IOException {

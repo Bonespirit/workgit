@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,7 +21,7 @@
 				</h4>
 				<h4 class="text-danger">(推荐使用谷歌浏览器)</h4>
 				<div class="login-form" style="margin-top: 30px">
-					<span style="color:#f40" th:text="${msg}"></span>
+					<span style="color:#f40" th:text="${session.msg}"></span>
 					<form th:action="@{/login}" method="post" role="form">
 						<div class="input-group" style="margin-top: 10px">
 							<span class="input-group-addon"> <span class="glyphicon glyphicon-user"></span>

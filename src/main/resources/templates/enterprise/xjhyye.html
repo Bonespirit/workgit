@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -42,7 +43,7 @@
 							</tr>
 						</thead>
 						<tr th:each="item : ${page.records}">
-							<td><a th:href="@{/views/shsqt/id/}+${item.id}" th:text="${item.title}" th:title="${item.title}">先进科技（中国）有限公司2021校园招聘先进科技（中国）有限公司2021校园招聘</a>
+							<td><a th:href="@{/enterprise/checkteachinE/id/}+${item.id}" th:text="${item.title}" th:title="${item.title}">先进科技（中国）有限公司2021校园招聘先进科技（中国）有限公司2021校园招聘</a>
 							</td>
 							<td><text th:text="${item.adate}">2021-03-09</text></td>
 						</tr>

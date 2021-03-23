@@ -4,6 +4,7 @@ $(function () {
 		submitButtons: "#submitBtn",
 		fields: {
 			loginName: {
+				trigger: "blur",
 				selector: "#loginName",
 				validators: {
 					notEmpty: {
@@ -17,13 +18,14 @@ $(function () {
 						regexp: /^(?!_)(?!\.)(?!.*?_$)(?![0-9]+$)[a-zA-Z0-9_\@\.]+$/,
 						message: "姓名不能只含有数字、下划线不能以下划线开头和结尾",
 					},
-					// remote: {
-					//   url: "",
-					//   data: {
-					//     loginName: $("#loginName").val(),
-					//   },
-					//   message: "登录用户名已存在",
-					// },
+					 remote: {
+					   url: "/enterprise/testusername",
+					   type:'post',
+					   data: {
+					     loginName: $("#loginName").val(),
+					   },
+					   message: "登录用户名已存在",
+					 },
 				},
 			},
 			password: {
@@ -85,6 +87,7 @@ $(function () {
 				},
 			},
 			telephone: {
+				trigger: "blur",
 				selector: "#telephone",
 				validators: {
 					notEmpty: {
@@ -94,6 +97,14 @@ $(function () {
 						regexp: /^1[1|2|3|4|5|6|7|8|9|][0-9]{9}$/,
 						message: "请输入有效的联系人电话",
 					},
+					remote: {
+					   url: "/enterprise/testtelephone",
+					   type:'post',
+					   data: {
+						  telephone: $("#telephone").val(),
+					   },
+					   message: "手机号已被注册",
+					 },
 				},
 			},
 			officeCellphone: {
@@ -183,7 +194,7 @@ $(function () {
 					},
 					stringLength: {
 						min: 0,
-						max: 300,
+						max: 400,
 						message: "单位简介长度最大为300字符",
 					},
 				},

@@ -16,12 +16,26 @@ import com.pang.entity.Visitors;
 
 public interface ViewService {
 	
-	//获取单位详细信息
+	/**
+	 * 通过id获取单位详细信息
+	 * @param id
+	 * @return
+	 * @throws IOException
+	 */
 	public Company getCompanyInfoById(Integer id) throws IOException; 
 	
-	//获取来访人员名单
+	/**
+	 * 通过宣讲会id获取来访人员名单
+	 * @param lid
+	 * @return
+	 */
 	public List<Visitors> getVisitorsByLid(Integer lid);
-	//获取宣讲会申请表信息
+	
+	/**
+	 * 通过id获取宣讲会申请表信息
+	 * @param id
+	 * @return
+	 */
 	public TeachinExam getTeachinExamById(Integer id);
 	
 	/**

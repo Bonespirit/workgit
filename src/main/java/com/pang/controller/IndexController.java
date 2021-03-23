@@ -4,8 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -13,7 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -75,6 +72,10 @@ public class IndexController {
 		List<Teachin> teachins = page.getRecords();
 		model.addAttribute("mdate", customFunc.apartDate(teachins));
 		model.addAttribute("teachin", page);
+		if (!SecurityContextHolder.getContext().getAuthentication().getPrincipal().equals("anonymousUser")) {
+			User  user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			model.addAttribute("username", user.getName());
+		}
 		return "index";
 	}
 	
@@ -108,36 +109,9 @@ public class IndexController {
 	public String goToEpLogin() {
 		return "eplogin";
 	}
-	//用人单位登录
-	@PostMapping("/eplogin")
-	public String epLogin(@RequestParam("username") String username,
-			@RequestParam("password")String password,
-			HttpServletRequest request,Model model) {
-		String msg = userService.checkLogin(username, password, request);
-		if (msg.equals("success")) {
-			return "redirect:/enterprise/zpzn";
-		}
-		model.addAttribute("msg", msg);
-		return "eplogin";
-	}
 	
 	@GetMapping("/login")
 	public String goToStLogin() {
-		return "login";
-	}
-	//学生/管理员登录
-	@PostMapping("/login")
-	public String stLogin(@RequestParam("username") String username,
-			@RequestParam("password")String password,
-			HttpServletRequest request,Model model) {
-		System.out.println("1111111");
-		String msg = userService.checkLogin(username, password, request);
-		if (msg.equals("success")) {
-			System.out.println(request.getRequestURL());
-			return "redirect:"+request.getRequestURL();
-		}
-		model.addAttribute("msg", msg);
-		System.out.println("2222");
 		return "login";
 	}
 	

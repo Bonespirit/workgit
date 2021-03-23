@@ -99,7 +99,29 @@ ul {
 	text-decoration: none;
 	color: #000;
 }
-
+#header #logout {
+  position: absolute;
+  right: 10px;
+  font-size: 16px;
+}
+#header #logout span {
+  padding: 0px 10px;
+}
+#header #logout form {
+  margin-left: 20px;
+  display: inline-block;
+}
+#header #logout form button {
+  outline: none;
+  border: none;
+  background-color: #f6f1ef;
+  color: #0e9ce9;
+  font-size: 18px;
+}
+#header #logout form button:hover {
+  background-color: #0e9ce9;
+  color: #fff;
+}
 #header {
 	position: fixed;
 	top: 0;

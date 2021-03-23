@@ -68,10 +68,9 @@ public class TeacherServiceImpl implements TeacherService{
 	@Autowired
 	NewsMapper newsMapper;
 	
-	//权限表
 	@Autowired
 	RoleMapper roleMapper;
-	//权限和用户关系表
+
 	@Autowired
 	UserRoleMapper userRoleMapper;
 	

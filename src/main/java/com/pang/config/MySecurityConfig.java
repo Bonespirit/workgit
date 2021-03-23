@@ -31,9 +31,9 @@ public class MySecurityConfig{
 		
 		@Override
 		public void configure(WebSecurity web) throws Exception {
-			web.ignoring().antMatchers("/static/**","/","/upload/**","/news/**")
-			.antMatchers("/search/**","/student/czsc")
-			.antMatchers("/enterprise/zpzn","/enterprise/syxx","/enterprise/zyjs");
+			web.ignoring().antMatchers("/static/**","/upload/**","/news/**")
+			.antMatchers("/search/**")
+			.antMatchers("/enterprise/testtelephone","/enterprise/testusername");
 		}
 		
 		//授权
@@ -43,7 +43,8 @@ public class MySecurityConfig{
 			//过滤
 			http.antMatcher("/enterprise/**")
 				.authorizeRequests()
-				.antMatchers("/eplogin","/enterprise/register","/enterprise/forget").permitAll()
+				.antMatchers("/eplogin","/","/enterprise/register","/enterprise/forget").permitAll()
+				.antMatchers("/enterprise/zpzn","/enterprise/zyjs").permitAll()
 				.antMatchers("/enterprise/**").hasAnyRole("enterprise","sadmin")
 				.and()
 				.exceptionHandling().accessDeniedHandler(myAccessDeniedHandler);
@@ -51,12 +52,12 @@ public class MySecurityConfig{
 			//开启自动配置登录功能
 			http.formLogin()
 				.loginPage("/eplogin")
-				.loginProcessingUrl("/eplogin")
+				.loginProcessingUrl("/login")
 				.defaultSuccessUrl("/enterprise/zpzn")
-				.failureHandler(new MyAuthenticationFailureHandler())
+				.failureHandler(new MyEnterLoginFail())
 				.successHandler(new MyAuthenticationSuccessHandler());
 			
-			http.logout().deleteCookies("JSESSIONID");
+			http.logout().deleteCookies("JSESSIONID").logoutSuccessUrl("/");
 		}
 		
 		@Override
@@ -86,7 +87,7 @@ public class MySecurityConfig{
 			http.headers().frameOptions().disable();
 			//过滤
 			http.authorizeRequests()
-				.antMatchers("/views/**","/login").permitAll()
+				.antMatchers("/views/**","/","/login","/student/czsc").permitAll()
 				.antMatchers("/views/shsqc/**","/views/shsqt/**","/teacher/**").hasAnyRole("sadmin","gadmin")
 				.antMatchers("/student/**").hasAnyRole("student","sadmin")
 				.and()
@@ -100,7 +101,7 @@ public class MySecurityConfig{
 				.failureHandler(new MyAuthenticationFailureHandler())
 				.successHandler(new MyAuthenticationSuccessHandler());
 			
-			http.logout().deleteCookies("JSESSIONID");
+			http.logout().deleteCookies("JSESSIONID").logoutSuccessUrl("/");
 		}
 		
 		@Override

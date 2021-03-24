@@ -33,7 +33,7 @@ public class MySecurityConfig{
 		public void configure(WebSecurity web) throws Exception {
 			web.ignoring().antMatchers("/static/**","/upload/**","/news/**")
 			.antMatchers("/search/**")
-			.antMatchers("/enterprise/testtelephone","/enterprise/testusername");
+			.antMatchers("/enterprise/checkMark","/enterprise/testtelephone","/enterprise/testusername","/enterprise/verifyCode");
 		}
 		
 		//授权

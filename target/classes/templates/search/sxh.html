@@ -13,7 +13,7 @@
 	<div th:replace="commonhf::sheader"></div>
 	<div style="width: 100%; height: auto; position: absolute; top: 110px">
 		<div id="center">
-			<div th:replace="commonhf::newsNav('双选会')"></div>
+			<div th:replace="commonhf::searchNav('双选会')"></div>
 			<div th:replace="commonhf::searchLeft"></div>
 			<div class="right" style="min-height: 300px">
 				<div th:replace="commonhf::searchSearch('sxh')"></div>
@@ -27,12 +27,12 @@
 							</tr>
 						</thead>
 						<tr th:each="item : ${page.records}">
-							<td><a th:href="@{/views/sxh/id/}+${item.id}" th:text="${item.title}" th:title="${item.title}">桂林电子科技大学2021届毕业生第四场线上双选会邀请函</a></td>
-							<td th:text="${item.pdate}">2020-01-23</td>
+							<td><a th:href="@{/views/sxh/id/}+${item.id}" th:utext="${item.title}"></a></td>
+							<td th:text="${item.pdate}"></td>
 						</tr>
 					</table>
 				</div>
-				<div th:replace="commonhf::pageHelper(''+${curl})">
+				<div th:replace="commonhf::pageHelper(''+${curl})"></div>
 			</div>
 			<div style="clear: both"></div>
 		</div>

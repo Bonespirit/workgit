@@ -1,6 +1,7 @@
 package com.pang.service;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
 
@@ -35,9 +36,10 @@ public interface MyElasticsearchService {
 	 * @param pg		当前页
 	 * @return
 	 * @throws IOException
+	 * @throws java.text.ParseException 
 	 */
 	public Page<Map<String, Object>> getSearchResult(
-			List<String> keyword,String index,String sortname,Integer pg) throws IOException;
+			List<String> keyword,String index,String sortname,String pg) throws IOException, ParseException;
 	
 	/**
 	 * 高级检索并翻页

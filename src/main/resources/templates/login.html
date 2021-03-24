@@ -9,6 +9,7 @@
 <script th:src="@{/js/login.js}" async></script>
 </head>
 <body>
+	<a id="jump" href="" hidden="hidden"></a>
 	<canvas height="740" width="1900"></canvas>
 	<div th:replace="commonhf::sheader"></div>
 	<div style="width: 100%; height: auto; position: absolute; top: 110px">
@@ -16,12 +17,12 @@
 			<div id="login-info" style="margin: 0">
 				<h4>
 					账号登录 <a href="javascript:;" style="color: #f40" data-toggle="tooltip" data-placement="right"
-						title="温馨提示: 系统默认以工号（或学号）为账号，身份证后6位为密码。"><img
-						th:src="@{/images/aui-icon-question.png}" width="25" height="25" /></a>
+						title="温馨提示: 系统默认以工号（或学号）为账号，身份证后6位为密码。"><img th:src="@{/images/aui-icon-question.png}"
+						width="25" height="25" /></a>
 				</h4>
 				<h4 class="text-danger">(推荐使用谷歌浏览器)</h4>
 				<div class="login-form" style="margin-top: 30px">
-					<span style="color:#f40" th:text="${session.msg}"></span>
+					<span class="uperrormsg" style="color: #f40"></span>
 					<form th:action="@{/login}" method="post" role="form">
 						<div class="input-group" style="margin-top: 10px">
 							<span class="input-group-addon"> <span class="glyphicon glyphicon-user"></span>
@@ -31,22 +32,21 @@
 						<br />
 						<div class="input-group" style="margin-top: 10px">
 							<span class="input-group-addon"> <span class="glyphicon glyphicon-lock"></span>
-							</span> <input title="密码" id="password" name="password" type="password" class="form-control" placeholder="请输入密码"
-								onblur="testPassword(this)" /> <label>密码不能为空</label> <label>长度为8-16之间的数字、字母组合！</label>
+							</span> <input title="密码" id="password" name="password" type="password" class="form-control"
+								placeholder="请输入密码" onblur="testPassword(this)" /> <label>密码不能为空</label> <label>长度为8-16之间的数字、字母组合！</label>
 							<span class="input-group-addon view"> <span class="glyphicon glyphicon-eye-close"
 								style="cursor: pointer"></span>
 							</span>
 						</div>
-						<div class="input-group checkcode" style="display: block">
-							<input type="text" class="form-control" placeholder="请输入验证码" maxlength="5"
-								onblur="testCheckCode(this)" /> <label>验证码不能为空!</label> <span
-								class="checkcode-pic"> <img
-								src="https://scc.pku.edu.cn/common/captcha-image!createCaptchaImage.action" width="80px"
-								height="28" />
-							</span>
-						</div>
-						<button type="button" class="btn btn-default login">登&nbsp;&nbsp;&nbsp;录</button>
 					</form>
+					<div class="input-group checkcode" style="display: block">
+						<input type="text" id="mark" class="form-control" placeholder="请输入验证码" maxlength="4"
+							onblur="testCheckCode(this)" /> <label>验证码不能为空!</label> <label>验证码错误</label> <span
+							class="checkcode-pic"> <img th:src="@{/enterprise/verifyCode}" id="verifyimg"
+							onclick="getCode(this)" width="80px" height="28" />
+						</span>
+					</div>
+					<button type="button" class="btn btn-default login">登&nbsp;&nbsp;&nbsp;录</button>
 				</div>
 				<br />
 			</div>

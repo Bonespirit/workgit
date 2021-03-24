@@ -22,7 +22,13 @@
 	height: 40px;
 	line-height: 40px;
 }
-
+.mtitle {
+  display: inline-block;
+  width: 400px !important;
+  white-space: nowrap !important;
+  text-overflow: ellipsis !important;
+  overflow: hidden !important;
+}
 label {
 	vertical-align: middle;
 	font-weight: 500;

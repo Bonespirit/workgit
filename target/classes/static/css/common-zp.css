@@ -64,7 +64,7 @@
 }
 #center .right .search-info .table td a {
   display: block;
-  width: 300px;
+  width: 600px;
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;

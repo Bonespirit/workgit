@@ -354,7 +354,7 @@
 	<!-- news search -->
 	<div th:fragment="newsSearch" class="search">
 		<h5>关键字</h5>
-		<form th:action="@{/search/news(column=${news.mcolumn},page=1)}">
+		<form th:action="@{/search/news(column=${news.mcolumn})}">
 			<div class="input-group">
 				<input type="text" name="keyword" class="form-control" placeholder="请输入搜索内容" /> <span
 					class="input-group-btn">
@@ -424,7 +424,7 @@
 	<!-- search search -->
 	<div th:fragment="searchSearch(url)" class="search">
 		<h5>关键字</h5>
-		<form th:action="@{/search/search/{url}(url=${url},page=1)}" method="get">
+		<form th:action="@{/search/search/{url}(url=${url})}" method="get">
 			<div class="input-group">
 				<input type="text" name="keyword" class="form-control" placeholder="请输入搜索内容" /> <span
 					class="input-group-btn">

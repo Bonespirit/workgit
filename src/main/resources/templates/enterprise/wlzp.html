@@ -4,14 +4,11 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<meta name="_csrf" th:content="${_csrf.token}" />
-<meta name="_csrf_header" th:content="${_csrf.headerName}" />
 <title>网络招聘</title>
 <link th:include="commonhf::mhead"></link>
 <link th:include="commonhf::wbc"></link>
 </head>
 <body style="height: auto">
-	<input hidden="hidden" type="text" th:value="${ipAddr}" id="ipAddr"/>
 	<canvas height="1420px"></canvas>
 	<div th:replace="commonhf::#pre-show"></div>
 	<div th:replace="commonhf::sheader"></div>
@@ -20,19 +17,31 @@
 			<div th:replace="commonhf::enterpriseNav('网络招聘')"></div>
 			<div th:replace="commonhf::enterpriseLeft"></div>
 			<div class="right">
-				<form th:action="@{/enterprise/wlzp}" method="post" id="post-jobinfo" class="form-horizontal" role="form">
-					<div th:replace="commonhf::recruit"></div>
-					<div style="width: 110px; margin: 50px auto 0 auto">
-						<button id="submitBtn" type="button" class="btn mybtn">发布</button>
-					</div>
-				</form>
+				<h4>已发布</h4>
+				<div class="search-info">
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th style="background-color: #e9e8e8">标题</th>
+								<th style="background-color: #e9e8e8">发布时间</th>
+							</tr>
+						</thead>
+						<tr th:each="item : ${page.records}">
+							<td><a class="mtitle" th:href="@{/views/zxzp/id/}+${item.id}"
+								th:text="${item.title}" th:title="${item.title}"></a></td>
+							<td th:text="${item.pdate}"></td>
+						</tr>
+					</table>
+				</div>
+				<a th:href="@{/enterprise/precruit}">
+					<button type="button" class="btn mybtn btn">+新增</button>
+				</a>
 			</div>
 			<div style="clear: both"></div>
 		</div>
 		<div th:replace="commonhf::#footer"></div>
 	</div>
 	<script>
-		$("#column").val("网络招聘");
 		$("#center .left li")[3].className = "uactive";
 		$(function() {
 			$("[data-toggle='tooltip']").tooltip();

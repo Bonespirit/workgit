@@ -9,6 +9,7 @@
 <script th:src="@{/js/login.js}" async></script>
 </head>
 <body>
+	<a id="jump" href="" hidden="hidden"></a>
 	<canvas height="740" width="1900"></canvas>
 	<div th:replace="commonhf::sheader"></div>
 	<div style="width: 100%; height: auto; position: absolute; top: 110px">
@@ -18,33 +19,32 @@
 				<h4>用人单位登录</h4>
 				<h4 class="text-danger">(推荐使用谷歌浏览器)</h4>
 				<div class="login-form" style="margin-top: 30px">
-					<span style="color:#f40" th:text="${session.msg}"></span>
+					<span style="color: #f40" th:text="${session.msg}"></span>
 					<form th:action="@{/login}" method="post" role="form">
+						<span class="uperrormsg" style="color: #f40"></span>
 						<div class="input-group" style="margin-top: 10px">
 							<span class="input-group-addon"> <span class="glyphicon glyphicon-user"></span>
-							</span> <input name="username" type="text" class="form-control" placeholder="请输入用户名" onblur="testUsername(this)" />
-							<label>账号不能为空</label> <label>输入英文字母、数字和下划线不能以下划线开头和结尾</label>
+							</span> <input name="username" type="text" class="form-control" placeholder="请输入用户名"
+								onblur="testUsername(this)" /> <label>账号不能为空</label> <label>输入英文字母、数字和下划线不能以下划线开头和结尾</label>
 						</div>
 						<br />
 						<div class="input-group" style="margin-top: 10px">
 							<span class="input-group-addon"> <span class="glyphicon glyphicon-lock"></span>
-							</span> 
-							<input id="password" type="password" name="password" class="form-control" placeholder="请输入密码" onblur="testPassword(this)" /> 
-								<label>密码不能为空</label> 
-								<label>长度为8-16之间的数字、字母组合！</label> 
-								<span class="input-group-addon view">
-									<span class="glyphicon glyphicon-eye-close" style="cursor: pointer"></span>
-								</span>
-						</div>
-						<div class="input-group checkcode">
-							<input type="text" class="form-control" placeholder="请输入验证码" onblur="testCheckCode(this)" />
-							<label>验证码不能为空!</label> <span class="checkcode-pic"> <img
-								src="https://scc.pku.edu.cn/common/captcha-image!createCaptchaImage.action" width="80px"
-								height="28" />
+							</span> <input id="password" type="password" name="password" class="form-control"
+								placeholder="请输入密码" onblur="testPassword(this)" /> <label>密码不能为空</label> <label>长度为8-16之间的数字、字母组合！</label>
+							<span class="input-group-addon view"> <span class="glyphicon glyphicon-eye-close"
+								style="cursor: pointer"></span>
 							</span>
 						</div>
-						<button type="button" class="btn btn-default login mybtn">登&nbsp;&nbsp;&nbsp;录</button>
 					</form>
+					<div class="input-group checkcode" style="display: block">
+						<input type="text" id="mark" class="form-control" placeholder="请输入验证码" maxlength="4"
+							onblur="testCheckCode(this)" /> <label>验证码不能为空!</label> <label>验证码错误</label> <span
+							class="checkcode-pic"> <img th:src="@{/enterprise/verifyCode}" id="verifyimg"
+							onclick="getCode(this)" width="80px" height="28" />
+						</span>
+					</div>
+					<button type="button" class="btn btn-default login">登&nbsp;&nbsp;&nbsp;录</button>
 				</div>
 				<br />
 				<div class="other">

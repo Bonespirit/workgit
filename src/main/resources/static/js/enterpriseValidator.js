@@ -222,13 +222,14 @@ $(function () {
 						regexp: /\w{0,5}/,
 						message: "请输入有效验证码",
 					},
-					// remote: {
-					//   url: "",
-					//   data: {
-					//     mark: $("#mark").val(),
-					//   },
-					//   message: "验证失败",
-					// },
+//					 remote: {
+//					   url: "/enterprise/checkMark",
+//					   type:'post',
+//					   data: {
+//					     mark: $("#mark").val(),
+//					   },
+//					   message: "验证码错误",
+//					 },
 				},
 			},
 		},

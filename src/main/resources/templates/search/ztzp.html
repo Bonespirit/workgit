@@ -8,9 +8,9 @@
 <link th:include="commonhf::mhead"></link>
 <link rel="stylesheet" href="css/common-zp.css" th:href="@{/css/common-zp.css}" />
 <style type="text/css">
-	th {
-		background-color: #e9e8e8
-	}
+th {
+	background-color: #e9e8e8
+}
 </style>
 </head>
 <body style="height: auto">
@@ -18,7 +18,7 @@
 	<div th:replace="commonhf::sheader"></div>
 	<div style="width: 100%; height: auto; position: absolute; top: 110px">
 		<div id="center">
-			<div th:replace="commonhf::newsNav('组团招聘')"></div>
+			<div th:replace="commonhf::searchNav('组团招聘')"></div>
 			<div th:replace="commonhf::searchLeft"></div>
 			<div class="right" style="min-height: 300px">
 				<div th:replace="commonhf::searchSearch('ztzp')"></div>
@@ -36,10 +36,11 @@
 							</tr>
 						</thead>
 						<tr th:each="item : ${page.records}">
-							<td><a th:href="@{/views/ztzp/id/}+${item.id}" th:text="${item.title}"
-								th:title="${item.title}">先进科技（中国）有限公司2021校园招聘先进科技（中国）有限公司2021校园招聘</a></td>
-							<td><span th:text="${item.address}" th:title="${item.address}">A区主教学楼330室</span></td>
-							<td><text th:text="${item.hdate}">2021-03-09</text>&nbsp;<text th:text="${item.btime}">09:00-11:00</text></td>
+							<td>
+								<a style="width: 300px" th:href="@{/views/ztzp/id/}+${item.id}" th:utext="${item.title}"></a>
+							</td>
+							<td><span th:text="${item.address}" th:title="${item.address}"></span></td>
+							<td><text th:text="${item.hdate}"></text>&nbsp;<text th:text="${item.btime}"></text></td>
 						</tr>
 					</table>
 				</div>

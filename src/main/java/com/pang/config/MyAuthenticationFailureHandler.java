@@ -12,6 +12,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
 
+import com.pang.exception.ValidateCodeException;
+
 @Component
 public class MyAuthenticationFailureHandler implements AuthenticationFailureHandler {
 
@@ -19,14 +21,15 @@ public class MyAuthenticationFailureHandler implements AuthenticationFailureHand
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException exception) throws IOException, ServletException {
 		response.setContentType("application/json;charset=utf-8");
+		System.out.println("fail");
         String respBean = "登录失败";
         if (exception instanceof BadCredentialsException ||
                 exception instanceof UsernameNotFoundException) {
             respBean = "用户名不存在或者密码输入错误!";
-        }
-        response.setStatus(401);
-        request.getSession().setAttribute("msg", respBean);
-        response.sendRedirect(request.getContextPath()+"/login");
+        }else if (exception instanceof ValidateCodeException) {
+			respBean = "验证码错误";
+		}
+        response.getWriter().write(respBean);
 	}
 	
 }

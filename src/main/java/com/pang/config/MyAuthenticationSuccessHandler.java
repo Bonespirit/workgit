@@ -31,27 +31,30 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
 		RequestCache cache = new HttpSessionRequestCache();
 		SavedRequest savedRequest = cache.getRequest(request, response);
 		String url = null;
+		String murl = null;
 		if (savedRequest != null) {
 			url = savedRequest.getRedirectUrl();
 		}
 		if (url == null) {
 			for(Role role:user.getRoleList()) {
 				if (role.getRolename().equals("ROLE_sadmin") || role.getRolename().equals("ROLE_gadmin")) {
-					response.sendRedirect(request.getContextPath()+"/teacher/shsq/page/1");
+					murl = request.getContextPath()+"/teacher/shsq/page/1";
 					break;
 				}else if (role.getRolename().equals("ROLE_enterprise")) {
 					System.out.println("enter");
-					response.sendRedirect(request.getContextPath()+"/enterprise/zpzn");
+					murl = request.getContextPath()+"/enterprise/zpzn";
 					break;
 				}else {
 					System.out.println("student");
-					response.sendRedirect(request.getContextPath()+"/student/czsc");
+					murl = request.getContextPath()+"/student/czsc";
 					break;
 				}
 			}
 		}else {
 			System.out.println(url);
-			response.sendRedirect(request.getContextPath()+url);
+			murl = request.getContextPath()+url;
 		}
+		response.setStatus(200);
+		response.getWriter().write(murl);
 	}
 }

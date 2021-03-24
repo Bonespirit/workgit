@@ -30,8 +30,7 @@
 							</tr>
 						</thead>
 						<tr th:each="item : ${page.records}">
-							<td><a th:href="@{/views/zxzp/id/}+${item.id}" th:text="${item.title}"
-								th:title="${item.title}">桂林电子科技大学2021届毕业生第四场线上双选会邀请函</a></td>
+							<td><a th:href="@{/views/zxzp/id/}+${item.id}">【实习】[(${item.title})]</a></td>
 							<td th:text="${item.pdate}">2020-01-23</td>
 						</tr>
 					</table>

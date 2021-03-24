@@ -94,11 +94,11 @@ public class IndexController {
 				return map;
 			case 2:
 				//获取在线招聘信息
-				map.put("news", viewService.getRecruitInfoPage(1, 6, null, "0"));
+				map.put("news", viewService.getRecruitInfoPage(1, 6, null, "1"));
 				return map;
 			case 3:
 				//获取实习招聘信息
-				map.put("news", viewService.getRecruitInfoPage(1, 6, null, "1"));
+				map.put("news", viewService.getRecruitInfoPage(1, 6, null, "2"));
 				return map;
 		}
 		return map;

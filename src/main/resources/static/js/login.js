@@ -29,13 +29,6 @@ function uploadFile(upload) {
 			return;
 		}
 		$(this).siblings("input").val(mfiles[0].name);
-		// for (let i = 0; i < mfiles.length; i++) {
-		//   if (fileID.indexOf(mfiles[i].lastModified) != -1) {
-		//     fileInput.siblings("label")[2].className += " mactive";
-		//     return;
-		//   }
-		//   fileID.push(mfiles[i].lastModified);
-		// }
 	});
 }
 //////////////忘记密码模块/////////////
@@ -53,8 +46,46 @@ function forgetSubmit(btn) {
 /////////////////////////用户登录模块表单提交//////////////////
 $("#login-info .login-form .login").on("click", () => {
 	let oInput = $("#login-info .login-form .input-group .form-control");
-	if (check(oInput[0], unreg) && check(oInput[1], pdreg)) {
-		$("form").submit();
+	if (check(oInput[0], unreg) && check(oInput[1], pdreg) &&check(oInput[2], new RegExp(""))) {
+		$.ajax({
+	 		url:"/enterprise/checkMark",
+	 		type:"post",
+	 		data:{
+	 			mark:$("#mark").val()
+	 		},
+	 		success:function(data){
+	 			if(data == "true"){
+	 				login()
+	 			}else{
+	 				let img = $("#login-info .login-form .checkcode img")[0]
+	 				img.src = timestamp(img.src);
+	 				$(oInput[2]).nextAll("label")[1].className += " mactive";
+	 				$(oInput[2]).val("");
+	 				$("#login-info .login-form .uperrormsg")[0].innerHTML="";
+	 			}
+	 		}
+		});
+	}
+	function login(){
+		let formdata = new FormData($("form")[0]);
+		$.ajax({
+	 		url:"/login",
+	 		type:"post",
+	 		data: formdata,
+			cache: false,
+			contentType: false,
+			processData: false,
+	 		success:function(xhr){
+	 			console.log(xhr)
+	 			$("#jump").attr("href",xhr)
+	 			$("#jump")[0].click()
+	 		},
+	 		error:function(xhr){
+	 			let img = $("#login-info .login-form .checkcode img")[0]
+ 				img.src = timestamp(img.src);
+	 			$("#login-info .login-form .uperrormsg")[0].innerHTML=xhr.responseText;
+	 		}
+		});
 	}
 });
 $(function () {
@@ -67,16 +98,6 @@ $(function () {
 			this.className = "glyphicon glyphicon-eye-close";
 		}
 	});
-	// $(".register form p .getCheck").on("click",function(){
-	// 	$.ajax({
-	// 		url:"http://localhost:8080/SmallAppStorage/user/getCheckCode",
-	// 		type:"get",
-	// 		async:false,
-	// 		success:function(data){
-	// 			alert(data);
-	// 		}
-	// 	});
-	// });
 });
 //校验方法体
 function check(utest, mreg) {
@@ -118,10 +139,6 @@ function testEnpName(CompanyName) {
 		}
 	});
 }
-////校验统一社会信用代码C
-//function testCreditCode(creditCode) {
-//	check(creditCode, creditCodereg) ? getBack(creditCode) : null;
-//}
 //校验邮件
 function testEmail(email) {
 	check(email, emailreg) ? getBack(email) : null;
@@ -133,6 +150,19 @@ function testCheckCode(checkcode) {
 //校验密码
 function testPassword(password) {
 	check(password, pdreg) ? getBack(password) : null;
+}
+/**
+ * 获取验证码
+ * 将验证码写到login.html页面的id = verifyimg 的地方
+*/
+function getCode(mthis) {
+	$(mthis)[0].src = timestamp($(mthis)[0].src);
+}
+//为url添加时间戳
+function timestamp(url) {
+	let getTimestamp = new Date().getTime();
+	url = url.split("?")[0] + "?timestamp=" + getTimestamp
+	return url;
 }
 //校验用户名
 function testUsername(username) {
@@ -154,19 +184,3 @@ function testUsername(username) {
 	// 	}
 	// });
 }
-//function telephoneTest(test){
-//if((test.value == '') || (!regTele.test(test.value))){
-//$(test).next("i").css("display","none");
-//test.style.border="red solid 1px";
-//$(test).siblings('a').show(1000);
-//}else{
-//$(test).siblings('a').css("display","none");
-//$(test).next("i").css("display","inline-block");
-//test.style.border="1px solid #999";
-//}
-//}
-
-//function getCity(province) {
-//$("#citySel").html('<option value="100">信息传输</option>');
-//$(".selectpicker").selectpicker("refresh");
-//}

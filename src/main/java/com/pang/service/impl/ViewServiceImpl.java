@@ -109,8 +109,7 @@ public class ViewServiceImpl implements ViewService{
 	public Page<Teachin> getTeahinInfoPage(Integer pg, Integer number,String isschoolmate) {
 		Page<Teachin> cPage =  new Page<>(pg,number);
 		QueryWrapper<Teachin> queryWrapper = new QueryWrapper<>();
-		if (isschoolmate.isEmpty()) {
-		}else {
+		if (isschoolmate !=null) {
 			queryWrapper.eq("isschoolmate", isschoolmate);
 		}
 		queryWrapper.orderByDesc("tdate").select("id","title","tdate","btime","address","school","hot");
@@ -121,7 +120,7 @@ public class ViewServiceImpl implements ViewService{
 	public Page<Recruit> getRecruitInfoPage(Integer pg, Integer number, String isschoolmate, String nature) {
 		Page<Recruit> cPage =  new Page<>(pg,number);
 		QueryWrapper<Recruit> queryWrapper = new QueryWrapper<>();
-		if (!isschoolmate.isEmpty()) {
+		if (isschoolmate != null) {
 			queryWrapper.eq("isschoolmate", isschoolmate);
 		}
 		if (nature !=null) {
@@ -171,8 +170,7 @@ public class ViewServiceImpl implements ViewService{
 	public Page<Jobfair> getJobfairInfoPage(Integer pg, Integer number,String isschoolmate) {
 		Page<Jobfair> cPage =  new Page<>(pg,number);
 		QueryWrapper<Jobfair> queryWrapper = new QueryWrapper<>();
-		if (isschoolmate.isEmpty()) {
-		}else {
+		if (isschoolmate != null) {
 			queryWrapper.eq("isschoolmate", isschoolmate);
 		}
 		queryWrapper.orderByDesc("hdate").select("id","title","hdate","btime","address");

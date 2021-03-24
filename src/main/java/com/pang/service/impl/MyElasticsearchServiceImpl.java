@@ -1,9 +1,11 @@
 package com.pang.service.impl;
 
 import java.io.IOException;
-import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -105,9 +107,13 @@ public class MyElasticsearchServiceImpl implements MyElasticsearchService{
 	
 	@Override
 	public Page<Map<String, Object>> getSearchResult(
-			List<String> keyword,String index,String sortname,Integer pg) throws IOException {
-		Page<Map<String, Object>> page = new Page<>(pg,15);
-		pg = pg-1;
+			List<String> keyword,String index,String sortname,String pg) throws IOException, ParseException {
+		if (pg == null) {
+			pg="1";
+		}
+		Integer mpage = Integer.parseInt(pg);
+		Page<Map<String, Object>> page = new Page<>(mpage,15);
+		mpage = mpage-1;
 		SearchRequest searchRequest = new SearchRequest(index);
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 		BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
@@ -116,7 +122,7 @@ public class MyElasticsearchServiceImpl implements MyElasticsearchService{
 			boolQueryBuilder.filter(QueryBuilders.termQuery("extrakey", keyword.get(1)));
 		}
 		searchSourceBuilder.query(boolQueryBuilder);
-		searchSourceBuilder.from(pg*15);
+		searchSourceBuilder.from(mpage*15);
 		searchSourceBuilder.size(15);
 		searchRequest.source(searchSourceBuilder);
 		//排序字段
@@ -134,9 +140,11 @@ public class MyElasticsearchServiceImpl implements MyElasticsearchService{
 		page.setPages((total%15 == 0) ? total/15 : (total/15+1));
 		SearchHit[] searchHits = hits.getHits();
 		List<Map<String, Object>> olist = new ArrayList<>();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		for(SearchHit searchHit:searchHits) {
 			Map<String, Object> source = searchHit.getSourceAsMap();
-			String mtitle = (String) source.get("title");
+			String md = dateFormat.format(dateFormat.parse((String)source.get("pdate")));
+			source.put("pdate", md);
 			Map<String, HighlightField> highlightFields = searchHit.getHighlightFields();
 			if (highlightFields != null) {
 				HighlightField title = highlightFields.get("title");
@@ -146,11 +154,10 @@ public class MyElasticsearchServiceImpl implements MyElasticsearchService{
 	                for (Text str : fragments) {
 	                    stringBuffer.append(str.string());
 	                }
-	                //替换原来的title，展示高亮
-	                mtitle = stringBuffer.toString();
+	                //高亮展示title
+	                source.put("title", stringBuffer.toString());
 				}
 			}
-			source.put("title", mtitle);
 			olist.add(source);
 		}
 		page.setRecords(olist);
@@ -210,8 +217,12 @@ public class MyElasticsearchServiceImpl implements MyElasticsearchService{
 		page.setPages((total%15 == 0) ? total/15 : (total/15+1));
 		SearchHit[] searchHits = hits.getHits();
 		List<Map<String, Object>> olist = new ArrayList<>();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		for(SearchHit searchHit:searchHits) {
-			olist.add(searchHit.getSourceAsMap());
+			Map<String, Object> source = searchHit.getSourceAsMap();
+			String date = dateFormat.format((String)source.get("pdate"));
+			source.put("pdate", date);
+			olist.add(source);
 		}
 		page.setRecords(olist);
 		return page;

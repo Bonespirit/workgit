@@ -184,6 +184,9 @@ public class TeacherServiceImpl implements TeacherService{
 		ZpHtml zpHtml = new ZpHtml();
 		zpHtml.setContents(contents);
 		zpHtmlMapper.insert(zpHtml);
+		if (recruit.getNature().equals("2")) {
+			recruit.setTitle("【实习】"+recruit.getTitle());
+		}
 		recruit.setId(zpHtml.getId());
 		recruit.setCid(cid);
 		recruitMapper.insert(recruit);

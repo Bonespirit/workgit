@@ -68,7 +68,7 @@ public interface ViewService {
 	 * @param pg			页码
 	 * @param number		单页数据量
 	 * @param isschoolmate	是否校友约束:null表示查询全部，'0':非校友，'1':校友
-	 * @param nature		工作性质约束:null表示查询全部，'0':全职,'1':实习
+	 * @param nature		工作性质约束:null表示查询全部，'0':不限，'1':全职,'2':实习
 	 * @return
 	 */
 	public Page<Recruit> getRecruitInfoPage(Integer pg,Integer number,String isschoolmate,String nature);

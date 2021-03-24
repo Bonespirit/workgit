@@ -28,12 +28,17 @@ import com.pang.entity.Mposition;
 import com.pang.entity.Recruit;
 import com.pang.entity.TeachinExam;
 import com.pang.entity.User;
+import com.pang.entity.VerifyCode;
 import com.pang.mapper.ZpHtmlMapper;
 import com.pang.service.EnterpriseService;
+import com.pang.service.IVerifyCodeGen;
 import com.pang.service.MyElasticsearchService;
 import com.pang.service.TeacherService;
 import com.pang.service.ViewService;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Controller
 @RequestMapping("/enterprise")
 public class EnterpriseController {
@@ -55,6 +60,49 @@ public class EnterpriseController {
 	
 	@Autowired
 	ZpHtmlMapper zpHtmlMapper;
+	
+	@Autowired
+    IVerifyCodeGen iVerifyCodeGen;
+    
+	//获取图形验证码
+	@GetMapping("/verifyCode")
+	public void verifyCode(HttpServletRequest request, HttpServletResponse response) {
+	    try {
+	        //设置长宽
+	        VerifyCode verifyCode = iVerifyCodeGen.generate(80, 28);
+	        String code = verifyCode.getCode();
+	        log.info(code);
+	        //将VerifyCode绑定session
+	        request.getSession().setAttribute("VerifyCode", code);
+	        //设置响应头
+	        response.setHeader("Pragma", "no-cache");
+	        //设置响应头
+	        response.setHeader("Cache-Control", "no-cache");
+	        //在代理服务器端防止缓冲
+	        response.setDateHeader("Expires", 0);
+	        //设置响应内容类型
+	        response.setContentType("image/jpeg");
+	        response.getOutputStream().write(verifyCode.getImgBytes());
+	        response.getOutputStream().flush();
+	    }
+	    catch (IOException e) {
+	        log.info("", e);
+	    }
+	}
+	
+	//检查验证码
+	@PostMapping("/checkMark")
+	@ResponseBody
+	public String checkMark(@RequestParam("mark") String mark,
+			HttpServletResponse response,
+			HttpServletRequest request) throws IOException {
+		String code = ((String) request.getSession().getAttribute("VerifyCode")).toLowerCase();
+		if (code.equals(mark.toLowerCase())) {
+			return "true";
+		}else {
+			return "false";
+		}
+	}
 	
 	//检查手机号注册情况
 	@PostMapping("/testtelephone")
@@ -80,7 +128,11 @@ public class EnterpriseController {
 	//审查宣讲会申请情况
 	@GetMapping("/checkteachinE/id/{id}")
 	public String goToCheckTeachinE(@PathVariable("id") Integer id,Model model) {
-		model.addAttribute("teachin", viewService.getTeachinExamById(id));
+		TeachinExam teachinExam = viewService.getTeachinExamById(id);
+		if (teachinExam == null) {
+			return "redirect:/error/404";
+		}
+		model.addAttribute("teachin", teachinExam);
 		model.addAttribute("visitors", viewService.getVisitorsByLid(id));
 		model.addAttribute("contents", zpHtmlMapper.selectById(id).getContents());
 		return "enterprise/checkteache";
@@ -144,15 +196,25 @@ public class EnterpriseController {
 	
 	//网络招聘发布模块
 	@GetMapping("/wlzp")
-	public String goToWlzp() {
+	public String goToWlzp(Model model) {
+		model.addAttribute("page", viewService.getRecruitInfoPage(1, 10, null, null));
 		return "enterprise/wlzp";
+	}
+	@GetMapping("/precruit")
+	public String goToPRecruit(HttpServletRequest request,Model model) {
+		model.addAttribute("ipAddr", uploadService.getIpAndPutInRedis(request));
+		return "enterprise/precruit";
 	}
 	//网络招聘信息发布导入数据库
 	@PostMapping("/wlzp")
-	public String putWlzpInfo(Recruit recruit,@RequestParam("contents") String contents) {
+	public String putWlzpInfo(Recruit recruit,
+			@RequestParam("contents") String contents,
+			@RequestParam("validurl") String validurl,
+			@RequestParam("ipAddr") String ip) {
 		User  user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		teacherService.pRecruit(recruit, contents, user.getForeignkey());
-		return contents;
+		uploadService.updateWangImgMaster(ip, validurl);
+		return "redirect:wlzp";
 	}
 	
 	//修改密码模块

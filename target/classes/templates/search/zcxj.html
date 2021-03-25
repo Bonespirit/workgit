@@ -36,23 +36,30 @@ th {
 								<th>举办时间</th>
 							</tr>
 						</thead>
-						<tr th:each="item : ${page.records}">
-							<td>
-								<a style="width: 300px" th:href="@{/views/xjh/id/}+${item.id}" th:utext="${item.title}"></a>
-							</td>
+						<tr th:each="item : ${page.records}" th:if="${page.countId eq '-99'}">
+							<td><a target="_blank" style="width: 300px" th:href="@{/views/xjh/id/}+${item.id}"
+								th:title="${item.title}" th:utext="${item.htitle}"></a></td>
+							<td><span th:title="${item.school}" th:text="${item.school}"></span></td>
+							<td><span th:text="${item.address}" th:title="${item.address}"></span></td>
+							<td><text th:text="${item.tdate}"></text>&nbsp;<text th:text="${item.btime}"></text></td>
+						</tr>
+						<tr th:each="item : ${page.records}" th:unless="${page.countId eq '-99'}">
+							<td><a target="_blank" style="width: 300px" th:href="@{/views/xjh/id/}+${item.id}"
+								th:title="${item.title}" th:text="${item.title}"></a></td>
 							<td><span th:title="${item.school}" th:text="${item.school}"></span></td>
 							<td><span th:text="${item.address}" th:title="${item.address}"></span></td>
 							<td><text th:text="${item.tdate}"></text>&nbsp;<text th:text="${item.btime}"></text></td>
 						</tr>
 					</table>
 				</div>
-				<div th:replace="commonhf::pageHelper(''+${curl})"></div>
-				<div style="clear: both"></div>
+				<div th:replace="commonhf::pageHelper"></div>
 			</div>
-			<div th:replace="commonhf::#footer"></div>
+			<div style="clear: both"></div>
 		</div>
-		<script>
-			$("#center .left li")[3].className = "uactive";
-		</script>
+		<div th:replace="commonhf::#footer"></div>
+	</div>
+	<script>
+		$("#center .left li")[3].className = "uactive";
+	</script>
 </body>
 </html>

@@ -161,9 +161,11 @@ public class EnterpriseServiceImpl implements EnterpriseService{
 	@Override
 	public void putPositionInfo(Mposition mposition, String describe) {
 		PositionHtml positionHtml = new PositionHtml(null,describe);
-		int i = positionHtmlMapper.insert(positionHtml);
-		System.out.println(i);
+		positionHtmlMapper.insert(positionHtml);
+		mposition.setWorkplace(mposition.getProvinceSel()+"&"+mposition.getCitySel());
 		mposition.setId(positionHtml.getId());
+		mposition.setWnature(customFunc.getWorkNature(mposition.getWnature()));
+		mposition.setEdu(customFunc.getEdu(mposition.getEdu()));
 		positionMapper.insert(mposition);
 	}
 

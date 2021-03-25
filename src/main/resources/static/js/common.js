@@ -51,7 +51,7 @@ function msubmit(){
 		imgsrc.push(wimg[i].src.split("/").pop())
 	}
 	$("#validurl").attr("value",imgsrc);
-	$("form")[0].submit();
+	$("#publish")[0].submit();
 }
 $("#rich-text button")
 .eq(0)

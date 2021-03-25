@@ -12,7 +12,7 @@
 	<div th:fragment="thLeft" class="left">
 		<ul>
 			<li class="tag" style="background-color: #60b0f4"><a href="javascript:;">常办事项</a></li>
-			<li><span class="glyphicon glyphicon-check"></span> <a th:href="@{/teacher/shsq/page/1}">审核申请</a></li>
+			<li><span class="glyphicon glyphicon-check"></span> <a th:href="@{/teacher/shsq(page=1)}">审核申请</a></li>
 			<li><span class="glyphicon glyphicon-edit"></span> <a th:href="@{/teacher/fbnr}">发布内容</a></li>
 			<li><span class="glyphicon glyphicon-upload"></span> <a th:href="@{/teacher/uploadsource}">资源上传</a></li>
 			<li class="tag" style="background-color: #60b0f4"><a href="javascript:;">编辑学校信息</a></li>
@@ -29,7 +29,7 @@
 	<div th:fragment="teacherNav (cur)" class="nav">
 		<ul class="list-inline">
 			<li><a th:href="@{/}">首页</a> <span>></span></li>
-			<li><a th:href="@{/teacher/shsq/page/1}">管理中心</a> <span>></span></li>
+			<li><a th:href="@{/teacher/shsq(page=1)}">管理中心</a> <span>></span></li>
 		</ul>
 		<span>[[${cur}]]</span>
 	</div>

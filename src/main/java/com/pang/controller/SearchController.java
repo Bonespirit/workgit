@@ -46,24 +46,8 @@ public class SearchController {
 	//高级检索，并分页
 	@PostMapping("/jobs/{page}")
 	@ResponseBody
-	public Page<Map<String, Object>> searchJobs(SearchKey searchKey,@PathVariable("page") Integer pg) throws IOException {
+	public Page<Map<String, Object>> searchJobs(SearchKey searchKey,@PathVariable("page") Integer pg) throws IOException, ParseException {
 		return myElasticsearchService.advancedSearch(searchKey, pg);
-	}
-	
-	//获取news列表并翻页
-	@GetMapping("/news")
-	public String goToNews(@RequestParam("column") String mcolumn,
-			HttpServletRequest request,
-			@RequestParam("keyword") String keyword,Model model) throws IOException, ParseException {
-		String pg = request.getParameter("page");
-		List<String> oList = new ArrayList<String>();
-		oList.add(keyword);
-		oList.add(mcolumn);
-		Page<Map<String, Object>> page = 
-				myElasticsearchService.getSearchResult(oList, "news", "pdate", pg);
-		customFunc.getModelByPage(page,model);
-		model.addAttribute("curl", "search/news?column="+mcolumn+"&keyword="+keyword);
-		return "news/browse";
 	}
 	
 	//获取双选会列表并翻页
@@ -82,9 +66,10 @@ public class SearchController {
 		List<String> oList = new ArrayList<String>();
 		oList.add(keyword);
 		Page<Map<String, Object>> page = 
-				myElasticsearchService.getSearchResult(oList, "sxh", "pdate", pg);
+				myElasticsearchService.getSearchResult(oList, "sxh", "pdate", pg,15);
 		customFunc.getModelByPage(page,model);
-		model.addAttribute("curl", "search/search/sxh?keyword="+keyword);
+		model.addAttribute("curl", "search/search/sxh");
+		model.addAttribute("keyword", keyword);
 		return "search/sxh";
 	}
 	
@@ -106,9 +91,10 @@ public class SearchController {
 		List<String> oList = new ArrayList<String>();
 		oList.add(keyword);
 		Page<Map<String, Object>> page = 
-				myElasticsearchService.getSearchResult(oList, "teachin", "tdate", pg);
+				myElasticsearchService.getSearchResult(oList, "teachin", "tdate", pg,15);
 		customFunc.getModelByPage(page,model);
-		model.addAttribute("curl", "search/search/zcxj?keyword="+keyword);
+		model.addAttribute("curl", "search/search/zcxj");
+		model.addAttribute("keyword", keyword);
 		return "search/zcxj";
 	}
 	
@@ -130,9 +116,10 @@ public class SearchController {
 		List<String> oList = new ArrayList<String>();
 		oList.add(keyword);
 		Page<Map<String, Object>> page = 
-				myElasticsearchService.getSearchResult(oList, "jobfair", "hdate", pg);
+				myElasticsearchService.getSearchResult(oList, "jobfair", "hdate", pg,15);
 		customFunc.getModelByPage(page,model);
-		model.addAttribute("curl", "search/search/ztzp?keyword="+keyword);
+		model.addAttribute("curl", "search/search/ztzp");
+		model.addAttribute("keyword", keyword);
 		return "search/ztzp";
 	}
 	
@@ -155,9 +142,10 @@ public class SearchController {
 		oList.add(keyword);
 		oList.add("0");
 		Page<Map<String, Object>> page = 
-				myElasticsearchService.getSearchResult(oList, "recruit", "pdate", pg);
+				myElasticsearchService.getSearchResult(oList, "recruit", "pdate", pg,15);
 		customFunc.getModelByPage(page,model);
-		model.addAttribute("curl", "search/search/zxzp?keyword="+keyword);
+		model.addAttribute("curl", "search/search/zxzp");
+		model.addAttribute("keyword", keyword);
 		return "search/zxzp";
 	}
 	
@@ -166,7 +154,7 @@ public class SearchController {
 	public String goToRecruitSx(@RequestParam("page") Integer pg,
 			HttpServletRequest request,Model model) {
 		String schoolmate = request.getParameter("schoolmate");
-		Page<Recruit> page = viewService.getRecruitInfoPage(pg, 4, schoolmate, "2");
+		Page<Recruit> page = viewService.getRecruitInfoPage(pg, 2, schoolmate, "2");
 		customFunc.getModelByPage(page,model);
 		model.addAttribute("curl", "search/sxzp");
 		return "search/sxzp";
@@ -181,9 +169,10 @@ public class SearchController {
 		oList.add(keyword);
 		oList.add("2");
 		Page<Map<String, Object>> page = 
-				myElasticsearchService.getSearchResult(oList, "recruit", "pdate", pg);
+				myElasticsearchService.getSearchResult(oList, "recruit", "pdate", pg,2);
 		customFunc.getModelByPage(page,model);
-		model.addAttribute("curl", "search/search/sxzp?keyword="+keyword);
+		model.addAttribute("curl", "search/search/sxzp");
+		model.addAttribute("keyword", keyword);
 		return "search/sxzp";
 	}
 }

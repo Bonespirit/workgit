@@ -29,8 +29,8 @@ import lombok.extern.slf4j.Slf4j;
 public class MyRedisConfig {
 
 
-	@Bean
-	public KeyGenerator myKeyGenerator(){
+	@Bean(name="myKeyGenerator")
+	public KeyGenerator KeyGenerator(){
 	     return new KeyGenerator() {
 			@Override
 			public Object generate(Object target, Method method, Object... params) {

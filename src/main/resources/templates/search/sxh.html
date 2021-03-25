@@ -27,12 +27,12 @@
 							</tr>
 						</thead>
 						<tr th:each="item : ${page.records}">
-							<td><a th:href="@{/views/sxh/id/}+${item.id}" th:utext="${item.title}"></a></td>
+							<td><a target="_blank" th:href="@{/views/sxh/id/}+${item.id}" th:utext="${item.title}"></a></td>
 							<td th:text="${item.pdate}"></td>
 						</tr>
 					</table>
 				</div>
-				<div th:replace="commonhf::pageHelper(''+${curl})"></div>
+				<div th:replace="commonhf::pageHelper"></div>
 			</div>
 			<div style="clear: both"></div>
 		</div>

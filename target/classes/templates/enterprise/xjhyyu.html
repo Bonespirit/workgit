@@ -38,7 +38,7 @@ th {
 					<ul class="refuse">
 						<li th:each="item : ${page.records}">
 							<p style="vertical-align: middle">
-								标题：<a href="javascript:;" th:text="${item.title}"
+								标题：<a target="_blank" href="javascript:;" th:text="${item.title}"
 									th:title="${item.title}">先进科技（中国）有限公司2021校园招聘先进科技（中国）有限公司2021校园招聘</a>
 							</p>
 							<p>
@@ -49,7 +49,7 @@ th {
 							</p>
 						</li>
 					</ul>
-					<a th:href="@{/enterprise/xjhyyp}">
+					<a target="_blank" th:href="@{/enterprise/xjhyyp}">
 						<button type="button" class="btn mybtn btn">+新增</button>
 					</a>
 				</div>

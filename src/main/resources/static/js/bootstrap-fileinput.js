@@ -1,7 +1,7 @@
 $("#input-ke-2").fileinput({
 	language : "zh",
 	theme : "explorer-fa",
-	uploadUrl : '/upload/enclosure',
+	uploadUrl : '/teacher/enclosure',
 	uploadAsync : false,
 	enctype : 'multipart/form-data',
 	minFileCount : 0,

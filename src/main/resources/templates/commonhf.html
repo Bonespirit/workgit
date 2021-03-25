@@ -53,6 +53,7 @@
 	th:href="@{/bootstrap/css/bootstrap.min.css}" />
 <link rel="stylesheet" href="css/index.css" th:href="@{/css/index.css}" />
 <link rel="stylesheet" href="css/zpjzview.css" th:href="@{/css/zpjzview.css}" />
+<link rel="stylesheet" href="css/commons.css" th:href="@{/css/commons.css}"/>
 <script src="js/jquery-3.3.1.min.js" th:src="@{/js/jquery-3.3.1.min.js}"></script>
 <script src="bootstrap/js/bootstrap.min.js" th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
 </head>
@@ -71,7 +72,7 @@
 				<div class="col-md-2 col-sm-2 item">
 					学生 <span class="more"></span>
 					<ul class="list-inline">
-						<li><a href="javascript:;">招聘信息</a></li>
+						<li><a th:href="@{/search/jobs}">招聘信息</a></li>
 						<li><a th:href="@{/news/search(column=4,page=1)}">就业政策</a></li>
 						<li><a th:href="@{/news/search(column=3,page=1)}">就业指导</a></li>
 						<li><a href="javascript:;">毕业填报</a></li>
@@ -88,13 +89,13 @@
 					</ul>
 				</div>
 				<div class="col-md-2 col-sm-2 item">
-					<a th:href="@{/teacher/shsq/page/1}">教职工</a>
+					<a th:href="@{/teacher/shsq(page=1)}">教职工</a>
 				</div>
 				<div class="col-md-2 col-sm-2 item1" style="font-size: 16px">
 					<span id="search-click" class="glyphicon glyphicon-search"
 						style="color: darkgray; cursor: pointer"></span> <a
-						th:if="${#strings.isEmpty(username)}" th:href="@{/eplogin}"><strong style="margin: 0 5px">|</strong>登录</a>
-					<form style="display: inline-block;" th:if="${not #strings.isEmpty(username)}" th:action="@{/logout}" method="post">
+						sec:authorize="!isAuthenticated()" th:href="@{/eplogin}"><strong style="margin: 0 5px">|</strong>登录</a>
+					<form style="display: inline-block;" sec:authorize="isAuthenticated()" th:action="@{/logout}" method="post">
 						<button type="submit" class="btn btn-default">注销</button>
 					</form>
 					<div class="top-search">
@@ -167,7 +168,7 @@
 		<ul>
 			<li class="tag" style="background-color: #60b0f4"><a href="javascript:;">办事指南</a></li>
 			<li><span class="glyphicon glyphicon-list-alt"></span> <a th:href="@{/enterprise/zpzn}">招聘指南</a></li>
-			<li><span class="glyphicon glyphicon-list-alt"></span> <a th:href="@{/enterprise/zwgl}">职位管理</a></li>
+			<li><span class="glyphicon glyphicon-list-alt"></span> <a th:href="@{/enterprise/zwgl(page=1)}">职位管理</a></li>
 			<li><span class="glyphicon glyphicon-list-alt"></span> <a th:href="@{/enterprise/wlzp}">网络招聘</a></li>
 			<li><span class="glyphicon glyphicon-list-alt"></span> <a th:href="@{/enterprise/xjhyy}">宣讲会预约</a></li>
 			<li><span class="glyphicon glyphicon-list-alt"></span> <a th:href="@{/search/sxh(page=1)}">双选会预约</a></li>
@@ -354,10 +355,11 @@
 	<!-- news search -->
 	<div th:fragment="newsSearch" class="search">
 		<h5>关键字</h5>
-		<form th:action="@{/search/news(column=${news.mcolumn})}">
+		<form th:action="@{/news/search}">
 			<div class="input-group">
-				<input type="text" name="keyword" class="form-control" placeholder="请输入搜索内容" /> <span
-					class="input-group-btn">
+				<input type="text" name="keyword" class="form-control" placeholder="请输入搜索内容" /> 
+				<input type="text" hidden="hidden" name="column" th:value="${news.mcolumn}"/>
+				<span class="input-group-btn">
 					<button class="btn mybtn" type="submit">搜索</button>
 				</span>
 			</div>
@@ -374,33 +376,53 @@
 				</tr>
 			</thead>
 			<tr th:each="item : ${page.records}">
-				<td><span style="color: #f40" th:if="${item.grade eq 1}">[置顶]</span><a
-					th:href="@{/views/news/id/}+${item.id}" th:text="${item.title}" th:title="${item.title}">2020届毕业生生源一览表</a></td>
+				<td><span style="color: #f40" th:if="(${item['grade']}) and ${item.grade eq 1}">[置顶]</span><a
+					th:href="@{/views/news/id/}+${item.id}" th:utext="${item.title}">2020届毕业生生源一览表</a></td>
 				<td th:text="${item.pdate}">2020-01-23</td>
 			</tr>
 		</table>
 	</div>
 
 	<!-- 前端分页 -->
-	<div th:fragment="pageHelper(murl)" style="float: right" th:if="${page.pages gt 1}">
+	<div th:fragment="pageHelper" style="float: right" th:if="${page.pages gt 1}">
 		<ul class="pagination">
-			<li th:if="${ page.current != 1}"><a th:href="@{/{url}(url=${murl},page=1)}">首页</a></li>
-			<li th:if="${page.hasPrevious}"><a th:href="@{/{url}(url=${murl},page=${page.current - 1})}"
+			<li th:if="${ page.current != 1}"><a th:href="@{/{url}(url=${curl},keyword=${keyword},page=1)}">首页</a></li>
+			<li th:if="${page.hasPrevious}"><a th:href="@{/{url}(url=${curl},keyword=${keyword},page=${page.current - 1})}"
 				aria-label="Previous"> <span aria-hidden="false">&laquo;</span>
 			</a></li>
 			<th:block th:each="i : ${#numbers.sequence(begin,end)}">
 				<li th:class="${i == page.current} ? 'active'"><a
-					th:href="@{/{url}(url=${murl},page=${i})}" th:text="${i}" th:if="${i != page.current}"></a> <span
+					th:href="@{/{url}(url=${curl},keyword=${keyword},page=${i})}" th:text="${i}" th:if="${i != page.current}"></a> <span
 					style="font-weight: bold" th:if="${i == page.current}" th:text="${i}"></span></li>
 			</th:block>
-			<li th:if="${page.hasNext}"><a th:href="@{/{url}(url=${murl},page=${page.current + 1})}"
+			<li th:if="${page.hasNext}"><a th:href="@{/{url}(url=${curl},keyword=${keyword},page=${page.current + 1})}"
 				aria-label="Next"> <span aria-hidden="false">&raquo;</span>
 			</a></li>
 			<li th:if="${ page.current != page.pages}"><a
-				th:href="@{/{url}(url=${murl},page=${page.pages})}">末页</a></li>
+				th:href="@{/{url}(url=${curl},keyword=${keyword},page=${page.pages})}">末页</a></li>
 		</ul>
 	</div>
-
+	
+	<!-- news 前端分页 -->
+	<div th:fragment="newsPageHelper" style="float: right" th:if="${page.pages gt 1}">
+		<ul class="pagination">
+			<li th:if="${ page.current != 1}"><a th:href="@{/news/search(column=${column},keyword=${keyword},page=1)}">首页</a></li>
+			<li th:if="${page.hasPrevious}"><a th:href="@{/news/search(column=${column},keyword=${keyword},page=${page.current - 1})}"
+				aria-label="Previous"> <span aria-hidden="false">&laquo;</span>
+			</a></li>
+			<th:block th:each="i : ${#numbers.sequence(begin,end)}">
+				<li th:class="${i == page.current} ? 'active'"><a
+					th:href="@{/news/search(column=${column},keyword=${keyword},page=${i})}" th:text="${i}" th:if="${i != page.current}"></a> <span
+					style="font-weight: bold" th:if="${i == page.current}" th:text="${i}"></span></li>
+			</th:block>
+			<li th:if="${page.hasNext}"><a th:href="@{/news/search(column=${column},keyword=${keyword},page=${page.current + 1})}"
+				aria-label="Next"> <span aria-hidden="false">&raquo;</span>
+			</a></li>
+			<li th:if="${ page.current != page.pages}"><a
+				th:href="@{/news/search(column=${column},keyword=${keyword},page=${page.pages})}">末页</a></li>
+		</ul>
+	</div>
+	
 	<!-- search nav -->
 	<div th:fragment="searchNav(cur)" class="nav">
 		<ul class="list-inline">

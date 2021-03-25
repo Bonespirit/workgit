@@ -32,7 +32,7 @@ public class Mposition implements Serializable{
 	private String provinceSel; //省份
 	@TableField(exist=false)
 	private String citySel;		//城市
-	private String nature;		//工作性质
+	private String wnature;		//工作性质
 	private String edu;			//学历要求
 	private String skill;		//职位类别
 	private Integer number;		//招聘人数
@@ -44,4 +44,6 @@ public class Mposition implements Serializable{
 	private Date pdate;			//发布时间
 	private Integer hot;		//浏览次数
 	
+	@TableField(exist=false)
+	private String mcontents;	//职位描述
 }

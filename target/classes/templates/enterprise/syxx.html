@@ -23,7 +23,7 @@
 						</tr>
 					</thead>
 					<tr th:each="item : ${news.records}">
-						<td><a th:href="@{/views/news/id/{id}(id=${item.id})}" th:text="${item.title}" th:title="${item.title}">2021届毕业生生源一览表</a></td>
+						<td><a target="_blank" th:href="@{/views/news/id/{id}(id=${item.id})}" th:text="${item.title}" th:title="${item.title}">2021届毕业生生源一览表</a></td>
 						<td th:text="${item.pdate}">2021-01-23</td>
 					</tr>
 				</table>

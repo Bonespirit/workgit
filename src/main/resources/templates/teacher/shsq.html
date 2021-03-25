@@ -20,8 +20,8 @@
 						单位注册申请 <span class="caret"></span>
 					</button>
 					<ul class="dropdown-menu" role="menu">
-						<li><a th:href="@{/teacher/shsq/page/1}">单位注册申请</a></li>
-						<li><a th:href="@{/teacher/shsqt/page/1}">宣讲会申请</a></li>
+						<li><a th:href="@{/teacher/shsq(page=1)}">单位注册申请</a></li>
+						<li><a th:href="@{/teacher/shsqt(page=1)}">宣讲会申请</a></li>
 					</ul>
 				</div>
 				<hr />
@@ -44,7 +44,7 @@
 						</li>
 					</ul>
 				</div>
-				<div th:replace="commonhf::pageHelper('teacher/shsq/page/{page}')"></div>
+				<div th:replace="commonhf::pageHelper"></div>
 			</div>
 			<div style="clear: both"></div>
 		</div>

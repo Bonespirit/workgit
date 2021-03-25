@@ -68,11 +68,11 @@ public interface customFunc {
 	public String getVisitorIp(HttpServletRequest request);
 	
 	/**
-	 * 根据栏目标号获取栏目名称和导航地址
+	 * 根据栏目标号获取栏目名称
 	 * @param column
 	 * @return
 	 */
-	public Map<String, String> getCnameByColumn(Integer column);
+	public String getCnameByColumn(Integer column);
 	
 	/**
 	 * 将数据集里的日期格式化为分开的年月日存入MyDate实体中

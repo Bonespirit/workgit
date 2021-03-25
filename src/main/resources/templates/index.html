@@ -65,7 +65,7 @@
 								<!-- 通知公告 -->
 								<li th:each="item : ${tpage.records}"><span style="color: #f40; float: left"
 									th:if="${item.grade eq 1}">[置顶]</span> <span class="date" th:text="${item.pdate}">2021-01-28</span>
-									<a th:href="@{views/news/id/}+${item.id}" th:text="${item.title}" th:title="${item.title}">关于举办桂林电子科技大学2021届毕业</a>
+									<a target="_blank" th:href="@{views/news/id/}+${item.id}" th:text="${item.title}" th:title="${item.title}">关于举办桂林电子科技大学2021届毕业</a>
 								</li>
 							</ul>
 						</div>
@@ -75,7 +75,7 @@
 								<!-- 公示 -->
 								<li th:each="item : ${jpage.records}"><span style="color: #f40; float: left"
 									th:if="${item.grade eq 1}">[置顶]</span> <span class="date" th:text="${item.pdate}">2021-01-28</span>
-									<a th:href="@{views/news/id/}+${item.id}" th:text="${item.title}" th:title="${item.title}">关于举办桂林电子科技大学2021届毕业</a>
+									<a target="_blank"  th:href="@{views/news/id/}+${item.id}" th:text="${item.title}" th:title="${item.title}">关于举办桂林电子科技大学2021届毕业</a>
 								</li>
 							</ul>
 						</div>
@@ -110,7 +110,7 @@
 						<ul>
 							<li th:each="item : ${xpage.records}"><span style="color: #f40; float: left"
 								th:if="${item.grade eq 1}">[置顶]</span> <span class="date" th:text="${item.pdate}">2021-01-28</span>
-								<a th:href="@{views/news/id/}+${item.id}" th:text="${item.title}" th:title="${item.title}">关于举办桂林电子科技大学2021届毕业</a>
+								<a target="_blank"  th:href="@{views/news/id/}+${item.id}" th:text="${item.title}" th:title="${item.title}">关于举办桂林电子科技大学2021届毕业</a>
 							</li>
 						</ul>
 					</div>
@@ -155,7 +155,7 @@
 							<div class="career-list">
 								<ul>
 									<li class="item" th:each="item,itemStat: ${teachin.records}"><a
-										th:href="@{/views/xjh/id/}+${item.id}">
+										th:href="@{/views/xjh/id/}+${item.id}" target="_blank" >
 											<div class="date">
 												<span class="month">[[${mdate[itemStat.index].month}]]月</span> <span class="day">[[${mdate[itemStat.index].day}]]日</span>
 											</div>
@@ -191,7 +191,7 @@
 		<table class="table">
 			{{~it.news.records:value}}
 	        	<tr>
-					<td><a href="@{/views/news/id/{{=value.id}}}" title="{{=value.title}}">{{=value.title}}</a></td>
+					<td><a target="_blank" th:href="@{/views/zxzp/id/{{=value.id}}}" title="{{=value.title}}">{{=value.title}}</a></td>
 					<td>{{=value.pdate}}</td>
 				</tr>
 	      	{{~}}
@@ -203,7 +203,7 @@
 		    <ul>
 		      {{~it.teachin.records:value:index}}
 		        <li class="item">
-		          <a href="@{/views/xjh/id/{{=value.id}}}">
+		          <a target="_blank"  th:href="@{/views/xjh/id/{{=value.id}}}">
 		            <div class="date">
 		              <span class="month">{{=it.mdate[index].month}}月</span>
 		              <span class="day">{{=it.mdate[index].day}}日</span>

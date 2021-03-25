@@ -14,7 +14,7 @@
 			<div class="nav">
 				<ul class="list-inline">
 					<li><a th:href="@{/}">首页</a> <span>></span></li>
-					<li><a th:href="@{/search/zxzp}">在线招聘</a> <span>></span></li>
+					<li><a th:href="@{/search/zxzp(page=1)}">在线招聘</a> <span>></span></li>
 				</ul>
 				<span>文章</span>
 			</div>
@@ -31,8 +31,8 @@
 					</ul>
 					<div style="clear: both"></div>
 				</div>
-				<div class="section" th:text="${contents}"></div>
-				<div class="footer">
+				<div class="section" th:utext="${contents}"></div>
+				<div class="footer" th:if="${position.total gt 0}">
 					<h4>招聘职位</h4>
 					<br />
 					<table class="poslist table table-condensed table-bordered table-responsive">
@@ -43,8 +43,8 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr th:each="item : ${position.jobs}">
-								<td><a th:href="@{/views/jobs/id/}+${item.id}">
+							<tr th:each="item : ${page.records}">
+								<td><a target="_blank" th:href="@{/views/jobs/id/}+${item.id}">
 										<div class="position">
 											<p class="name" th:text="${item.pname}">Java开发工程师</p>
 											<p>

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.pang.entity.Company;
+import com.pang.entity.Mposition;
 import com.pang.entity.Recruit;
 import com.pang.entity.Teachin;
 import com.pang.service.MyElasticsearchService;
@@ -33,6 +34,16 @@ public class ViewsController {
 	
 	@Autowired
 	NewsHtmlService newsHtmlService;
+	
+	//获取职位信息
+	@GetMapping("/jobs/id/{id}")
+	public String goToJobs(@PathVariable("id") Integer id,Model model) throws IOException {
+		Mposition mposition = viewService.getPositionById(id);;
+		model.addAttribute("position", mposition);
+		model.addAttribute("company", viewService.getComPartInfo(mposition.getCid()));
+		return "views/jobsview";
+	}
+	
 	
 	//获取单位注册申请表信息
 	@GetMapping("/shsqc/id/{id}")
@@ -66,9 +77,10 @@ public class ViewsController {
 	//宣讲会详情信息
 	@GetMapping("/xjh/id/{id}")
 	public String getTeachinInfo(@PathVariable("id") Integer id,Model model) throws IOException {
-		model.addAttribute("contents", zpHtmlService.getById(id));
+		System.out.println("views");
+		model.addAttribute("contents", zpHtmlService.getById(id).getContents());
 		Teachin teachin = viewService.getTeachinInfo(id);
-		model.addAttribute("position", myElasticsearchService.MyMatchAllByCid2(teachin.getCid()));
+		model.addAttribute("page", myElasticsearchService.MyMatchAllByCid2(teachin.getCid()));
 		model.addAttribute("teachin", teachin);
 		return "views/xjhview";
 	}
@@ -76,9 +88,9 @@ public class ViewsController {
 	//在线招聘信息详情
 	@GetMapping("/zxzp/id/{id}")
 	public String getRecruitInfo(@PathVariable("id") Integer id,Model model) throws IOException {
-		model.addAttribute("contents", zpHtmlService.getById(id));
+		model.addAttribute("contents", zpHtmlService.getById(id).getContents());
 		Recruit recruit = viewService.getRecruitInfo(id);
-		model.addAttribute("position", myElasticsearchService.MyMatchAllByCid2(recruit.getCid()));
+		model.addAttribute("page", myElasticsearchService.MyMatchAllByCid2(recruit.getCid()));
 		model.addAttribute("recruit", recruit);
 		return "views/zxzpview";
 	}
@@ -86,16 +98,18 @@ public class ViewsController {
 	//组团招聘信息详情
 	@GetMapping("/ztzp/id/{id}")
 	public String getJObfair(@PathVariable("id") Integer id,Model model) {
-		model.addAttribute("contents", zpHtmlService.getById(id));
+		model.addAttribute("contents", zpHtmlService.getById(id).getContents());
 		model.addAttribute("jobfair", viewService.getJobfairInfo(id));
+		model.addAttribute("page", viewService.getDownloadPage(1, id));
 		return "views/ztzpview";
 	}
 	
 	//双选会招聘信息详情
 	@GetMapping("/sxh/id/{id}")
 	public String getSxhInfo(@PathVariable("id") Integer id,Model model) {
-		model.addAttribute("contents", zpHtmlService.getById(id));
+		model.addAttribute("contents", zpHtmlService.getById(id).getContents());
 		model.addAttribute("sxh", viewService.getSxhInfo(id));
+		model.addAttribute("page", viewService.getDownloadPage(1, id));
 		return "views/sxhview";
 	}
 }

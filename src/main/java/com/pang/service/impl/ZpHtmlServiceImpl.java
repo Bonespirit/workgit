@@ -13,7 +13,7 @@ import com.pang.service.ZpHtmlService;
 @Service
 public class ZpHtmlServiceImpl extends ServiceImpl<ZpHtmlMapper, ZpHtml> implements ZpHtmlService{
 	
-	@Cacheable(value="ShortCache",keyGenerator="myKeyGenerator")
+	@Cacheable(value="LongCache",keyGenerator="myKeyGenerator")
 	@Override
 	public ZpHtml getById(Serializable id) {
 		return super.getById(id);

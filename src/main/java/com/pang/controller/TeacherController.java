@@ -1,5 +1,7 @@
 package com.pang.controller;
 
+import java.io.IOException;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +14,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.pang.customfunc.UploadService;
 import com.pang.entity.Jobfair;
@@ -46,9 +50,10 @@ public class TeacherController {
 	}
 	
 	//审核宣讲会预约teachin_exam
-	@GetMapping("/shsqt/page/{page}")
-	public String goToShsqt(@PathVariable("page") Integer pg,Model model) {
+	@GetMapping("/shsqt")
+	public String goToShsqt(@RequestParam("page") Integer pg,Model model) {
 		model.addAttribute("page", teacherService.getTeachinExamListByPage(pg));
+		model.addAttribute("curl", "teacher/shsqt");
 		return "teacher/shsqt";
 	}
 	//宣讲会审核失败处理
@@ -58,20 +63,21 @@ public class TeacherController {
 			@RequestParam("email") String email) {
 		
 		teacherService.dsiTeachinExam(id,email,teachinRefuse);
-		return "redirect:/teacher/shsqt/page/1";
+		return "redirect:/teacher/shsqt?page=1";
 	}
 	//宣讲会审核成功
 	@PostMapping("/shsqt/success")
 	public String tSuccess(Teachin teachin,@RequestParam("email") String email) {
 		System.out.println(teachin.toString());
 		teacherService.idTeachin(teachin,email);
-		return "redirect:/teacher/shsqt/page/1";
+		return "redirect:/teacher/shsqt?page=1";
 	}
 	
 	//单位注册申请列表
-	@GetMapping("/shsq/page/{page}")
-	public String goToShsq(@PathVariable("page") Integer pg,Model model) {
+	@GetMapping("/shsq")
+	public String goToShsq(@RequestParam("page") Integer pg,Model model) {
 		model.addAttribute("page", teacherService.getCompanyExamListByPage(pg));
+		model.addAttribute("curl", "teacher/shsq");
 		return "teacher/shsq";
 	}
 	//注册审核失败处理
@@ -81,13 +87,13 @@ public class TeacherController {
 			@RequestParam("reason") String reason) {
 		
 		teacherService.dsCinfoAndExam(id, email, reason);
-		return "redirect:/teacher/shsq/page/1";
+		return "redirect:/teacher/shsq?page=1";
 	}
 	//注册成功
 	@GetMapping("/shsqc/success/{id}")
 	public String cSuccess(@PathVariable("id") Integer id,@RequestParam("email") String email) {
 		teacherService.idCompany(id,email);
-		return "redirect:/teacher/shsq/page/1";
+		return "redirect:/teacher/shsq?page=1";
 	}
 	
 	//宣讲会编辑模块,并且开始记录主机操作
@@ -194,4 +200,14 @@ public class TeacherController {
 		teacherService.pMajors(majors, contents);
 		return "redirect:/teacher/zyjs";
 	}
+	
+	//附件上传处理
+	@PostMapping("/enclosure")
+	@ResponseBody
+	public String uploadEnclosure(@RequestPart("menclosure") MultipartFile[] enclosure) throws IOException {
+		User  user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		uploadService.uploadEnclosure(enclosure,user.getId());
+		return "success";
+	}
+	
 }

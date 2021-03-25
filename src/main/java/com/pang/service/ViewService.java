@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pang.entity.Company;
 import com.pang.entity.Download;
 import com.pang.entity.Jobfair;
+import com.pang.entity.Mposition;
 import com.pang.entity.News;
 import com.pang.entity.Recruit;
 import com.pang.entity.SxhInfo;
@@ -97,6 +98,13 @@ public interface ViewService {
 	public Teachin getTeachinInfo(Integer id);
 	
 	/**
+	 * 通过id获取已发布在线招聘信息列表
+	 * @param id
+	 * @return
+	 */
+	public Page<Recruit> getRecruitPage(Integer id);
+	
+	/**
 	 * 通过id获取在线招聘简章
 	 * @param id
 	 * @return
@@ -118,9 +126,24 @@ public interface ViewService {
 	public SxhInfo getSxhInfo(Integer id);
 	
 	/**
-	 * 获取资源列表并翻页
+	 * 通过id获取资源列表并翻页
+	 * @param pg 当前页
+	 * @param id id为-1：常用下载资源，id不为-1：招聘文章附件
+	 * @return
+	 */
+	public Page<Download> getDownloadPage(Integer pg,Integer id);
+	
+	/**
+	 * 通过id获取职位信息
 	 * @param id
 	 * @return
 	 */
-	public Page<Download> getDownloadPage(Integer pg);
+	public Mposition getPositionById(Integer id) throws IOException;
+	
+	/**
+	 * 通过id获取单位信息，职位详情页面数据
+	 * @param id
+	 * @return
+	 */
+	public Company getComPartInfo(Integer id) throws IOException;
 }

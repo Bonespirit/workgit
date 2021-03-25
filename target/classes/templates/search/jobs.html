@@ -4,6 +4,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
 <title>职位</title>
 <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" th:href="@{/bootstrap/css/bootstrap.min.css}"/>
 <link rel="stylesheet" href="css/index.css" th:href="@{/css/index.css}"/>
@@ -180,7 +182,7 @@
 							</div>
 							<div class="col-sm-2">
 								<button id="clearsearch" class="btn" type="button">
-									<a th:href="@{search/jobs}">清空筛选条件</a>
+									<a th:href="@{/search/jobs}">清空筛选条件</a>
 								</button>
 								<div style="clear: both"></div>
 							</div>
@@ -216,11 +218,10 @@
 		</div>
 		<div th:replace="commonhf::#footer"></div>
 	</div>
-	<div th:replace="commonhf::sm"></div>
 	<script type="text/x-dot-template" id="positionData">
       {{~it.records:value:index}}
         <li class="row">
-          <a href="@{/views/jobs/id/{{=value.id}}}}">
+          <a target="_blank" th:href="@{/views/jobs/id/{{=value.id}}}">
             <div class="col-sm-6 position">
               <p class="name">{{=value.pname}}</p>
               <p>
@@ -243,6 +244,16 @@
         </li>
       {{~}}
     </script>
+	<div th:replace="commonhf::sm"></div>
+    <script type="text/javascript">
+		$(function() {
+			var token = $("meta[name='_csrf']").attr("content");
+			var header = $("meta[name='_csrf_header']").attr("content");
+			$(document).ajaxSend(function(e, xhr, options) {
+				xhr.setRequestHeader(header, token);
+			});
+		});
+	</script>
 	<script>
       $("#center .left li")[0].className = "uactive";
     </script>

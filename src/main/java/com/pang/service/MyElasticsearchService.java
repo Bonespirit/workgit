@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.pang.entity.JobPage;
 import com.pang.entity.SearchKey;
 
 public interface MyElasticsearchService {
@@ -18,7 +17,7 @@ public interface MyElasticsearchService {
 	 * @return
 	 * @throws IOException
 	 */
-	public JobPage MyMatchAllByCid1(Integer cid,Integer page) throws IOException;
+	public Page<Map<String, Object>> MyMatchAllByCid1(Integer cid,Integer page) throws IOException,ParseException;
 	
 	/**
 	 * 通过单位编号获取职位列表,并展示于招聘文章页
@@ -26,7 +25,7 @@ public interface MyElasticsearchService {
 	 * @return
 	 * @throws IOException
 	 */
-	public JobPage MyMatchAllByCid2(Integer cid) throws IOException;
+	public Page<Map<String, Object>> MyMatchAllByCid2(Integer cid) throws IOException;
 	
 	/**
 	 * 通过关键字查询信息并翻页，并高亮显示查询关键字
@@ -39,7 +38,7 @@ public interface MyElasticsearchService {
 	 * @throws java.text.ParseException 
 	 */
 	public Page<Map<String, Object>> getSearchResult(
-			List<String> keyword,String index,String sortname,String pg) throws IOException, ParseException;
+			List<String> keyword,String index,String sortname,String pg,Integer number) throws IOException, ParseException;
 	
 	/**
 	 * 高级检索并翻页
@@ -47,5 +46,5 @@ public interface MyElasticsearchService {
 	 * @param pg		当前页
 	 * @return
 	 */
-	public Page<Map<String, Object>> advancedSearch(SearchKey searchKey,Integer pg) throws IOException;
+	public Page<Map<String, Object>> advancedSearch(SearchKey searchKey,Integer pg) throws IOException,ParseException;
 }

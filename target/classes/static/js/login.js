@@ -40,7 +40,7 @@ function forgetSubmit(btn) {
 			check(forgetInput[1], emailreg) &&
 			check(forgetInput[2], new RegExp(""))
 	) {
-		$("form").submit();
+		$("form")[0].submit();
 	}
 }
 /////////////////////////用户登录模块表单提交//////////////////

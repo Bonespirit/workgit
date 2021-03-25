@@ -5,7 +5,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -28,8 +27,6 @@ import org.springframework.stereotype.Service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pang.customfunc.customFunc;
-import com.pang.entity.JobPage;
-import com.pang.entity.Jobs;
 import com.pang.entity.SearchKey;
 import com.pang.service.MyElasticsearchService;
 
@@ -42,77 +39,97 @@ public class MyElasticsearchServiceImpl implements MyElasticsearchService{
 	@Autowired
 	RestHighLevelClient client;
 	
-	@Cacheable(value="ShortCache",keyGenerator="myKeyGenerator")
+	@Cacheable(value="ShortCache",keyGenerator="myKeyGenerator",unless="#result.total==0")
 	@Override
-	public JobPage MyMatchAllByCid1(Integer cid,Integer page) throws IOException {
-		//职位表分页
-		JobPage jobPage = new JobPage();
-		//职位表列表
-		List<Jobs> jobsList = new ArrayList<Jobs>();
+	public Page<Map<String, Object>> MyMatchAllByCid1(Integer cid,Integer pg) throws IOException, ParseException {
+		System.out.println("来到单位查看职位列表模块");
+		Page<Map<String, Object>> page = new Page<>(pg,10);
 		SearchRequest searchRequest = new SearchRequest("position");
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-		searchSourceBuilder.from((page-1)*10);
+		searchSourceBuilder.from((pg-1)*10);
 		searchSourceBuilder.size(10);
-		searchSourceBuilder.query(QueryBuilders.termQuery("id", cid));
+		searchSourceBuilder.query(QueryBuilders.termQuery("cid", cid));
 		searchSourceBuilder.fetchSource(
-				new String[]{"pname","salary","wnature","edu","workplace","cname","cnature","scale","pdate"},
+				new String[]{"id","pname","salary","wnature","edu","workplace","cname","cnature","scale","pdate"},
 				new String[] {});
 		searchRequest.source(searchSourceBuilder);
 		//按时间降序
 		searchSourceBuilder.sort("pdate", SortOrder.DESC);
 		SearchResponse searchResponse = client.search(searchRequest,RequestOptions.DEFAULT);
 		SearchHits hits = searchResponse.getHits();
-		jobPage.setTotal(hits.getTotalHits());
+		Long total = hits.getTotalHits();
+		page.setTotal(total);
+		page.setPages((total%10 == 0) ? total/10 : (total/10+1));
 		SearchHit[] searchHits = hits.getHits();
+		List<Map<String, Object>> olist = new ArrayList<>();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		for(SearchHit searchHit:searchHits) {
 			Map<String, Object> source = searchHit.getSourceAsMap();
-			jobsList.add(new Jobs(searchHit.getId(),(String) source.get("pname"), (String) source.get("salary"), 
-					(String) source.get("wnature"), (String) source.get("edu"), (String) source.get("workplace"), 
-					(String) source.get("cname"), (String) source.get("cnature"), 
-					(String) source.get("scale"),(Date) source.get("pdate"),null));
+			String md = dateFormat.format(dateFormat.parse((String)source.get("pdate")));
+			source.put("pdate", md);
+			source.put("salary", customFunc.getSalary((String)source.get("salary")));
+			source.put("scale", customFunc.getScale((String)source.get("scale")));
+			String[] citys = ((String)source.get("workplace")).split("&");
+			source.put("workplace", 
+					citys.length > 1 ? customFunc.getCity(citys[1]) : customFunc.getCity(citys[0]));
+			olist.add(source);
 		}
-		jobPage.setJobs(jobsList);
-		return jobPage;
+		page.setRecords(olist);
+		return page;
 	}
 	
-	@Cacheable(value="LongCache",keyGenerator="mykeyGenerator")
+	@Cacheable(value="LongCache",keyGenerator="myKeyGenerator",unless="#result.total==0")
 	@Override
-	public JobPage MyMatchAllByCid2(Integer cid) throws IOException {
-		//职位表分页
-		JobPage jobPage = new JobPage();
-		//职位表列表
-		List<Jobs> jobsList = new ArrayList<Jobs>();
+	public Page<Map<String, Object>> MyMatchAllByCid2(Integer cid) throws IOException {
+		System.out.println("来到获取职位列表展示简章页面模块");
+		int total = getTotal(cid).intValue();
+		Page<Map<String, Object>> page = new Page<>(1,total);
+		page.setTotal(total);
 		SearchRequest searchRequest = new SearchRequest("position");
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-		searchSourceBuilder.query(QueryBuilders.termQuery("id", cid));
+		searchSourceBuilder.query(QueryBuilders.termQuery("cid", cid));
+		searchSourceBuilder.size(total);
 		searchSourceBuilder.fetchSource(
-				new String[]{"pname","salary","wnature","edu","workplace","speciality"},
+				new String[]{"id","pname","salary","wnature","edu","workplace","speciality"},
 				new String[] {});
 		searchRequest.source(searchSourceBuilder);
 		SearchResponse searchResponse = client.search(searchRequest,RequestOptions.DEFAULT);
 		SearchHits hits = searchResponse.getHits();
-		jobPage.setTotal(hits.getTotalHits());
 		SearchHit[] searchHits = hits.getHits();
+		List<Map<String, Object>> olist = new ArrayList<>();
 		for(SearchHit searchHit:searchHits) {
 			Map<String, Object> source = searchHit.getSourceAsMap();
-			//将专业代码转为中文解释
+			source.put("salary", customFunc.getSalary((String)source.get("salary")));
+			String[] citys = ((String)source.get("workplace")).split("&");
+			source.put("workplace", 
+					citys.length > 1 ? customFunc.getCity(citys[1]) : customFunc.getCity(citys[0]));
 			String speciality = customFunc.getMajorsString(new ArrayList<>(Arrays.asList((String)source.get("speciality"))));
-			jobsList.add(new Jobs(searchHit.getId(),(String) source.get("pname"), (String) source.get("salary"), 
-					(String) source.get("wnature"), (String) source.get("edu"), (String) source.get("workplace"), 
-					null, null, null,null,speciality));
+			source.put("speciality", speciality);
+			olist.add(source);
 		}
-		jobPage.setJobs(jobsList);
-		return jobPage;
+		page.setRecords(olist);
+		return page;
+	}
+	
+	//获取总数
+	public Long getTotal(Integer cid) throws IOException {
+		SearchRequest searchRequest = new SearchRequest("position");
+		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+		searchSourceBuilder.query(QueryBuilders.termQuery("cid", cid));
+		searchSourceBuilder.fetchSource(new String[]{},new String[] {});
+		searchRequest.source(searchSourceBuilder);
+		SearchResponse searchResponse = client.search(searchRequest,RequestOptions.DEFAULT);
+		return searchResponse.getHits().getTotalHits();
 	}
 	
 	@Override
 	public Page<Map<String, Object>> getSearchResult(
-			List<String> keyword,String index,String sortname,String pg) throws IOException, ParseException {
+			List<String> keyword,String index,String sortname,String pg,Integer number) throws IOException, ParseException {
 		if (pg == null) {
 			pg="1";
 		}
 		Integer mpage = Integer.parseInt(pg);
-		Page<Map<String, Object>> page = new Page<>(mpage,15);
+		Page<Map<String, Object>> page = new Page<>(mpage,number);
 		mpage = mpage-1;
 		SearchRequest searchRequest = new SearchRequest(index);
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
@@ -122,8 +139,8 @@ public class MyElasticsearchServiceImpl implements MyElasticsearchService{
 			boolQueryBuilder.filter(QueryBuilders.termQuery("extrakey", keyword.get(1)));
 		}
 		searchSourceBuilder.query(boolQueryBuilder);
-		searchSourceBuilder.from(mpage*15);
-		searchSourceBuilder.size(15);
+		searchSourceBuilder.from(mpage*number);
+		searchSourceBuilder.size(number);
 		searchRequest.source(searchSourceBuilder);
 		//排序字段
 		searchSourceBuilder.sort(sortname, SortOrder.DESC);
@@ -139,6 +156,11 @@ public class MyElasticsearchServiceImpl implements MyElasticsearchService{
 		page.setTotal(total);
 		page.setPages((total%15 == 0) ? total/15 : (total/15+1));
 		SearchHit[] searchHits = hits.getHits();
+		if (index.equals("teachin") || index.equals("jobfair")) {
+			page.setRecords(getResultList(searchHits));
+			page.setCountId("-99");
+			return page;
+		}
 		List<Map<String, Object>> olist = new ArrayList<>();
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		for(SearchHit searchHit:searchHits) {
@@ -164,8 +186,30 @@ public class MyElasticsearchServiceImpl implements MyElasticsearchService{
 		return page;
 	}
 	
+	public List<Map<String, Object>> getResultList(SearchHit[] searchHits) throws ParseException{
+		List<Map<String, Object>> olist = new ArrayList<>();
+		for(SearchHit searchHit:searchHits) {
+			Map<String, Object> source = searchHit.getSourceAsMap();
+			Map<String, HighlightField> highlightFields = searchHit.getHighlightFields();
+			if (highlightFields != null) {
+				HighlightField title = highlightFields.get("title");
+				if (title != null) {
+					Text[] fragments = title.getFragments();
+	                StringBuffer stringBuffer = new StringBuffer();
+	                for (Text str : fragments) {
+	                    stringBuffer.append(str.string());
+	                }
+	                //高亮展示title
+	                source.put("htitle", stringBuffer.toString());
+				}
+			}
+			olist.add(source);
+		}
+		return olist;
+	}
+	
 	@Override
-	public Page<Map<String, Object>> advancedSearch(SearchKey searchKey,Integer pg) throws IOException {
+	public Page<Map<String, Object>> advancedSearch(SearchKey searchKey,Integer pg) throws IOException, ParseException {
 		Page<Map<String, Object>> page = new Page<>(pg,15);
 		pg = pg-1;
 		SearchRequest searchRequest = new SearchRequest("position");
@@ -220,8 +264,13 @@ public class MyElasticsearchServiceImpl implements MyElasticsearchService{
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		for(SearchHit searchHit:searchHits) {
 			Map<String, Object> source = searchHit.getSourceAsMap();
-			String date = dateFormat.format((String)source.get("pdate"));
-			source.put("pdate", date);
+			String md = dateFormat.format(dateFormat.parse((String)source.get("pdate")));
+			source.put("pdate", md);
+			source.put("salary", customFunc.getSalary((String)source.get("salary")));
+			source.put("scale", customFunc.getScale((String)source.get("scale")));
+			String[] citys = ((String)source.get("workplace")).split("&");
+			source.put("workplace", 
+					citys.length > 1 ? customFunc.getCity(citys[1]) : customFunc.getCity(citys[0]));
 			olist.add(source);
 		}
 		page.setRecords(olist);

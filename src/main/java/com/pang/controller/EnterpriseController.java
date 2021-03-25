@@ -1,6 +1,7 @@
 package com.pang.controller;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -197,7 +198,8 @@ public class EnterpriseController {
 	//网络招聘发布模块
 	@GetMapping("/wlzp")
 	public String goToWlzp(Model model) {
-		model.addAttribute("page", viewService.getRecruitInfoPage(1, 10, null, null));
+		User  user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		model.addAttribute("page", viewService.getRecruitPage(user.getForeignkey()));
 		return "enterprise/wlzp";
 	}
 	@GetMapping("/precruit")
@@ -270,10 +272,11 @@ public class EnterpriseController {
 	
 	//职位管理模块
 	@GetMapping("/zwgl")
-	public String goToZwgl(Model model) throws IOException {
+	public String goToZwgl(@RequestParam("page") Integer pg,Model model) throws IOException, ParseException {
 		//获取当前登录用户信息
 		User  user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		model.addAttribute("positions", myElasticsearchService.MyMatchAllByCid1(user.getForeignkey(),1));
+		model.addAttribute("page", myElasticsearchService.MyMatchAllByCid1(user.getForeignkey(),pg));
+		model.addAttribute("curl", "enterprise/zwgl");
 		return "enterprise/zwgl";
 	}
 	//新增职位
@@ -286,11 +289,11 @@ public class EnterpriseController {
 	public String putXzzw(Mposition mposition,@RequestParam("describe") String describe) {
 		//获取当前登录用户信息
 		User  user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		mposition.setCid(user.getId());
+		mposition.setCid(user.getForeignkey());
 		mposition.setName(user.getName());
 		mposition.setTelephone(user.getTelephone());
 		enterpriseService.putPositionInfo(mposition, describe);
-		return "zwgl";
+		return "redirect:zwgl?page=1";
 	}
 	
 	//专业介绍模块

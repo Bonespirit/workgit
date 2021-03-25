@@ -6,7 +6,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +18,6 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.google.gson.JsonObject;
 import com.pang.customfunc.UploadService;
 import com.pang.customfunc.customFunc;
-import com.pang.entity.User;
 
 //文件上传处理controller
 @Controller
@@ -41,15 +39,6 @@ public class UploadController {
 			@RequestParam("ipAddr") String ipAddr) throws IOException {
 		MultipartHttpServletRequest params=((MultipartHttpServletRequest) request);
 		return uploadService.uploadWangEditorImg(params.getFileMap(),request,ipAddr);
-	}
-	
-	//附件上传处理
-	@PostMapping("/enclosure")
-	@ResponseBody
-	public String uploadEnclosure(@RequestPart("menclosure") MultipartFile[] enclosure) throws IOException {
-		User  user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		uploadService.uploadEnclosure(enclosure,user.getId());
-		return "success";
 	}
 	
 	//资源上传

@@ -43,10 +43,6 @@ $("#submitBtn").on("click", function () {
 	if ($("#contents")[0].value == "") {
 		alert("请输入招聘简章");
 		return;
-	} else if (typeof $("#enclosure")[0] != "undefined" &&
-			$("#enclosure")[0].value == "") {
-		alert("请先上传文件");
-		return;
 	}
 	//获取表单对象
 	var bootstrapValidator = $("#post-jobinfo").data("bootstrapValidator");

@@ -14,7 +14,7 @@
 			<div class="nav">
 				<ul class="list-inline">
 					<li><a th:href="@{/}">首页</a> <span>></span></li>
-					<li><a th:href="@{/search/jobfair}">组团招聘</a> <span>></span></li>
+					<li><a th:href="@{/search/ztzp(page=1)}">组团招聘</a> <span>></span></li>
 				</ul>
 				<span>详情</span>
 			</div>
@@ -36,7 +36,14 @@
 					</div>
 					<div style="clear: both"></div>
 				</div>
-				<div class="section" th:text="${contents}"></div>
+				<div class="section" th:utext="${contents}"></div>
+				<div style="background-color: #fff;padding:30px 0px 20px 30px">
+					<ul>
+						<li th:each="item : ${page.records}">附件【<a th:href="@{/}+${item.addr}"
+							th:text="${item.filename}"></a>】
+						</li>
+					</ul>
+				</div>
 			</div>
 		</div>
 		<div th:replace="commonhf::#footer"></div>

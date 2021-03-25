@@ -45,14 +45,14 @@
 							</tr>
 						</thead>
 						<tr th:each="item : ${page.records}">
-							<td><a th:href="@{/views/xjh/id/}+${item.id}" th:text="${item.title}" th:title="${item.title}">先进科技（中国）有限公司2021校园招聘先进科技（中国）有限公司2021校园招聘</a>
+							<td><a target="_blank" th:href="@{/views/xjh/id/}+${item.id}" th:text="${item.title}" th:title="${item.title}">先进科技（中国）有限公司2021校园招聘先进科技（中国）有限公司2021校园招聘</a>
 							</td>
 							<td><span th:title="${item.school}" th:text="${item.school}">桂林电子科技大学</span></td>
 							<td><span th:title="${item.address}" th:text="${item.address}">A区主教学楼330室</span></td>
 							<td><text th:text="${item.tdate}">2021-03-09</text>&nbsp;<text th:text="${item.btime}">09:00-11:00</text></td>
 						</tr>
 					</table>
-					<a th:href="@{/enterprise/xjhyyp}">
+					<a target="_blank" th:href="@{/enterprise/xjhyyp}">
 						<button type="button" class="btn mybtn btn">+新增</button>
 					</a>
 				</div>

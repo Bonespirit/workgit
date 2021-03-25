@@ -1,5 +1,7 @@
-postData(1)
 $(function () {
+	setTimeout(function(){
+		postData(1);
+    },1000)
 	// 搜索
 	$("#search").on("click", function () {
 		postData(1);
@@ -86,19 +88,20 @@ function postData(from) {
 		url: "/search/jobs/"+from,
 		type: "post",
 		data: formdata,
-		dataType: "JSON",
 		cache: false,
 		contentType: false,
 		processData: false,
 		success: function (data) {
-			if (data.length == 0) {
+			console.log(data.total)
+			if (data.total == 0) {
 				$("#center .right .search-info .nav-bar").addClass("one");
 				$("#itemlist").html("");
 				$("#itemlist").siblings(".nodata").addClass("mactive");
 				
 			}else{
-				$("#total").val(data.pages);
-				eachPage(data.current, data.pages);
+				let pages = (data.total%15 == 0) ? data.total/15 : (parseInt(data.total/15)+1)
+				$("#total").val(pages);
+				eachPage(data.current, pages);
 				addListenToLi();
 				let tmpltxt = doT.template($("#positionData")[0].innerHTML);
 				$("#itemlist").html(tmpltxt(data));

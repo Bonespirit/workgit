@@ -1048,9 +1048,9 @@ ul {
 }
 
 #pre-show iframe {
-	margin: 0 auto;
+	margin: auto auto;
 	width: 800px;
-	height: 800px;
+	height: 700px;
 }
 /*////////模态框 */
 #myModal .modal-dialog, #location .modal-dialog {

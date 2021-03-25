@@ -31,8 +31,7 @@ public class MySecurityConfig{
 		
 		@Override
 		public void configure(WebSecurity web) throws Exception {
-			web.ignoring().antMatchers("/static/**","/upload/**","/news/**")
-			.antMatchers("/search/**")
+			web.ignoring().antMatchers("/static/**","/upload/**")
 			.antMatchers("/enterprise/checkMark","/enterprise/testtelephone","/enterprise/testusername","/enterprise/verifyCode");
 		}
 		
@@ -87,6 +86,7 @@ public class MySecurityConfig{
 			http.headers().frameOptions().disable();
 			//过滤
 			http.authorizeRequests()
+				.antMatchers("/search/**","/news/**").permitAll()
 				.antMatchers("/views/**","/","/login","/student/czsc").permitAll()
 				.antMatchers("/views/shsqc/**","/views/shsqt/**","/teacher/**").hasAnyRole("sadmin","gadmin")
 				.antMatchers("/student/**").hasAnyRole("student","sadmin")

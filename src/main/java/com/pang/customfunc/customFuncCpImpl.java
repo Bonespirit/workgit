@@ -289,21 +289,18 @@ public class customFuncCpImpl implements customFunc{
 	}
 	
 	@Override
-	public Map<String, String> getCnameByColumn(Integer column) {
-		String scale = "[{\"cname\":\"通知公告\",\"curl\":\"news/column/0/page/1\",\"no\":\"0\"},"
-				+ "{\"cname\":\"就业公示\",\"curl\":\"news/column/1/page/1\",\"no\":\"1\"},"
-				+ "{\"cname\":\"新闻热点\",\"curl\":\"news/column/2/page/1\",\"no\":\"2\"},"
-				+ "{\"cname\":\"就业指导\",\"curl\":\"news/column/3/page/1\",\"no\":\"3\"},"
-				+ "{\"cname\":\"就业政策\",\"curl\":\"news/column/4/page/1\",\"no\":\"4\"}]";
+	public String getCnameByColumn(Integer column) {
+		String scale = "[{\"cname\":\"通知公告\",\"no\":\"0\"},"
+				+ "{\"cname\":\"就业公示\",\"no\":\"1\"},"
+				+ "{\"cname\":\"新闻热点\",\"no\":\"2\"},"
+				+ "{\"cname\":\"就业指导\",\"no\":\"3\"},"
+				+ "{\"cname\":\"就业政策\",\"no\":\"4\"}]";
 		Gson gson = new Gson();
-		Map<String, String> map = new HashMap<>();
 		JsonArray arry = gson.fromJson(scale.toString(), JsonArray.class);
 		for(int i=0;i<arry.size();i++) {
 			JsonObject o = arry.get(i).getAsJsonObject();
 			if (o.get("no").getAsString().equals(""+column)) {
-				map.put("cname", o.get("cname").getAsString());
-				map.put("curl", o.get("curl").getAsString());
-				return map;
+				return o.get("cname").getAsString();
 			}
 		}
 		return null;

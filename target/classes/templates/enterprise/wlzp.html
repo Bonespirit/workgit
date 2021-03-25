@@ -27,13 +27,13 @@
 							</tr>
 						</thead>
 						<tr th:each="item : ${page.records}">
-							<td><a class="mtitle" th:href="@{/views/zxzp/id/}+${item.id}"
+							<td><a target="_blank" class="mtitle" th:href="@{/views/zxzp/id/}+${item.id}"
 								th:text="${item.title}" th:title="${item.title}"></a></td>
 							<td th:text="${item.pdate}"></td>
 						</tr>
 					</table>
 				</div>
-				<a th:href="@{/enterprise/precruit}">
+				<a target="_blank" th:href="@{/enterprise/precruit}">
 					<button type="button" class="btn mybtn btn">+新增</button>
 				</a>
 			</div>

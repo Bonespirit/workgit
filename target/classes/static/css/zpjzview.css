@@ -24,7 +24,7 @@
   float: right;
 }
 #center .contents .section {
-  padding: 0 0 0 30px;
+  padding: 10px;
   background-color: #fff;
   min-height: 205px;
 }

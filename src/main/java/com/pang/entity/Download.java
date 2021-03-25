@@ -3,6 +3,7 @@ package com.pang.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -27,5 +28,6 @@ public class Download implements Serializable{
 	private String filename;	//资源名称
 	private String addr;		//资源物理地址
 	private Integer download;	//资源下载次数
+	@JSONField(format = "yyyy-MM-dd")
 	private Date pdate;			//资源上传时间
 }

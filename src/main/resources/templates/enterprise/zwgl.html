@@ -16,42 +16,45 @@
 			<div th:replace="commonhf::enterpriseNav('职位管理')"></div>
 			<div th:replace="commonhf::enterpriseLeft"></div>
 			<div class="right" style="min-height: 480px">
-				<h4>已发布职位[[${positions.total}]]个</h4>
-				<div class="poslist">
-					<ul id="itemlist">
-						<li class="row" th:each="item : ${positions.jobs}">
-							<a th:href="@{/views/jobs/id/}+${item.id}">
-								<div class="col-sm-6 position">
-									<p class="name" th:text="${item.pname}">java开发工程师 <span th:text="${item.pdate}"></span>发布</p>
-									<p>
-										<span class="salary" th:text="${item.salary}">4千-6千</span> <span
-											th:text="${item.workplace}">广西-桂林</span> <span th:text="${item.wnature}">全职</span> <span
-											th:text="${item.edu}">本科</span>
-									</p>
-								</div>
-								<div class="col-sm-6 company">
-									<p>
-										<a href="javascript:;" th:text="${item.cname}"></a>
-									</p>
-									<p>
-										<span th:text="${item.cnature}"></span> <span th:text="${item.scale}"></span>
-									</p>
-								</div>
-							</a>
-						</li>
-					</ul>
-				</div>
-				<br />
+				<h4>已发布职位[[${page.total}]]个</h4>
 				<button type="button" class="btn mybtn">
 					<a th:href="@{/enterprise/xzzw}" style="color: #fff">新增</a>
 				</button>
+				<div class="poslist">
+					<ul id="itemlist">
+						<li class="row" th:each="item : ${page.records}">
+							<a target="_blank" th:href="@{/views/jobs/id/}+${item.id}">
+								<div class="col-sm-6 position">
+									<p class="name" th:text="${item.pname}">
+										java开发工程师 <span th:text="${item.pdate}"></span>发布
+									</p>
+									<p>
+										<span class="salary" th:text="${item.salary}">4千-6千</span> 
+										<span th:text="${item.workplace}">广西-桂林</span> 
+										<span th:text="${item.wnature}">全职</span> 
+										<span th:text="${item.edu}">本科</span>
+									</p>
+								</div>
+							</a>
+							<div class="col-sm-6 company">
+								<p>
+									<a href="javascript:;" th:text="${item.cname}"></a>
+								</p>
+								<p>
+									<span th:text="${item.cnature}"></span> <span th:text="${item.scale}"></span>
+								</p>
+							</div>
+						</li>
+					</ul>
+				</div>
+				<div th:replace="commonhf::pageHelper"></div>
 			</div>
 			<div style="clear: both"></div>
 		</div>
 		<div th:replace="commonhf::#footer"></div>
 	</div>
 	<script>
-      $("#center .left li")[2].className = "uactive";
-    </script>
+		$("#center .left li")[2].className = "uactive";
+	</script>
 </body>
 </html>

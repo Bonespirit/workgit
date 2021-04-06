@@ -229,7 +229,7 @@ public class ViewServiceImpl implements ViewService{
 	@Override
 	public Company getComPartInfo(Integer id) throws IOException {
 		QueryWrapper<Company> queryWrapper = new QueryWrapper<>();
-		queryWrapper.eq("id", id).select("cname","nature","industry","scale","address");
+		queryWrapper.eq("id", id).select("cname","nature","industry","scale","address","zpemail");
 		Company company = CompanyMapper.selectOne(queryWrapper);
 		company.setScale(customFunc.getScale(company.getScale()));
 		company.setIndustry(customFunc.getIndustry(company.getIndustry()));

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>我的消息</title>
+<link th:include="commonhf::studentHead"></link>
+<link rel="stylesheet" href="css/resume.css" th:href="@{/css/resume.css}" />
+</head>
+<body style="height: auto">
+	<div th:replace="commonhf::sheader"></div>
+	<div style="width: 100%; height: auto; position: absolute; top: 110px">
+		<div id="center">
+			<div class="nav">
+				<ul class="list-inline">
+					<li><a th:href="@{/}">首页</a> <span>></span></li>
+					<li><a th:href="@{/jbxxs}">学生中心</a> <span>></span></li>
+				</ul>
+			</div>
+			<div th:replace="commonhf::studentLeft"></div>
+			<div class="right-nav">
+				我的消息 <span>></span> 详情
+			</div>
+			<div class="right" style="min-height: 570px; padding: 0px">
+				<div class="viewmsg-title">
+					<h4 th:text="${stumsg.type}"></h4>
+					<p th:text="${stumsg.pdate}"></p>
+					<p th:text="${stumsg.from}"></p>
+				</div>
+				<div class="viewmsg-content" th:text="${stumsg.content}"></div>
+			</div>
+			<div style="clear: both"></div>
+		</div>
+		<div th:replace="commonhf::#footer"></div>
+	</div>
+	<script>
+      $("#center .left li")[10].className = "uactive";
+    </script>
+</body>
+</html>

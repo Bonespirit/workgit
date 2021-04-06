@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.Part;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -62,4 +63,18 @@ public interface UploadService {
 	 * @param sourcefile
 	 */
 	public void uploadSourceFile(MultipartFile[] sourcefile) throws  IOException;
+	
+	/**
+	 * 上传简历
+	 * @param enclosure
+	 * @return
+	 */
+	public String uploadResume(Part enclosure) throws IOException;
+	
+	/**
+	 * 修改头像
+	 * @param head
+	 * @return
+	 */
+	public String updateHead(MultipartFile head) throws IllegalStateException, IOException;
 }

@@ -1,9 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:fragment="mhead">
-<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css"
-	th:href="@{/bootstrap/css/bootstrap.min.css}" />
+<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" th:href="@{/bootstrap/css/bootstrap.min.css}" />
 <link rel="stylesheet" href="css/index.css" th:href="@{/css/index.css}" />
 <script src="js/jquery-3.3.1.min.js" th:src="@{/js/jquery-3.3.1.min.js}"></script>
 <script src="bootstrap/js/bootstrap.min.js" th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
@@ -19,41 +17,32 @@
 
 <!-- 带有文件上传插件模块 -->
 <head th:fragment="fileinput">
-<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css"
-	th:href="@{/bootstrap/css/bootstrap.min.css}" />
+<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" th:href="@{/bootstrap/css/bootstrap.min.css}" />
 <link rel="stylesheet" href="css/index.css" th:href="@{/css/index.css}" />
-<link rel="stylesheet" href="bootstrap/fileinput/css/fileinput.min.css"
-	th:href="@{/bootstrap/fileinput/css/fileinput.min.css}" />
-<link rel="stylesheet" href="bootstrap/font-awesome/css/font-awesome.min.css"
-	th:href="@{/bootstrap/font-awesome/css/font-awesome.min.css}" />
-<link rel="stylesheet" href="bootstrap/fileinput/themes/explorer-fa/theme.min.css"
-	th:href="@{/bootstrap/fileinput/themes/explorer-fa/theme.min.css}" />
+<link rel="stylesheet" href="bootstrap/fileinput/css/fileinput.min.css" th:href="@{/bootstrap/fileinput/css/fileinput.min.css}" />
+<link rel="stylesheet" href="bootstrap/font-awesome/css/font-awesome.min.css" th:href="@{/bootstrap/font-awesome/css/font-awesome.min.css}" />
+<link rel="stylesheet" href="bootstrap/fileinput/themes/explorer-fa/theme.min.css" th:href="@{/bootstrap/fileinput/themes/explorer-fa/theme.min.css}" />
 <script src="js/jquery-3.3.1.min.js" th:src="@{/js/jquery-3.3.1.min.js}"></script>
 <script src="bootstrap/js/bootstrap.min.js" th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
-<script src="bootstrap/fileinput/js/fileinput.min.js"
-	th:src="@{/bootstrap/fileinput/js/fileinput.min.js}"></script>
-<script src="bootstrap/fileinput/themes/explorer-fa/theme.min.js"
-	th:src="@{/bootstrap/fileinput/themes/explorer-fa/theme.min.js}"></script>
+<script src="bootstrap/fileinput/js/fileinput.min.js" th:src="@{/bootstrap/fileinput/js/fileinput.min.js}"></script>
+<script src="bootstrap/fileinput/themes/explorer-fa/theme.min.js" th:src="@{/bootstrap/fileinput/themes/explorer-fa/theme.min.js}"></script>
 <script src="bootstrap/fileinput/js/locales/zh.js" th:src="@{/bootstrap/fileinput/js/locales/zh.js}"></script>
 </head>
 
 <!-- student head -->
 <head th:fragment="studentHead">
-<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css"
-	th:href="@{/bootstrap/css/bootstrap.min.css}" />
+<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" th:href="@{/bootstrap/css/bootstrap.min.css}" />
 <link rel="stylesheet" href="css/index.css" th:href="@{/css/index.css}" />
 <script src="js/jquery-3.3.1.min.js" th:src="@{/js/jquery-3.3.1.min.js}"></script>
 <script src="bootstrap/js/bootstrap.min.js" th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
-<script src="js/studentsearch.js" th:src="@{/js/studentsearch.js}"></script>
 </head>
 
 <!-- view 模块 -->
 <head th:fragment="view">
-<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css"
-	th:href="@{/bootstrap/css/bootstrap.min.css}" />
+<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" th:href="@{/bootstrap/css/bootstrap.min.css}" />
 <link rel="stylesheet" href="css/index.css" th:href="@{/css/index.css}" />
 <link rel="stylesheet" href="css/zpjzview.css" th:href="@{/css/zpjzview.css}" />
-<link rel="stylesheet" href="css/commons.css" th:href="@{/css/commons.css}"/>
+<link rel="stylesheet" href="css/commons.css" th:href="@{/css/commons.css}" />
 <script src="js/jquery-3.3.1.min.js" th:src="@{/js/jquery-3.3.1.min.js}"></script>
 <script src="bootstrap/js/bootstrap.min.js" th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
 </head>
@@ -92,9 +81,8 @@
 					<a th:href="@{/teacher/shsq(page=1)}">教职工</a>
 				</div>
 				<div class="col-md-2 col-sm-2 item1" style="font-size: 16px">
-					<span id="search-click" class="glyphicon glyphicon-search"
-						style="color: darkgray; cursor: pointer"></span> <a
-						sec:authorize="!isAuthenticated()" th:href="@{/eplogin}"><strong style="margin: 0 5px">|</strong>登录</a>
+					<span id="search-click" class="glyphicon glyphicon-search" style="color: darkgray; cursor: pointer"></span> <a sec:authorize="!isAuthenticated()"
+						th:href="@{/eplogin}"><strong style="margin: 0 5px">|</strong>登录</a>
 					<form style="display: inline-block;" sec:authorize="isAuthenticated()" th:action="@{/logout}" method="post">
 						<button type="submit" class="btn btn-default">注销</button>
 					</form>
@@ -102,8 +90,8 @@
 						<form action="">
 							<input type="submit" class="search-btn1" />
 							<div style="width: 100%">
-								<input type="text" name="allSearch" /> <img id="search-close" th:src="@{/images/logo.png}"
-									alt="取消" width="20" style="float: right; margin-top: 15px; cursor: pointer" />
+								<input type="text" name="allSearch" /> <img id="search-close" th:src="@{/images/logo.png}" alt="取消" width="20"
+									style="float: right; margin-top: 15px; cursor: pointer" />
 							</div>
 						</form>
 					</div>
@@ -132,15 +120,13 @@
 			<div class="footer-top row">
 				<div class="col-md-8 aboutus" style="height: 100%; padding: 0">
 					<div class="logo">
-						<a href="https://www.guet.edu.cn/" target="_blank"> <img th:src="@{/images/logo.png}"
-							alt="桂林电子科技大学" />
+						<a href="https://www.guet.edu.cn/" target="_blank"> <img th:src="@{/images/logo.png}" alt="桂林电子科技大学" />
 						</a>
 					</div>
 					<div class="content">
 						<p>大学生就业指导服务中心：</p>
 						<p>
-							企业招聘 0773-2319102 <br /> 徐老师 0773-2316183（招聘业务） <br /> 路老师 0773-2305922（校内业务） <br /> 邓老师
-							0773-2305923（综合事务）
+							企业招聘 0773-2319102 <br /> 徐老师 0773-2316183（招聘业务） <br /> 路老师 0773-2305922（校内业务） <br /> 邓老师 0773-2305923（综合事务）
 						</p>
 						<p>办公邮箱： jiuye@guet.edu.cn</p>
 						<p>地址：桂林电子科技大学花江校区红亮学生活动中心</p>
@@ -172,6 +158,7 @@
 			<li><span class="glyphicon glyphicon-list-alt"></span> <a th:href="@{/enterprise/wlzp}">网络招聘</a></li>
 			<li><span class="glyphicon glyphicon-list-alt"></span> <a th:href="@{/enterprise/xjhyy}">宣讲会预约</a></li>
 			<li><span class="glyphicon glyphicon-list-alt"></span> <a th:href="@{/search/sxh(page=1)}">双选会预约</a></li>
+			<li><span class="glyphicon glyphicon-bell"></span> <a th:href="@{/enterprise/qzsq}">求职申请</a></li>
 			<li class="tag" style="background-color: #60b0f4"><a href="javascript:;">关于学校</a></li>
 			<li><span class="glyphicon glyphicon-list-alt"></span> <a th:href="@{/enterprise/syxx}">生源信息</a></li>
 			<li><span class="glyphicon glyphicon-list-alt"></span> <a th:href="@{/enterprise/zyjs}">专业介绍</a></li>
@@ -215,8 +202,7 @@
 			</div>
 		</div>
 		<div class="form-group">
-			<label for="firstname" class="col-sm-2 control-label"> <span style="color: #f40">*</span>
-				工作性质
+			<label for="firstname" class="col-sm-2 control-label"> <span style="color: #f40">*</span> 工作性质
 			</label>
 			<div class="col-sm-2">
 				<select class="form-control" name="nature">
@@ -227,17 +213,15 @@
 			</div>
 		</div>
 		<textarea hidden="hidden" name="contents" id="contents" cols="30" rows="10"></textarea>
-		<br /> <label class="control-label" style="font-size: 16px"> <span style="color: #f40">*</span>
-			招聘文本
+		<br /> <label class="control-label" style="font-size: 16px"> <span style="color: #f40">*</span> 招聘文本
 		</label> <br /> <br /> <br />
 		<div id="rich-text">
 			<button type="button" class="btn btn-sm btn-success">简洁模式</button>
 			<label style="color: #f40">(推荐)</label>
 			<button type="button" class="btn btn-sm btn-success mybtn">正常模式</button>
 			<button id="preview" style="float: right" type="button" class="btn mybtn btn-sm">预览</button>
-			<a href="javascript:;" style="color: #f40" data-toggle="tooltip" data-placement="top"
-				title="简洁模式:过滤样式排版;正常模式:保留原来样式排版"><img th:src="@{/images/aui-icon-question.png}" width="25"
-				height="25" /></a> <label style="color: #f40">正常模式粘贴需要耗费点时间,如果文本过长请分段粘贴</label>
+			<a href="javascript:;" style="color: #f40" data-toggle="tooltip" data-placement="top" title="简洁模式:过滤样式排版;正常模式:保留原来样式排版"><img
+				th:src="@{/images/aui-icon-question.png}" width="25" height="25" /></a> <label style="color: #f40">正常模式粘贴需要耗费点时间,如果文本过长请分段粘贴</label>
 			<div id="wangEditor"></div>
 		</div>
 	</div>
@@ -337,18 +321,12 @@
 	<!-- news left new -->
 	<div th:fragment="newsLeftn" class="left">
 		<ul>
-			<li><span class="glyphicon glyphicon-list-alt"></span> <a
-				th:href="@{/news/search(column=0,page=1)}">通知公告</a></li>
-			<li><span class="glyphicon glyphicon-list-alt"></span> <a
-				th:href="@{/news/search(column=1,page=1)}">就业公示</a></li>
-			<li><span class="glyphicon glyphicon-list-alt"></span> <a
-				th:href="@{/news/search(column=2,page=1)}">新闻热点</a></li>
-			<li><span class="glyphicon glyphicon-list-alt"></span> <a
-				th:href="@{/news/search(column=3,page=1)}">就业指导</a></li>
-			<li><span class="glyphicon glyphicon-list-alt"></span> <a
-				th:href="@{/news/search(column=4,page=1)}">就业政策</a></li>
-			<li><span class="glyphicon glyphicon-download-alt"></span> <a
-				th:href="@{/news/download(page=1)}">常用下载</a></li>
+			<li><span class="glyphicon glyphicon-list-alt"></span> <a th:href="@{/news/search(column=0,page=1)}">通知公告</a></li>
+			<li><span class="glyphicon glyphicon-list-alt"></span> <a th:href="@{/news/search(column=1,page=1)}">就业公示</a></li>
+			<li><span class="glyphicon glyphicon-list-alt"></span> <a th:href="@{/news/search(column=2,page=1)}">新闻热点</a></li>
+			<li><span class="glyphicon glyphicon-list-alt"></span> <a th:href="@{/news/search(column=3,page=1)}">就业指导</a></li>
+			<li><span class="glyphicon glyphicon-list-alt"></span> <a th:href="@{/news/search(column=4,page=1)}">就业政策</a></li>
+			<li><span class="glyphicon glyphicon-download-alt"></span> <a th:href="@{/news/download(page=1)}">常用下载</a></li>
 		</ul>
 	</div>
 
@@ -357,9 +335,8 @@
 		<h5>关键字</h5>
 		<form th:action="@{/news/search}">
 			<div class="input-group">
-				<input type="text" name="keyword" class="form-control" placeholder="请输入搜索内容" /> 
-				<input type="text" hidden="hidden" name="column" th:value="${news.mcolumn}"/>
-				<span class="input-group-btn">
+				<input type="text" name="keyword" class="form-control" placeholder="请输入搜索内容" /> <input type="text" hidden="hidden" name="column"
+					th:value="${news.mcolumn}" /> <span class="input-group-btn">
 					<button class="btn mybtn" type="submit">搜索</button>
 				</span>
 			</div>
@@ -376,8 +353,8 @@
 				</tr>
 			</thead>
 			<tr th:each="item : ${page.records}">
-				<td><span style="color: #f40" th:if="(${item['grade']}) and ${item.grade eq 1}">[置顶]</span><a
-					th:href="@{/views/news/id/}+${item.id}" th:utext="${item.title}">2020届毕业生生源一览表</a></td>
+				<td><span style="color: #f40" th:if="(${item['grade']}) and ${item.grade eq 1}">[置顶]</span><a th:href="@{/views/news/id/}+${item.id}"
+					th:utext="${item.title}">2020届毕业生生源一览表</a></td>
 				<td th:text="${item.pdate}">2020-01-23</td>
 			</tr>
 		</table>
@@ -387,22 +364,20 @@
 	<div th:fragment="pageHelper" style="float: right" th:if="${page.pages gt 1}">
 		<ul class="pagination">
 			<li th:if="${ page.current != 1}"><a th:href="@{/{url}(url=${curl},keyword=${keyword},page=1)}">首页</a></li>
-			<li th:if="${page.hasPrevious}"><a th:href="@{/{url}(url=${curl},keyword=${keyword},page=${page.current - 1})}"
-				aria-label="Previous"> <span aria-hidden="false">&laquo;</span>
+			<li th:if="${page.hasPrevious}"><a th:href="@{/{url}(url=${curl},keyword=${keyword},page=${page.current - 1})}" aria-label="Previous"> <span
+					aria-hidden="false">&laquo;</span>
 			</a></li>
 			<th:block th:each="i : ${#numbers.sequence(begin,end)}">
-				<li th:class="${i == page.current} ? 'active'"><a
-					th:href="@{/{url}(url=${curl},keyword=${keyword},page=${i})}" th:text="${i}" th:if="${i != page.current}"></a> <span
-					style="font-weight: bold" th:if="${i == page.current}" th:text="${i}"></span></li>
+				<li th:class="${i == page.current} ? 'active'"><a th:href="@{/{url}(url=${curl},keyword=${keyword},page=${i})}" th:text="${i}"
+					th:if="${i != page.current}"></a> <span style="font-weight: bold" th:if="${i == page.current}" th:text="${i}"></span></li>
 			</th:block>
-			<li th:if="${page.hasNext}"><a th:href="@{/{url}(url=${curl},keyword=${keyword},page=${page.current + 1})}"
-				aria-label="Next"> <span aria-hidden="false">&raquo;</span>
+			<li th:if="${page.hasNext}"><a th:href="@{/{url}(url=${curl},keyword=${keyword},page=${page.current + 1})}" aria-label="Next"> <span
+					aria-hidden="false">&raquo;</span>
 			</a></li>
-			<li th:if="${ page.current != page.pages}"><a
-				th:href="@{/{url}(url=${curl},keyword=${keyword},page=${page.pages})}">末页</a></li>
+			<li th:if="${ page.current != page.pages}"><a th:href="@{/{url}(url=${curl},keyword=${keyword},page=${page.pages})}">末页</a></li>
 		</ul>
 	</div>
-	
+
 	<!-- news 前端分页 -->
 	<div th:fragment="newsPageHelper" style="float: right" th:if="${page.pages gt 1}">
 		<ul class="pagination">
@@ -411,18 +386,16 @@
 				aria-label="Previous"> <span aria-hidden="false">&laquo;</span>
 			</a></li>
 			<th:block th:each="i : ${#numbers.sequence(begin,end)}">
-				<li th:class="${i == page.current} ? 'active'"><a
-					th:href="@{/news/search(column=${column},keyword=${keyword},page=${i})}" th:text="${i}" th:if="${i != page.current}"></a> <span
-					style="font-weight: bold" th:if="${i == page.current}" th:text="${i}"></span></li>
+				<li th:class="${i == page.current} ? 'active'"><a th:href="@{/news/search(column=${column},keyword=${keyword},page=${i})}" th:text="${i}"
+					th:if="${i != page.current}"></a> <span style="font-weight: bold" th:if="${i == page.current}" th:text="${i}"></span></li>
 			</th:block>
-			<li th:if="${page.hasNext}"><a th:href="@{/news/search(column=${column},keyword=${keyword},page=${page.current + 1})}"
-				aria-label="Next"> <span aria-hidden="false">&raquo;</span>
+			<li th:if="${page.hasNext}"><a th:href="@{/news/search(column=${column},keyword=${keyword},page=${page.current + 1})}" aria-label="Next">
+					<span aria-hidden="false">&raquo;</span>
 			</a></li>
-			<li th:if="${ page.current != page.pages}"><a
-				th:href="@{/news/search(column=${column},keyword=${keyword},page=${page.pages})}">末页</a></li>
+			<li th:if="${ page.current != page.pages}"><a th:href="@{/news/search(column=${column},keyword=${keyword},page=${page.pages})}">末页</a></li>
 		</ul>
 	</div>
-	
+
 	<!-- search nav -->
 	<div th:fragment="searchNav(cur)" class="nav">
 		<ul class="list-inline">
@@ -448,8 +421,7 @@
 		<h5>关键字</h5>
 		<form th:action="@{/search/search/{url}(url=${url})}" method="get">
 			<div class="input-group">
-				<input type="text" name="keyword" class="form-control" placeholder="请输入搜索内容" /> <span
-					class="input-group-btn">
+				<input type="text" name="keyword" class="form-control" placeholder="请输入搜索内容" /> <span class="input-group-btn">
 					<button class="btn mybtn" type="submit">搜索</button>
 				</span>
 			</div>

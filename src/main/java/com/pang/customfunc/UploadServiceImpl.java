@@ -1,6 +1,9 @@
 package com.pang.customfunc;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,6 +12,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.Part;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -148,5 +152,32 @@ public class UploadServiceImpl implements UploadService{
 			downloads.add(new Download(null, null, filename, "upload/sourcefile/"+turl, null, null));
 		}
 		downloadService.saveBatch(downloads);
+	}
+
+	@Override
+	public String uploadResume(Part enclosure) throws IOException {
+		String filename = enclosure.getSubmittedFileName();
+		String exiten = filename.substring(filename.indexOf("."));
+		String newfile = UUID.randomUUID().toString().replace("-", "")+exiten;
+		BufferedInputStream bis = new BufferedInputStream(enclosure.getInputStream());
+		BufferedOutputStream bos = new BufferedOutputStream(
+				new FileOutputStream("F://eims/file/resume/"+newfile));
+		byte[] b=new byte[1024];
+		int length = 0 ;
+		while( (length = bis.read( b ) )!= -1 ){
+			bos.write(b, 0, length );
+		}
+		bos.close();
+		bis.close();
+		return "upload/resume/"+newfile;
+	}
+	
+	@Override
+	public String updateHead(MultipartFile head) throws IllegalStateException, IOException {
+		String filename = head.getOriginalFilename();
+		String exiten = filename.substring(filename.indexOf("."));
+		String newfile = UUID.randomUUID().toString().replace("-", "")+exiten;
+		head.transferTo(new File("F://eims/file/headpicture/"+newfile));
+		return "/upload/headpicture/"+newfile;
 	}
 }

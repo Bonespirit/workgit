@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>求职申请</title>
+<link th:include="commonth::thhead"></link>
+<script src="js/resumescreen.js" th:src="@{/js/resumescreen.js}"></script>
+<script src="js/wangEditor.min.js" th:src="@{/js/wangEditor.min.js}"></script>
+</head>
+<body style="height: auto">
+	<!-- 模态框（Modal） -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog" style="min-width: 800px">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">通知设置</h4>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal" role="form" action="adsad" method="POST">
+						<div class="form-group">
+							<label for="duty" class="col-sm-2 control-label">类型</label>
+							<div class="col-sm-3">
+								<select name="theme" class="form-control">
+									<option value="笔试通知">笔试通知</option>
+									<option value="面试通知">面试通知</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="duty" class="col-sm-2 control-label">设置标签</label>
+							<div class="col-sm-5">
+								<input type="text" name="tag" placeholder="默认标记简历为笔试阶段或面试阶段" class="form-control" />
+							</div>
+						</div>
+						<input type="text" id="idlist" name="idlist" hidden="hidden" />
+						<textarea name="msgcontent" id="msgcontent" hidden="hidden"></textarea>
+					</form>
+					<h4>正文</h4>
+					<div id="wangEditor"></div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+					<button type="button" id="submitbtn" class="btn btn-primary">发送</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal -->
+	</div>
+	<!-- 设置标签 -->
+	<div id="customtag">
+		<h4>设置标签</h4>
+		<input type="text" name="tag" placeholder="如一面、二面等" />
+		<div style="width: 100px; margin: 10px auto">
+			<button class="btn btn-default btn-sm deter">确定</button>
+			<button class="btn btn-default btn-sm cancel">取消</button>
+		</div>
+	</div>
+	<div th:replace="commonhf::sheader"></div>
+	<div style="width: 100%; height: auto; position: absolute; top: 110px">
+		<div id="center">
+			<div th:replace="commonhf::enterpriseNav('求职申请')"></div>
+			<div th:replace="commonhf::enterpriseLeft"></div>
+			<div class="right" style="min-height: 560px">
+				<div class="jobapp-nav">
+					<ul class="list-inline">
+						<li><a href="javascript:;">
+								<button class="btn btn-default">收到的简历</button>
+						</a></li>
+						<li><a href="javascript:;">
+								<button class="btn btn-default">待处理</button>
+						</a></li>
+						<li><a href="javascript:;">
+								<button class="btn btn-success">职员选拔</button>
+						</a></li>
+					</ul>
+				</div>
+				<div class="jobapp-item staff">
+					<ul class="list-inline">
+						<li>标签查找</li>
+						<li><select id="searchbystat" class="form-control">
+								<option value="0">请选择标签</option>
+								<option value="笔试阶段">笔试阶段</option>
+								<option value="面试阶段">面试阶段</option>
+								<option value="待定">待定</option>
+								<option value="-1">自定义查询标签</option>
+						</select></li>
+					</ul>
+					<br />
+					<ul class="list-inline">
+						<li>
+							<button type="button" class="btn btn-success notice" data-toggle="modal" data-target="#myModal">通知</button>
+						</li>
+						<li>
+							<button type="button" class="btn btn-danger rout">淘汰</button>
+						</li>
+						<li style="float: right"><select id="resumeop" class="form-control">
+								<option value="0">标记简历</option>
+								<option value="笔试阶段">笔试阶段</option>
+								<option value="面试阶段">面试阶段</option>
+								<option value="待定">待定</option>
+								<option value="-1">自定义标签</option>
+						</select></li>
+					</ul>
+					<br />
+					<table class="table">
+						<thead>
+							<tr>
+								<th class="col-sm-1"><input class="selectall" type="checkbox" /></th>
+								<th class="col-sm-1">查看简历</th>
+								<th class="col-sm-1">姓名</th>
+								<th class="col-sm-1">性别</th>
+								<th class="col-sm-1">学历</th>
+								<th class="col-sm-1">意向城市</th>
+								<th class="col-sm-1">专业</th>
+								<th class="col-sm-1">应聘职位</th>
+								<th class="col-sm-2">更新时间</th>
+								<th class="col-sm-2">状态</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="item : ${page.records}">
+								<td><input type="checkbox" name="resumeid_[(${item.id})]" /></td>
+								<td><a th:href="@{/view/student/id/}+${item.stuid}">
+										<button type="button" class="btn btn-info btn-sm">完整简历</button>
+								</a></td>
+								<td><span class="limits" th:text="${item.name}" th:title="${item.name}"></span></td>
+								<td th:text="${item.gender}"></td>
+								<td th:text="${item.edu}"></td>
+								<td><span class="limits" th:text="${item.city}" th:title="${item.city}"></span></td>
+								<td><span class="limitl" th:text="${item.major}" th:title="${item.major}"></span></td>
+								<td><span class="limitl" th:text="${item.pname}" th:title="${item.pname}"></span></td>
+								<td th:text="${item.update}"></td>
+								<td><span th:text="${item.status}"></span></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div style="clear: both"></div>
+		</div>
+		<div th:replace="commonhf::#footer"></div>
+	</div>
+	<script>
+      let oCont = document.getElementById("msgcontent");
+      const E = window.wangEditor;
+      const editor = new E("#wangEditor");
+      editor.config.height = 300;
+      editor.config.zIndex = 10;
+      editor.config.showFullScreen = false;
+      editor.config.pasteIgnoreImg = true;
+      editor.config.menus = [];
+      editor.config.onchange = function (newHtml) {
+        oCont.value = newHtml;
+      };
+      editor.create();
+      $("#center .left li")[7].className = "uactive";
+    </script>
+</body>
+</html>

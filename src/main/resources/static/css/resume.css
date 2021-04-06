@@ -1,0 +1,209 @@
+th {
+  border: none !important;
+}
+td {
+  border: none !important;
+}
+td input {
+  width: auto;
+}
+.table {
+  background-color: #fff;
+}
+#center .right {
+  padding: 30px 20px 10px 20px;
+}
+#center .right .must {
+  font-size: 14px;
+  color: #fff;
+  background-color: #f40;
+}
+#center .right .studentinfo {
+  height: 150px;
+  width: 100%;
+}
+#center .right .studentinfo .stuinfo-left-head {
+  position: relative;
+}
+#center .right .studentinfo .edithead {
+  position: absolute;
+  display: none;
+  left: 25px;
+  top: 50%;
+  margin-top: -10px;
+}
+#center .right .studentinfo .stuinfo-left-head:hover img {
+  opacity: 0.5;
+}
+#center .right .studentinfo .stuinfo-left-head:hover .edithead {
+  display: inline-block;
+}
+#center .right .studentinfo .stuinfo-left-head {
+  float: left;
+}
+#center .right .studentinfo .stuinfo-rigth {
+  float: left;
+  padding: 0px 30px;
+}
+#center .right .studentinfo .stuinfo-rigth li {
+  font-size: 18px;
+  padding: 5px 10px;
+}
+#center .right .resume .additem {
+  display: block;
+  float: right;
+  padding: 5px;
+  cursor: default;
+  font-size: 14px;
+  color: #999;
+  border: 1px solid #999;
+  border-radius: 15px;
+  text-align: center;
+}
+#center .right .resume .additem:hover {
+  background-color: #60b0f4;
+  color: #fff;
+}
+#center .right .resume .edit {
+  cursor: default;
+}
+#center .right .resume .edit:hover {
+  color: #60b0f4;
+}
+#center .right .resume .editinfo {
+  padding: 20px;
+  position: relative;
+  background-color: #f6f6f6;
+}
+#center .right .resume .editinfo .edelete {
+  position: absolute;
+  right: 50px;
+  top: 450px;
+}
+#center .right .resume .editinfo .sdelete {
+  position: absolute;
+  right: 50px;
+  top: 120px;
+}
+#center .right .resume .editinfo .mdelete:hover {
+  color: #60b0f4;
+}
+#center .right .resume #skill {
+  width: 100%;
+  border: 1px solid #60b0f4;
+  padding: 10px;
+  outline: none;
+}
+#center .right .resume #describe {
+  width: 100%;
+  outline: none;
+  border: none;
+  padding: 10px;
+}
+#center .right .resume #skill:focus {
+  transition: 0.5s;
+  box-shadow: 0 0 3px rgb(73, 147, 216);
+}
+#center .right .resume #describe:focus {
+  transition: 0.5s;
+  box-shadow: 0 0 3px rgb(73, 147, 216);
+}
+#center .right button {
+  outline: none;
+}
+#center .right .resume .editinfo .form-group div label {
+  margin-right: 50px;
+}
+
+textarea::-webkit-input-placeholder {
+  color: #999;
+  font-size: 0.14rem;
+}
+textarea:-moz-placeholder {
+  color: #999;
+  font-size: 0.14rem;
+}
+textarea::-moz-placeholder {
+  color: #999;
+  font-size: 0.14rem;
+}
+textarea::-ms-input-placeholder {
+  color: #999;
+  font-size: 0.14rem;
+}
+
+/*简历展示模块 */
+#center .right .tophead {
+  position: relative;
+  width: 900px;
+  height: 300px;
+  background-image: url("../images/picheadbg.jpg");
+  margin-bottom: 80px;
+}
+#center .right .baseinfo {
+  text-align: center;
+  font-size: 16px;
+}
+#center .right .resume-show h3 {
+  margin: 0;
+}
+#center .right .resume-show {
+  padding: 30px 10px;
+  background-color: #fff;
+  margin-top: 20px;
+  font-size: 16px;
+}
+#center .right .resume-show .item-exp {
+  margin-bottom: 20px;
+  padding-left: 20px;
+}
+#center .right .resume-show .item-exp .content {
+  padding-left: 30px;
+}
+#center .right .resume-show ul {
+	margin-top:10px;
+  padding-left: 20px;
+}
+#center .right .resume-show .spot {
+  border-radius: 6px;
+  width: 6px;
+  height: 6px;
+  display: inline-block;
+  border: 2px solid #1787fb;
+}
+#center #show-head {
+  position: absolute;
+  left: 50%;
+  bottom: -70px;
+  margin-left: -75px;
+  border-radius: 75px;
+}
+/*我的消息模块 */
+#center .right .delmsg {
+  margin-bottom: 10px;
+}
+#center .right .search-info .table tr th {
+  background-color: #f6f6f6;
+  text-align: left;
+}
+#center .right .search-info .table tr td:nth-child(2) span {
+  color: #f40;
+}
+#center .right .search-info .table tr td:nth-child(3) span {
+  color: #60b0f4;
+  margin: 0;
+  width: 300px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+#center .right .viewmsg-title {
+  background-color: #daf795;
+  padding: 10px;
+}
+#center .right .viewmsg-content {
+  border: 1px solid #ccc;
+  min-height: 480px;
+  width: 100%;
+  height: auto;
+}

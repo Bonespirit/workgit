@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+<title>简历编辑</title>
+<link th:include="commonhf::studentHead"></link>
+<link rel="stylesheet" href="css/resume.css" th:href="@{/css/resume.css}" />
+<script src="js/resume.js" th:src="@{/js/resume.js}"></script>
+</head>
+<body style="height: auto">
+	<div th:replace="commonhf::sheader"></div>
+	<div style="width: 100%; height: auto; position: absolute; top: 110px">
+		<div id="center">
+			<div class="nav">
+				<ul class="list-inline">
+					<li><a th:href="@{/}">首页</a> <span>></span></li>
+					<li><a th:href="@{/jbxxs}">学生中心</a> <span>></span></li>
+				</ul>
+			</div>
+			<div th:replace="commonhf::studentLeft"></div>
+			<div class="right-nav">
+				我的简历 <span>></span> 编辑简历
+			</div>
+			<div class="right" style="min-height: 600px">
+				<form id="mresume" class="form-horizontal" role="form">
+					<div class="studentinfo">
+						<div class="stuinfo-left-head">
+							<img th:src="${student.resume.headurl}" th:if="${not #strings.isEmpty(student.resume.headurl)}" width="110px" height="150px" style="border-radius: 55px"
+								id="head" /> <img src="../images/dhead.jpg" th:unless="${not #strings.isEmpty(student.resume.headurl)}" width="110px" height="150px"
+								style="border-radius: 55px" id="head" /> <a class="edithead" href="javascript:;">修改头像</a> <input style="display: none" type="file"
+								name="head" id="uploadhead" accept="image/jpg,image/jpeg" />
+						</div>
+						<div class="stuinfo-rigth">
+							<h2 th:text="${student.name}"></h2>
+							<ul class="list-inline">
+								<li th:text="${student.gender}"></li>
+								<li>|</li>
+								<li th:text="${student.age}"></li>
+								<li>|</li>
+								<li th:text="${student.nation}"></li>
+								<li>|</li>
+								<li th:text="${student.politics}"></li>
+								<li>|</li>
+								<li th:text="${student.live}"></li>
+							</ul>
+							<ul class="list-inline">
+								<li th:text="${student.edu}"></li>
+								<li>|</li>
+								<li th:text="${student.major}"></li>
+							</ul>
+							<ul class="list-inline">
+								<li><span class="glyphicon glyphicon-phone"></span> [[${student.telephone}]]</li>
+								<li>|</li>
+								<li><span class="glyphicon glyphicon-envelope"></span> [[${student.email}]]</li>
+							</ul>
+						</div>
+						<div style="clear: both"></div>
+					</div>
+					<hr />
+					<div class="resume job-intent">
+						<h3>
+							求职意向 <span class="must">必填</span>
+						</h3>
+						<div class="editinfo">
+							<div class="form-group">
+								<label for="pname" class="col-sm-2 control-label">期望职位</label>
+								<div class="col-sm-10">
+									<input maxlength="40" type="text" class="form-control" id="pname" name="pname" placeholder="请输入期望职位" required th:value="${student.resume.pname}" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="city" class="col-sm-2 control-label">期望城市</label>
+								<div class="col-sm-10">
+									<input maxlength="40" type="text" class="form-control" id="city" name="city" placeholder="请输入期望城市" required th:value="${student.resume.city}" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">期望薪资</label>
+								<div class="col-sm-10">
+									<select class="form-control" name="salary" th:value="${student.resume.salary}">
+										<option value="4k以下">4k以下</option>
+										<option value="4k-6k">4k-6k</option>
+										<option value="6k-8k">6k-8k</option>
+										<option value="8k-10k">8k-10k</option>
+										<option value="10k-15k">10k-15k</option>
+										<option value="15k以上">15k以上</option>
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>
+					<hr />
+					<div class="resume project-exp">
+						<h3>
+							项目经历 <span class="must">必填</span> <span class="additem">+添加项目经历</span>
+						</h3>
+						<div class="editinfo" th:if="${not #strings.isEmpty(student.resume.project)}" th:each="item,itemStat: ${student.resume.project}">
+							<h4>项目[[${itemStat.index}]]</h4>
+							<div class="form-group">
+								<label for="name" class="col-sm-2 control-label">项目名称</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" id="name" name="name" placeholder="请输入项目名称" maxlength="40" required th:value="${item.name}" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="duty" class="col-sm-2 control-label">担任职务</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" id="duty" name="duty" placeholder="请输入从事职务" maxlength="40" required th:value="${item.duty}" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">项目时间</label>
+								<div class="col-sm-10">
+									<input type="month" name="btime" th:value="${item.btime}" />至<input type="month" name="etime" th:value="${item.etime}" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="describe" class="col-sm-2 control-label">具体描述</label>
+								<div class="col-sm-10">
+									<textarea th:text="${item.mdescribe}" id="describe" name="describe" rows="10" placeholder="请不要输入手机、QQ、邮箱信息" style="resize: none"
+										maxlength="1000" required></textarea>
+									<p style="color: #999">请输入最多500字的描述</p>
+								</div>
+							</div>
+							<span class="glyphicon glyphicon-trash mdelete edelete"></span>
+						</div>
+						<div class="editinfo" th:unless="${not #strings.isEmpty(student.resume.project)}">
+							<h4>项目1</h4>
+							<div class="form-group">
+								<label for="name" class="col-sm-2 control-label">项目名称</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" id="name" name="name" placeholder="请输入项目名称" maxlength="40" required />
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="duty" class="col-sm-2 control-label">担任职务</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" id="duty" name="duty" placeholder="请输入从事职务" maxlength="40" required />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">项目时间</label>
+								<div class="col-sm-10">
+									<input type="month" name="btime" />至<input type="month" name="etime" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="describe" class="col-sm-2 control-label">具体描述</label>
+								<div class="col-sm-10">
+									<textarea id="describe" name="describe" rows="10" placeholder="请不要输入手机、QQ、邮箱信息" style="resize: none" maxlength="1000" required></textarea>
+									<p style="color: #999">请输入最多500字的描述</p>
+								</div>
+							</div>
+							<span class="glyphicon glyphicon-trash mdelete edelete"></span>
+						</div>
+					</div>
+					<hr />
+					<div class="resume skill">
+						<h3>
+							技能特长 <span class="must">必填</span>
+						</h3>
+						<div class="editinfo" style="padding: 20px">
+							<textarea th:text="${student.resume.skill}" name="skill" id="describe" rows="10" maxlength="1000" placeholder="请不要输入手机、QQ、邮箱信息" required></textarea>
+							<p style="color: #999">请输入最多500字的描述</p>
+						</div>
+					</div>
+					<hr />
+					<div class="resume practice-exp">
+						<h3>
+							实习经历 <span class="additem">+添加实习经历</span>
+						</h3>
+						<div style="background-color: #f6f6f6; padding: 20px">
+							<table class="table table-condensed">
+								<thead>
+									<tr>
+										<th class="col-sm-3">实习单位</th>
+										<th class="col-sm-2">担任职务</th>
+										<th class="col-sm-6">实习时间</th>
+										<th class="col-sm-1">操作</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="item : ${student.resume.practices}">
+										<td><input type="text" name="cname" th:value="${item.cname}"/></td>
+										<td><input type="text" name="cduty" th:value="${item.duty}"/></td>
+										<td><input type="month" name="cbtime" th:value="${item.btime}"/>至<input type="month" name="cetime" th:value="${item.etime}"/></td>
+										<td><a class="pdel" href="javascript:;">删除</a></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<hr />
+					<div class="resume award">
+						<h3>获奖情况</h3>
+						<div class="editinfo" style="padding: 20px">
+							<textarea th:text="${student.resume.award}" name="award" id="describe" rows="4" style="resize: none" placeholder="请不要输入手机、QQ、邮箱信息" maxlength="250"></textarea>
+						</div>
+					</div>
+					<hr />
+					<div class="resume language-ab">
+						<h3>语言能力</h3>
+						<div class="editinfo" style="padding: 20px">
+							<textarea th:text="${student.resume.language}" name="language" id="describe" rows="2" style="resize: none" placeholder="请不要输入手机、QQ、邮箱信息" maxlength="100"></textarea>
+						</div>
+					</div>
+					<hr />
+					<div class="resume self-assess">
+						<h3>自我评价</h3>
+						<div class="editinfo" style="padding: 20px">
+							<textarea th:text="${student.resume.assess}" name="assess" id="describe" rows="5" style="resize: none" placeholder="请不要输入手机、QQ、邮箱信息" maxlength="200"></textarea>
+							<p style="color: #999">请输入最多100字的描述</p>
+						</div>
+					</div>
+					<hr />
+					<div class="resume hobby">
+						<h3>个人爱好</h3>
+						<div class="editinfo" style="padding: 20px">
+							<textarea th:text="${student.resume.hobby}" name="hobby" id="describe" rows="5" style="resize: none" placeholder="请不要输入手机、QQ、邮箱信息" maxlength="200"></textarea>
+							<p style="color: #999">请输入最多100字的描述</p>
+						</div>
+					</div>
+					<hr />
+					<div class="resume">
+						<h3>上传简历</h3>
+						<input type="text" hidden="hidden" name="headurl" id="headurl">
+						<input type="file" id="uploadresume" name="enclosure" style="display: none" /> <input type="text" class="showfilename" disabled />
+						<button type="button" class="btn btn-info btn-sm selectfile">选择文件</button>
+						<span style="opacity: 0.5">请上传doc、docx、pdf格式的简历</span>
+					</div>
+				</form>
+				<div style="width: 160px; margin: 50px auto 0px auto">
+					<button type="button" class="btn btn-info studentsave">保存并更新</button>
+					<button type="button" class="btn btn-info studentcancel">取消</button>
+				</div>
+			</div>
+			<div style="clear: both"></div>
+		</div>
+		<div th:replace="commonhf::#footer"></div>
+	</div>
+	<script>
+		$("#center .left li")[7].className = "uactive";
+	</script>
+	<script type="text/javascript">
+		$(function() {
+			var token = $("meta[name='_csrf']").attr("content");
+			var header = $("meta[name='_csrf_header']").attr("content");
+			$(document).ajaxSend(function(e, xhr, options) {
+				xhr.setRequestHeader(header, token);
+			});
+		});
+	</script>
+</body>
+</html>

@@ -72,10 +72,6 @@ public class IndexController {
 		List<Teachin> teachins = page.getRecords();
 		model.addAttribute("mdate", customFunc.apartDate(teachins));
 		model.addAttribute("teachin", page);
-		if (!SecurityContextHolder.getContext().getAuthentication().getPrincipal().equals("anonymousUser")) {
-			User  user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-			model.addAttribute("username", user.getName());
-		}
 		return "index";
 	}
 	

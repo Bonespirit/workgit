@@ -1,35 +1,40 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>我的消息</title>
 <link th:include="commonhf::studentHead"></link>
-<style>
-	th {
-		background-color: #e9e8e8;
-	}
-</style>
+<link rel="stylesheet" href="css/resume.css" th:href="@{/css/resume.css}" />
+<script src="js/stumsg.js" th:src="@{/js/stumsg.js}"></script>
 </head>
 <body style="height: auto">
-	<div th:replace="commonhf::header"></div>
+	<div th:replace="commonhf::sheader"></div>
 	<div style="width: 100%; height: auto; position: absolute; top: 110px">
 		<div id="center">
 			<div th:replace="commonhf::studentNav('我的消息')"></div>
 			<div th:replace="commonhf::studentLeft"></div>
-			<div class="right" style="min-height: 600px">
+			<div class="right" style="min-height: 600px; padding-top: 20px">
+				<div class="delmsg">
+					<button type="button" class="btn btn-danger btn-sm">彻底删除</button>
+				</div>
 				<div class="search-info">
-					<table class="table table-condensed table-hover">
+					<table class="table table-hover">
 						<thead>
 							<tr>
-								<th>主题</th>
-								<th>时间</th>
+								<th class="col-sm-1"><input type="checkbox" class="selectall" /></th>
+								<th class="col-sm-2">类型</th>
+								<th class="col-sm-4">来源</th>
+								<th class="col-sm-3">时间</th>
+								<th class="col-sm-2">操作</th>
 							</tr>
 						</thead>
-						<tr>
-							<td><a href="javascript:;">2020届毕业生生源一览表</a></td>
-							<td>2020-01-23</td>
+						<tr th:each="item : ${page.records}">
+							<td><input type="checkbox" name="stumsg_[[${item.id}]]" /></td>
+							<td><span th:text="${item.type}"></span></td>
+							<td><span th:text="${item.from}"></span></td>
+							<td><span th:text="${item.pdate}"></span></td>
+							<td><a th:href="@{/student/msg/id/{id}(id=${item.id},type=${item.type},from=${item.from},pdate=${item.pdate})}">查看详情</a></td>
 						</tr>
 					</table>
 				</div>
@@ -39,7 +44,7 @@
 		<div th:replace="commonhf::#footer"></div>
 	</div>
 	<script>
-      $("#center .left li")[8].className = "uactive";
+      $("#center .left li")[10].className = "uactive";
     </script>
 </body>
 </html>

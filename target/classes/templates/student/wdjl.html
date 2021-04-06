@@ -1,27 +1,108 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>我的简历</title>
 <link th:include="commonhf::studentHead"></link>
+<link rel="stylesheet" href="css/resume.css" th:href="@{/css/resume.css}" />
+<script src="js/resume.js" th:src="@{/js/resume.js}"></script>
 </head>
 <body style="height: auto">
-	<div th:replace="commonhf::header"></div>
+	<div th:replace="commonhf::sheader"></div>
 	<div style="width: 100%; height: auto; position: absolute; top: 110px">
 		<div id="center">
 			<div th:replace="commonhf::studentNav('我的简历')"></div>
 			<div th:replace="commonhf::studentLeft"></div>
-			<div class="right" style="min-height: 600px">
-				<h3>制作简历功能暂未开放，敬请期待!</h3>
+			<div class="right" style="min-height: 600px; background-color: #f6f6f6">
+				<div style="background-color: #fff">
+					<div class="tophead">
+						<img th:src="${student.resume.headurl}" th:if="${not #strings.isEmpty(student.resume.headurl)}" width="150px" height="150px" id="show-head" />
+						<img th:unless="${not #strings.isEmpty(student.resume.headurl)}" src="../images/dhead.jpg" width="150px" height="150px" id="show-head" />
+					</div>
+					<div class="baseinfo">
+						<h3 th:text="${student.name}"></h3>
+						<p th:if="${not #strings.isEmpty(student.resume.assess)}" th:text="${student.resume.assess}"></p>
+						<p th:if="${not #strings.isEmpty(student.resume.hobby)}">我的爱好：[[${student.resume.hobby}]]</p>
+						<ul class="list-inline">
+							<li th:text="${student.gender}">男</li>
+							<li>|</li>
+							<li th:text="${student.age}">23</li>
+							<li>|</li>
+							<li th:text="${student.nation}">汉</li>
+							<li>|</li>
+							<li th:text="${student.politics}">共青团员</li>
+							<li>|</li>
+							<li th:text="${student.live}">玉林</li>
+						</ul>
+						<ul class="list-inline">
+							<li th:text="${student.edu}">本科</li>
+							<li>|</li>
+							<li th:text="${student.major}">计算机科学与技术</li>
+						</ul>
+						<ul class="list-inline">
+							<li><span class="glyphicon glyphicon-phone"></span> [[${student.telephone}]]</li>
+							<li>|</li>
+							<li><span class="glyphicon glyphicon-envelope"></span> [[${student.email}]]</li>
+						</ul>
+					</div>
+				</div>
+				<div class="resume-show" th:if="${not #strings.isEmpty(student.resume.pname)}">
+					<h3>求职意向</h3>
+					<ul class="list-inline">
+						<li th:text="${student.resume.pname}">java开发工程师、前端开发工程师</li>
+						<li>|</li>
+						<li th:text="${student.resume.salary}">6k-8k</li>
+						<li>|</li>
+						<li th:text="${student.resume.city}">桂林</li>
+					</ul>
+				</div>
+				<div class="resume-show" th:if="${not #strings.isEmpty(student.resume.practice)}">
+					<h3>实习经历</h3>
+					<ul class="list-inline" th:each="item : ${student.resume.practices}">
+						<li><span class="spot"></span></li>
+						<li><span th:text="${item.btime}"></span> 至 <span th:text="${item.etime}"></span></li>
+						<li th:text="${item.cname}">软通动力</li>
+						<li th:text="${item.duty}">java开发工程师</li>
+					</ul>
+				</div>
+				<div class="resume-show" th:if="${not #strings.isEmpty(student.resume.project)}">
+					<h3>项目经历</h3>
+					<div class="item-exp" th:each="item : ${student.resume.project}">
+						<p>
+							<span class="spot"></span> <span th:text="${item.btime}"></span> 至 <span th:text="${item.etime}"></span>
+						</p>
+						<div class="content">
+							<h3 th:text="${item.name}"></h3>
+							<h4 th:text="${item.duty}"></h4>
+							<p th:text="${item.mdescribe}"></p>
+						</div>
+					</div>
+				</div>
+				<div class="resume-show" th:if="${not #strings.isEmpty(student.resume.skill)}">
+					<h3>技能特长</h3>
+					<div style="white-space: pre-wrap;margin-top: 10px" th:text="${student.resume.skill}"></div>
+				</div>
+				<div class="resume-show" th:if="${not #strings.isEmpty(student.resume.award)}">
+					<h3>获奖情况</h3>
+					<div style="white-space: pre-wrap;margin-top: 10px" th:text="${student.resume.award}"></div>
+				</div>
+				<div class="resume-show" th:if="${not #strings.isEmpty(student.resume.language)}">
+					<h3>语言能力</h3>
+					<p th:text="${student.resume.language}"></p>
+				</div>
+				<div style="width: 160px; margin: 20px auto 0px auto">
+					<a th:href="@{/student/editresume}">
+						<button type="button" class="btn btn-info">修改简历</button>
+					</a>
+				</div>
 			</div>
 			<div style="clear: both"></div>
 		</div>
 		<div th:replace="commonhf::#footer"></div>
 	</div>
 	<script>
-      $("#center .left li")[5].className = "uactive";
+      $("#center .left li")[7].className = "uactive";
     </script>
 </body>
 </html>

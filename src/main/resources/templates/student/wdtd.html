@@ -1,27 +1,76 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>我的投递</title>
 <link th:include="commonhf::studentHead"></link>
+<link rel="stylesheet" href="css/resume.css" th:href="@{/css/resume.css}" />
+<script src="js/doT.min.js" th:src="@{/js/doT.min.js}"></script>
+<script src="js/stumsg.js" th:src="@{/js/stumsg.js}"></script>
 </head>
 <body style="height: auto">
-	<div th:replace="commonhf::header"></div>
+	<div th:replace="commonhf::sheader"></div>
 	<div style="width: 100%; height: auto; position: absolute; top: 110px">
 		<div id="center">
 			<div th:replace="commonhf::studentNav('我的投递')"></div>
 			<div th:replace="commonhf::studentLeft"></div>
 			<div class="right" style="min-height: 600px">
-				<h3>功能开发中，敬请期待!</h3>
+				<ul class="list-inline">
+					<li>查找</li>
+					<li>
+						<select id="searchbystat" class="form-control">
+							<option value="0">请选择标签</option>
+							<option value="1">初步筛选</option>
+							<option value="2">二次筛选</option>
+							<option value="3">笔试阶段</option>
+							<option value="4">面试阶段</option>
+							<option value="5">再接再厉</option>
+						</select>
+					</li>
+				</ul>
+				<br />
+				<table class="table table-condensed">
+					<thead>
+						<tr>
+							<th class="col-sm-3">应聘职位</th>
+							<th class="col-sm-3">所属单位</th>
+							<th class="col-sm-3">更新时间</th>
+							<th class="col-sm-3">简历状态</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="item : ${page.records}">
+							<td><a th:href="@{/view/jobs/id/}+${item.pid}" th:text="${item.pname}"></a></td>
+							<td><a href="javascript:;" th:text="${item.cname}"></a></td>
+							<td th:text="${item.update}"></td>
+							<td><span style="color: #60b0f4" th:text="${item.status}"></span></td>
+						</tr>
+					</tbody>
+				</table>
 			</div>
 			<div style="clear: both"></div>
 		</div>
 		<div th:replace="commonhf::#footer"></div>
 	</div>
-	<script>
-      $("#center .left li")[9].className = "uactive";
+	<script type="text/x-dot-template" id="resumeData">
+      {{~it.page.records:value:index}}
+        <tr>
+          <td>
+            <a th:href="@{/view/jobs/id/{{=value.pid}}}">{{=value.pname}}</a>
+          </td>
+          <td>
+            <a href="javascript:;">{{=value.company}}</a>
+          </td>
+          <td>{{=value.update}}</td>
+          <td>
+            <span style="color: #60b0f4">{{=value.status}}</span>
+          </td>
+        </tr>
+      {{~}}
     </script>
+	<script>
+		$("#center .left li")[11].className = "uactive";
+	</script>
 </body>
 </html>

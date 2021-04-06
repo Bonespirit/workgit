@@ -24,8 +24,10 @@
 						<div class="position">
 							<p class="name" th:text="${position.pname}">Java开发工程师</p>
 							<p>
-								<span class="salary" th:text="${position.salary}">4千-6千</span> <span th:text="${position.workplace}">广西-桂林</span> <span th:text="${/position.nature}">全职</span> <span th:text="${position.edu}">本科</span> <span th:text="${position.number}">招10人</span>
-								<span th:text="${position.skill}">运维/测试</span>
+								<span class="salary" th:text="${position.salary}">4千-6千</span> <span
+									th:text="${position.workplace}">广西-桂林</span> <span th:text="${/position.nature}">全职</span>
+								<span th:text="${position.edu}">本科</span> <span th:text="${position.number}">招10人</span> <span
+									th:text="${position.skill}">运维/测试</span>
 							</p>
 						</div>
 					</div>
@@ -52,16 +54,20 @@
 						<div class="contact">
 							<h4>职位发布人</h4>
 							<p>
-								联系人:<span th:text="${position.name}">庞先生</span>
+								联系人:<span th:text="${position.name}"></span>
 							</p>
 							<p>
-								联系电话:<span th:text="${position.telephone}">18078461064</span>
+								联系电话:<span th:text="${position.telephone}"></span>
+							</p>
+							<p>
+								简历投递:<span th:text="${company.zpemail}"></span>
 							</p>
 						</div>
 						<br />
 						<div class="com-info">
 							<div>
-								<img th:src="@{/images/defaultlogo.png}" /> <a href="javascript:;" th:text="${company.cname}">中国能源建设集团广东省电力设计研究院有限公司</a>
+								<img th:src="@{/images/defaultlogo.png}" /> <a href="javascript:;"
+									th:text="${company.cname}">中国能源建设集团广东省电力设计研究院有限公司</a>
 							</div>
 							<p>
 								单位性质:<span th:text="${company.nature}">三资企业</span>

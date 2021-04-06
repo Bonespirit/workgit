@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>求职申请</title>
+<link th:include="commonth::thhead"></link>
+<script src="js/resumescreen.js" th:src="@{/js/resumescreen.js}"></script>
+</head>
+<body style="height: auto">
+	<div th:replace="commonhf::sheader"></div>
+	<div style="width: 100%; height: auto; position: absolute; top: 110px">
+		<div id="center">
+			<div th:replace="commonhf::enterpriseNav('求职申请')"></div>
+			<div th:replace="commonhf::enterpriseLeft"></div>
+			<div class="right" style="min-height: 560px">
+				<div class="jobapp-nav">
+					<ul class="list-inline">
+						<li><a th:href="@{/enterprise/qzsq}">
+								<button class="btn btn-info">收到的简历</button>
+						</a></li>
+						<li><a th:href="@{/enterprise/qzsqpending}">
+								<button class="btn btn-default">待处理</button>
+						</a></li>
+						<li><a th:href="@{/enterprise/qzsqselect}">
+								<button class="btn btn-default">职员选拔</button>
+						</a></li>
+					</ul>
+				</div>
+				<div class="jobapp-item staff">
+					<ul class="list-inline">
+						<li>
+							<button type="button" class="btn btn-warning collect">收藏</button>
+						</li>
+						<li>
+							<button type="button" class="btn btn-danger rout">淘汰</button>
+						</li>
+						<li><label class="tips">收藏的简历会进入待处理区域</label></li>
+					</ul>
+					<br />
+					<table class="table">
+						<thead>
+							<tr>
+								<th class="col-sm-1"><input class="selectall" type="checkbox" /></th>
+								<th class="col-sm-1">查看简历</th>
+								<th class="col-sm-1">姓名</th>
+								<th class="col-sm-1">性别</th>
+								<th class="col-sm-1">学历</th>
+								<th class="col-sm-1">意向城市</th>
+								<th class="col-sm-2">专业</th>
+								<th class="col-sm-2">应聘职位</th>
+								<th class="col-sm-2">投递时间</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="item : ${page.records}">
+								<td><input type="checkbox" name="resumeid_[(${item.id})]" /></td>
+								<td>
+									<a th:href="@{/view/student/id/}+${item.stuid}">
+										<button type="button" class="btn btn-info btn-sm">完整简历</button>
+									</a>
+								</td>
+								<td><span class="limits" th:text="${item.name}" th:title="${item.name}"></span></td>
+								<td th:text="${item.gender}"></td>
+								<td th:text="${item.edu}"></td>
+								<td><span class="limits" th:text="${item.city}" th:title="${item.city}"></span></td>
+								<td><span class="limitl" th:text="${item.major}" th:title="${item.major}"></span></td>
+								<td><span class="limitl" th:text="${item.pname}" th:title="${item.pname}"></span></td>
+								<td th:text="${item.update}"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div style="clear: both"></div>
+		</div>
+		<div th:replace="commonhf::#footer"></div>
+	</div>
+	<script>
+      $("#center .left li")[7].className = "uactive";
+    </script>
+</body>
+</html>

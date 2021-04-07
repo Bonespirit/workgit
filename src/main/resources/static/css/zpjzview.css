@@ -3,7 +3,6 @@
   margin-top: 10px;
   padding: 10px 30px;
   height: auto;
-  /* text-align: left; */
 }
 #center .contents .header div:nth-of-type(1) {
   margin-top: 30px;
@@ -24,7 +23,7 @@
   float: right;
 }
 #center .contents .section {
-  padding: 10px;
+  padding: 0 0 0 30px;
   background-color: #fff;
   min-height: 205px;
 }
@@ -76,9 +75,18 @@
   width: 300px;
   float: right;
   margin: 0;
+  text-align: right;
+}
+#center .contents .header .rightinfo .hasdeliver,
+#center .contents .header .rightinfo .hascollect {
+  background-color: #fff;
+  color: #0e9ce9;
 }
 #center .contents .header .rightinfo ul {
-  margin-top: 60px;
+  display: inline-block;
+}
+#center .contents .header .rightinfo ul:last-child {
+  margin-top: 25px;
 }
 #center .contents .section .title {
   padding: 20px 0px;

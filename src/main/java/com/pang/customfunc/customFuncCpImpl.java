@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,12 +14,14 @@ import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -27,9 +30,17 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.pang.entity.MyDate;
 import com.pang.entity.Teachin;
+import com.pang.mapper.CommonMapper;
+import com.pang.mapper.StuDeliverMapper;
 
 @Component("customFunc")
 public class customFuncCpImpl implements customFunc{
+	
+	@Autowired
+	CommonMapper commonMapper;
+	
+	@Autowired
+	StuDeliverMapper stuDeliverMapper;
 	
 	@Autowired
 	RedisTemplate<String, String> redisTemplate;
@@ -393,5 +404,15 @@ public class customFuncCpImpl implements customFunc{
 			}
 		}
 		return String.join(",", majorsl);
+	}
+	
+	@Transactional
+	@Cacheable(value="LongCache",key="'eims:student:collect:sid:'+#sid",unless="#result.size==0")
+	public Map<String, List<String>> getPosAndColId(Integer sid){
+		Map<String, List<String>> map = new HashMap<String, List<String>>();
+		String deliver = stuDeliverMapper.selectById(sid).getDeliver();
+		map.put("deliver", Arrays.asList(deliver));
+		map.put("collect", commonMapper.getColPosIdfromSR(sid));
+		return map;
 	}
 }

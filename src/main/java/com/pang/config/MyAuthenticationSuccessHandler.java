@@ -38,6 +38,7 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
 		if (url == null) {
 			for(Role role:user.getRoleList()) {
 				if (role.getRolename().equals("ROLE_sadmin") || role.getRolename().equals("ROLE_gadmin")) {
+					System.out.println("admin");
 					murl = request.getContextPath()+"/teacher/shsq?page=1";
 					break;
 				}else if (role.getRolename().equals("ROLE_enterprise")) {

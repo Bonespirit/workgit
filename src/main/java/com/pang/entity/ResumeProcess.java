@@ -24,10 +24,10 @@ public class ResumeProcess implements Serializable{
 	
 	@TableId(value="id",type=IdType.AUTO)
 	private Integer id;		//编号
-	private String stuid;	//学生id
-	private String comid;	//单位id
+	private Integer stuid;	//学生id
+	private Integer comid;	//单位id
 	private String cname;	//单位名称
-	private String pid;		//职位id
+	private Integer pid;	//职位id
 	private String pname;	//职位名称
 	private String name;	//姓名
 	private String gender;	//性别

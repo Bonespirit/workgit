@@ -1,8 +1,11 @@
 package com.pang.controller;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,10 +13,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.pang.customfunc.customFunc;
 import com.pang.entity.Company;
 import com.pang.entity.Mposition;
 import com.pang.entity.Recruit;
 import com.pang.entity.Teachin;
+import com.pang.entity.User;
 import com.pang.service.MyElasticsearchService;
 import com.pang.service.NewsHtmlService;
 import com.pang.service.ViewService;
@@ -22,6 +27,9 @@ import com.pang.service.ZpHtmlService;
 @Controller
 @RequestMapping("/views")
 public class ViewsController {
+	
+	@Autowired
+	customFunc customFunc;
 	
 	@Autowired
 	ViewService viewService;
@@ -38,8 +46,16 @@ public class ViewsController {
 	//获取职位信息
 	@GetMapping("/jobs/id/{id}")
 	public String goToJobs(@PathVariable("id") Integer id,Model model) throws IOException {
-		Mposition mposition = viewService.getPositionById(id);;
+		User  user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Mposition mposition = viewService.getPositionById(id);
 		model.addAttribute("position", mposition);
+		if ("ROLE_student".equals(user.getRoleList().get(0).getRolename())) {
+			Map<String, List<String>> map = customFunc.getPosAndColId(user.getId());
+			model.addAttribute("isCollect", 
+					map.get("collect").contains(mposition.getId().toString()));
+			model.addAttribute("isDeliver", 
+					map.get("deliver").contains(mposition.getId().toString()));
+		}
 		model.addAttribute("company", viewService.getComPartInfo(mposition.getCid()));
 		return "views/jobsview";
 	}

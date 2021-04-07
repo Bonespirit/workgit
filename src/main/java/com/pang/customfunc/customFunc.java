@@ -87,4 +87,11 @@ public interface customFunc {
 	 * @return
 	 */
 	public String getMajorsString(List<String> mList) throws IOException;
+	
+	/**
+	 * 获取收藏职位和投递职位并缓存
+	 * @param sid	学生id
+	 * @return
+	 */
+	public Map<String, List<String>> getPosAndColId(Integer sid);
 }

@@ -11,22 +11,32 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pang.customfunc.UploadService;
+import com.pang.customfunc.customFunc;
+import com.pang.entity.ColResume;
 import com.pang.entity.Resume;
+import com.pang.entity.ResumeProcess;
 import com.pang.entity.User;
 import com.pang.service.StudentService;
 
 @Controller
 @RequestMapping("/student")
 public class StudentController {
+	
+	@Autowired
+	customFunc customFunc;
 	
 	@Autowired
 	StudentService studentService;
@@ -88,9 +98,6 @@ public class StudentController {
 	public String goToEditResume(Model model) throws InterruptedException, ExecutionException {
 		User  user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		model.addAttribute("student", studentService.getStudenInfo(user.getId()));
-//		StudentInfo studentInfo = new StudentInfo();
-//		studentInfo.setResume(new Resume());
-//		model.addAttribute("student", studentInfo);
 		return "student/editresume";
 	}
 	//更新简历信息
@@ -116,6 +123,45 @@ public class StudentController {
 	@GetMapping("/wdtd")
 	public String goToWdtd() {
 		return "student/wdtd";
+	}
+	
+	//获取收藏职位列表并翻页展示
+	@GetMapping("/wdsc")
+	public String goToWdsc(@RequestParam("page") Integer pg,Model model) {
+		User  user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Page<ColResume> page = studentService.getColResumePage(user.getId(), pg);
+		if (page.getPages() > 1) {
+			customFunc.getModelByPage(page,model);
+		}else {
+			model.addAttribute("page", page);
+		}
+		model.addAttribute("curl", "student/wdsc");
+		return "student/wdsc";
+	}
+	//收藏职位信息入库
+	@PostMapping("/colPos")
+	public String putColPos(ColResume colResume) {
+		User  user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		colResume.setSid(user.getId());
+		studentService.putColResume(colResume);
+		return "redirect:/views/jobs/id/"+colResume.getPid();
+	}
+	//删除收藏职位
+	@DeleteMapping("/delcollect/id/{id}")
+	@ResponseBody
+	public String delCol(@PathVariable("id") Integer id) {
+		User  user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		studentService.detCollect(id,user.getId());
+		return "success";
+	}
+	
+	//投递简历
+	@PostMapping("/deliver")
+	@ResponseBody
+	public String putDeliver(ResumeProcess resumeProcess) {
+		User  user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		resumeProcess.setStuid(user.getId());
+		return "success";
 	}
 	
 	//学生基本信息

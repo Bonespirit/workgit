@@ -54,7 +54,11 @@ public class SearchController {
 	@GetMapping("/sxh")
 	public String goToSxh(@RequestParam("page") Integer pg,Model model) {
 		Page<SxhInfo> page = viewService.getSxhInfoPage(pg, 15);
-		customFunc.getModelByPage(page,model);
+		if (page.getPages() > 1) {
+			customFunc.getModelByPage(page,model);
+		}else {
+			model.addAttribute("page", page);
+		}
 		model.addAttribute("curl", "search/sxh");
 		return "search/sxh";
 	}
@@ -67,7 +71,11 @@ public class SearchController {
 		oList.add(keyword);
 		Page<Map<String, Object>> page = 
 				myElasticsearchService.getSearchResult(oList, "sxh", "pdate", pg,15);
-		customFunc.getModelByPage(page,model);
+		if (page.getPages() > 1) {
+			customFunc.getModelByPage(page,model);
+		}else {
+			model.addAttribute("page", page);
+		}
 		model.addAttribute("curl", "search/search/sxh");
 		model.addAttribute("keyword", keyword);
 		return "search/sxh";
@@ -79,7 +87,11 @@ public class SearchController {
 			HttpServletRequest request,Model model) {
 		String schoolmate = request.getParameter("schoolmate");
 		Page<Teachin> page = viewService.getTeahinInfoPage(pg, 15, schoolmate);
-		customFunc.getModelByPage(page,model);
+		if (page.getPages() > 1) {
+			customFunc.getModelByPage(page,model);
+		}else {
+			model.addAttribute("page", page);
+		}
 		model.addAttribute("curl", "search/zcxj");
 		return "search/zcxj";
 	}
@@ -92,7 +104,11 @@ public class SearchController {
 		oList.add(keyword);
 		Page<Map<String, Object>> page = 
 				myElasticsearchService.getSearchResult(oList, "teachin", "tdate", pg,15);
-		customFunc.getModelByPage(page,model);
+		if (page.getPages() > 1) {
+			customFunc.getModelByPage(page,model);
+		}else {
+			model.addAttribute("page", page);
+		}
 		model.addAttribute("curl", "search/search/zcxj");
 		model.addAttribute("keyword", keyword);
 		return "search/zcxj";
@@ -104,7 +120,11 @@ public class SearchController {
 			HttpServletRequest request,Model model) {
 		String schoolmate = request.getParameter("schoolmate");
 		Page<Jobfair> page = viewService.getJobfairInfoPage(pg, 15,schoolmate);
-		customFunc.getModelByPage(page,model);
+		if (page.getPages() > 1) {
+			customFunc.getModelByPage(page,model);
+		}else {
+			model.addAttribute("page", page);
+		}
 		model.addAttribute("curl", "search/ztzp");
 		return "search/ztzp";
 	}
@@ -117,7 +137,11 @@ public class SearchController {
 		oList.add(keyword);
 		Page<Map<String, Object>> page = 
 				myElasticsearchService.getSearchResult(oList, "jobfair", "hdate", pg,15);
-		customFunc.getModelByPage(page,model);
+		if (page.getPages() > 1) {
+			customFunc.getModelByPage(page,model);
+		}else {
+			model.addAttribute("page", page);
+		}
 		model.addAttribute("curl", "search/search/ztzp");
 		model.addAttribute("keyword", keyword);
 		return "search/ztzp";
@@ -129,7 +153,11 @@ public class SearchController {
 			HttpServletRequest request,Model model) {
 		String schoolmate = request.getParameter("schoolmate");
 		Page<Recruit> page = viewService.getRecruitInfoPage(pg, 4, schoolmate, "1");
-		customFunc.getModelByPage(page,model);
+		if (page.getPages() > 1) {
+			customFunc.getModelByPage(page,model);
+		}else {
+			model.addAttribute("page", page);
+		}
 		model.addAttribute("curl", "search/zxzp");
 		return "search/zxzp";
 	}
@@ -143,7 +171,11 @@ public class SearchController {
 		oList.add("0");
 		Page<Map<String, Object>> page = 
 				myElasticsearchService.getSearchResult(oList, "recruit", "pdate", pg,15);
-		customFunc.getModelByPage(page,model);
+		if (page.getPages() > 1) {
+			customFunc.getModelByPage(page,model);
+		}else {
+			model.addAttribute("page", page);
+		}
 		model.addAttribute("curl", "search/search/zxzp");
 		model.addAttribute("keyword", keyword);
 		return "search/zxzp";
@@ -155,7 +187,11 @@ public class SearchController {
 			HttpServletRequest request,Model model) {
 		String schoolmate = request.getParameter("schoolmate");
 		Page<Recruit> page = viewService.getRecruitInfoPage(pg, 2, schoolmate, "2");
-		customFunc.getModelByPage(page,model);
+		if (page.getPages() > 1) {
+			customFunc.getModelByPage(page,model);
+		}else {
+			model.addAttribute("page", page);
+		}
 		model.addAttribute("curl", "search/sxzp");
 		return "search/sxzp";
 	}
@@ -170,7 +206,11 @@ public class SearchController {
 		oList.add("2");
 		Page<Map<String, Object>> page = 
 				myElasticsearchService.getSearchResult(oList, "recruit", "pdate", pg,2);
-		customFunc.getModelByPage(page,model);
+		if (page.getPages() > 1) {
+			customFunc.getModelByPage(page,model);
+		}else {
+			model.addAttribute("page", page);
+		}
 		model.addAttribute("curl", "search/search/sxzp");
 		model.addAttribute("keyword", keyword);
 		return "search/sxzp";

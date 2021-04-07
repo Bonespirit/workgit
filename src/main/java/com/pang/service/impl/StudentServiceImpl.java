@@ -14,10 +14,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.pang.customfunc.customFunc;
+import com.pang.entity.ColResume;
 import com.pang.entity.Resume;
 import com.pang.entity.ResumePractice;
 import com.pang.entity.ResumeProject;
 import com.pang.entity.StudentInfo;
+import com.pang.mapper.ColResumeMapper;
 import com.pang.mapper.ResumeMapper;
 import com.pang.mapper.ResumeProjectMapper;
 import com.pang.mapper.StudentInfoMapper;
@@ -28,18 +32,28 @@ import com.pang.service.StudentService;
 public class StudentServiceImpl implements StudentService{
 	
 	@Autowired
+	customFunc customFunc;
+	
+	@Autowired
+	ColResumeMapper colResumeMapper;
+	
+	@Autowired
 	ResumeProjectService resumeProjectService;
+	
 	
 	@Autowired
 	StudentInfoMapper studentInfoMapper;
 	
+	
 	@Autowired
 	ResumeMapper resumeMapper;
+	
 	
 	@Autowired
 	ResumeProjectMapper resumeProjectMapper;
 	
 	//异步获取学生基本信息
+	
 	@Async
 	public Future<StudentInfo> getStuInfoAsync(Integer id){
 		System.out.println("StudentInfo running");
@@ -47,6 +61,7 @@ public class StudentServiceImpl implements StudentService{
 		return new AsyncResult<StudentInfo>(studentInfo);
 	}
 	//异步获取学生简历基本信息
+	
 	@Async
 	public Future<Resume> getStuResumeAsync(Integer id){
 		System.out.println("Resume running");
@@ -54,6 +69,7 @@ public class StudentServiceImpl implements StudentService{
 		return new AsyncResult<Resume>(resume);
 	}
 	//异步获取学生简历项目经历
+	
 	@Async
 	public Future<List<ResumeProject>> getStuResumeProjectAsync(Integer id){
 		System.out.println("ResumeProject running");
@@ -62,6 +78,7 @@ public class StudentServiceImpl implements StudentService{
 		List<ResumeProject> resumeProjects = resumeProjectMapper.selectList(queryWrapper);
 		return new AsyncResult<List<ResumeProject>>(resumeProjects);
 	}
+	
 	
 	@Cacheable(value="ShortCache",key="'eims:student:resume:id:'+#id")
 	@Transactional
@@ -90,6 +107,7 @@ public class StudentServiceImpl implements StudentService{
 		return studentInfo;
 	}
 	
+	
 	@CacheEvict(value="ShortCache",key="'eims:student:resume:id:'+#stuid")
 	@Transactional
 	@Override
@@ -97,13 +115,45 @@ public class StudentServiceImpl implements StudentService{
 		resume.setId(stuid);
 		List<ResumeProject> resumeProjects = new ArrayList<>();
 		if (resume.getName() != null ) {
+			QueryWrapper<ResumeProject> queryWrapper = new QueryWrapper<>();
 			for(int i=0;i<resume.getName().length;i++) {
 				resumeProjects.add(new ResumeProject(null, stuid, resume.getName()[i],
 						resume.getDuty()[i], resume.getDescribe()[i],
 						resume.getBtime()[i],resume.getEtime()[i]));
 			}
+			queryWrapper.eq("stuid", stuid);
+			resumeProjectService.remove(queryWrapper);
 			resumeProjectService.saveBatch(resumeProjects);
 		}
 		resumeMapper.updateById(resume);
+	}
+	
+	
+	@CacheEvict(value="LongCache",key="'eims:student:collect:sid:'+#sid")
+	@Override
+	public void detCollect(Integer id,Integer sid) {
+		colResumeMapper.deleteById(id);
+	}
+	
+	
+	@Override
+	public Page<ColResume> getColResumePage(Integer sid, Integer pg) {
+		Page<ColResume> cPage = new Page<>(pg,15);
+		QueryWrapper<ColResume> queryWrapper = new QueryWrapper<>();
+		queryWrapper.eq("sid", sid);
+		List<String> coList = customFunc.getPosAndColId(sid).get("collect");
+		Page<ColResume> page = colResumeMapper.selectPage(cPage, queryWrapper);
+		//判断收藏职位是否已投递
+		for(ColResume colResume:page.getRecords()) {
+			if (coList.contains(colResume.getPid().toString())) {
+				colResume.setDeliver(true);
+			}
+		}
+		return page;
+	}
+	
+	@Override
+	public void putColResume(ColResume colResume) {
+		colResumeMapper.insert(colResume);
 	}
 }

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+<title>我的收藏</title>
+<link th:include="commonhf::studentHead"></link>
+</head>
+<body style="height: auto">
+	<div th:replace="commonhf::sheader"></div>
+	<div style="width: 100%; height: auto; position: absolute; top: 110px">
+		<div id="center">
+			<div th:replace="commonhf::studentNav('我的收藏')"></div>
+			<div th:replace="commonhf::studentLeft"></div>
+			<div class="right" style="min-height: 640px; padding: 20px">
+				<h4>您收藏的职位有效期为2个月</h4>
+				<br />
+				<div class="search-info">
+					<ul class="collects">
+						<li class="col-item row" th:each="item :${page.records}">
+							<div class="col-left col-sm-6">
+								<p>
+									<a th:href="@{/views/jobs/id/}+${item.pid}" th:text="${item.pname}"></a>
+								</p>
+								<p>
+									<a href="javascript:;" th:text="${item.cname}"></a> <span class="addr" th:text="${item.address}"></span> <span>|</span> <span
+										th:text="${item.cdate}"></span>
+								</p>
+							</div>
+							<div class="col-right col-sm-6">
+								<ul class="list-inline">
+									<li>
+										<a th:href="@{/student/deliverresume(stuid=${item.sid},comid=${item.cid},pid=${item.pid},pname=${item.pname},cname=${item.cname})}"
+											th:if="${not item.isDeliver}">
+											<button type="button" class="btn btn-info">申请</button>
+										</a> 
+										<span th:unless="${not item.isDeliver}" style="color: #60b0f4">已申请</span>
+									</li>
+									<li>
+										<a href="javascript:;"> 
+											<span class="glyphicon glyphicon-trash colDet"></span>
+										</a>
+									</li>
+								</ul>
+							</div>
+						</li>
+					</ul>
+				</div>
+				<div th:replace="commonhf::pageHelper"></div>
+			</div>
+			<div style="clear: both"></div>
+		</div>
+		<div th:replace="commonhf::#footer"></div>
+	</div>
+	<script type="text/javascript">
+		$(function() {
+			var token = $("meta[name='_csrf']").attr("content");
+			var header = $("meta[name='_csrf_header']").attr("content");
+			$(document).ajaxSend(function(e, xhr, options) {
+				xhr.setRequestHeader(header, token);
+			});
+		});
+	</script>
+	<script th:inline="javascript">
+		$("#center .right .collects .col-item .col-right .colDet").on("click",function() {
+			$(this).parents(".col-item").remove();
+			$.ajax({
+	            url: "/student/delcollect/id/"+[[${item.id}]],
+	            type: "delete",
+	            success: function (data) {
+	            	console.log(data)
+	            },
+	            error: function (xhr) {
+	              console.log(xhr.responseText);
+	            },
+	          });
+		});
+		$("#center .left li")[10].className = "uactive";
+	</script>
+</body>
+</html>

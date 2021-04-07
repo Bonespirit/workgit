@@ -1,11 +1,13 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
 <title th:text="${position.pname}">职位</title>
 <link th:include="commonhf::view"></link>
+<script src="js/jobview.js" th:src="@{/js/jobview.js}"></script>
 </head>
 <body style="height: auto">
 	<div th:replace="commonhf::header"></div>
@@ -22,20 +24,36 @@
 				<div class="header">
 					<div class="poslist leftinfo">
 						<div class="position">
-							<p class="name" th:text="${position.pname}">Java开发工程师</p>
+							<p class="name" th:text="${position.pname}"></p>
 							<p>
-								<span class="salary" th:text="${position.salary}">4千-6千</span> <span
-									th:text="${position.workplace}">广西-桂林</span> <span th:text="${/position.nature}">全职</span>
-								<span th:text="${position.edu}">本科</span> <span th:text="${position.number}">招10人</span> <span
-									th:text="${position.skill}">运维/测试</span>
+								<span class="salary" th:text="${position.salary}"></span> <span th:text="${position.workplace}"></span> <span th:text="${/position.nature}"></span>
+								<span th:text="${position.edu}"></span> <span th:text="${position.number}"></span> <span th:text="${position.skill}"></span>
 							</p>
 						</div>
 					</div>
 					<div class="rightinfo">
-						<ul class="list-inline">
-							<li>发布时间: <span th:text="${position.pdate}">2021-03-08</span>
+						<ul class="list-inline" sec:authorize="hasRole('student')">
+							<li>
+								<th:block th:if="${not isCollect}">
+									<a th:href="@{/student/colPos(pid=${position.id},
+									pname=${position.pname},cid=${position.cid},cname=${company.cname},address=${position.workplace})}"></a>
+									<button type="button" class="btn btn-warning collect">收藏</button>
+								</th:block>
+								<button th:unless="${not isCollect" type="button" class="btn btn-default hascollect">已收藏</button>
 							</li>
-							<li>浏览次数: <span id="vnumber" th:text="${position.hot}">879</span>
+							<li>
+								<th:block th:if="${not isDeliver}">
+									<a th:href="@{/student/deliver(pid=${position.id},
+									comid=${position.cid},pname=${position.pname},cname=${company.cname})}"></a>
+									<button type="button" class="btn btn-info deliver">申请职位</button>
+								</th:block>
+								<button th:unless="${not isDeliver}" type="button" class="btn btn-default hasdeliver">已申请</button>
+							</li>
+						</ul>
+						<ul class="list-inline">
+							<li>发布时间: <span th:text="${position.pdate}"></span>
+							</li>
+							<li>浏览次数: <span id="vnumber" th:text="${position.hot}"></span>
 							</li>
 						</ul>
 					</div>
@@ -45,7 +63,7 @@
 					<div class="left-info">
 						<div class="title">
 							<h4>需求专业</h4>
-							<p th:text="${position.speciality}">土木工程、城市地下空间工程、建筑学、测绘工程、给排水科学与工程土木工程、城市地下空间工程、建筑学、测绘工程、给排水科学与工程</p>
+							<p th:text="${position.speciality}"></p>
 							<h4>职位描述</h4>
 						</div>
 						<div class="info" th:utext="${position.mcontents}"></div>
@@ -66,22 +84,21 @@
 						<br />
 						<div class="com-info">
 							<div>
-								<img th:src="@{/images/defaultlogo.png}" /> <a href="javascript:;"
-									th:text="${company.cname}">中国能源建设集团广东省电力设计研究院有限公司</a>
+								<img th:src="@{/images/defaultlogo.png}" /> <a href="javascript:;" th:text="${company.cname}"></a>
 							</div>
 							<p>
-								单位性质:<span th:text="${company.nature}">三资企业</span>
+								单位性质:<span th:text="${company.nature}"></span>
 							</p>
 							<p>
-								单位行业:<span th:text="${company.industry}">科学研究和技术服务业</span>
+								单位行业:<span th:text="${company.industry}"></span>
 							</p>
 							<p>
-								单位规模:<span th:text="${company.scale}">1000-5000人</span>
+								单位规模:<span th:text="${company.scale}"></span>
 							</p>
 							<h6>
 								<strong>地址</strong>
 							</h6>
-							<p th:text="${company.address}">安徽省芜湖市弋江区久盛路8号</p>
+							<p th:text="${company.address}"></p>
 						</div>
 					</div>
 					<div style="clear: both"></div>
@@ -90,5 +107,14 @@
 		</div>
 		<div th:replace="commonhf::#footer"></div>
 	</div>
+	<script type="text/javascript">
+		$(function() {
+			var token = $("meta[name='_csrf']").attr("content");
+			var header = $("meta[name='_csrf_header']").attr("content");
+			$(document).ajaxSend(function(e, xhr, options) {
+				xhr.setRequestHeader(header, token);
+			});
+		});
+	</script>
 </body>
 </html>

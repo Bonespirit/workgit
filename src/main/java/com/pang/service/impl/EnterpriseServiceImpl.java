@@ -188,7 +188,6 @@ public class EnterpriseServiceImpl implements EnterpriseService{
 		}
 		return false;
 	}
-
 	
 	@Transactional
 	@Override

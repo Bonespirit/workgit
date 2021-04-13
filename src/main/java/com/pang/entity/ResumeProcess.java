@@ -34,6 +34,7 @@ public class ResumeProcess implements Serializable{
 	private String edu;		//学历
 	private String major;	//专业
 	private String city;	//期望城市
+	private String email;	//邮箱
 	@JSONField(format = "yyyy-MM-dd")
 	private Date update;	//更新时间
 	private String status;	//简历状态

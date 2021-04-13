@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -19,17 +20,27 @@ import com.pang.customfunc.customFunc;
 import com.pang.entity.ColResume;
 import com.pang.entity.Resume;
 import com.pang.entity.ResumePractice;
+import com.pang.entity.ResumeProcess;
 import com.pang.entity.ResumeProject;
+import com.pang.entity.StuDeliver;
 import com.pang.entity.StudentInfo;
 import com.pang.mapper.ColResumeMapper;
 import com.pang.mapper.ResumeMapper;
 import com.pang.mapper.ResumeProjectMapper;
+import com.pang.mapper.StuDeliverMapper;
 import com.pang.mapper.StudentInfoMapper;
+import com.pang.service.ResumeProcessService;
 import com.pang.service.ResumeProjectService;
 import com.pang.service.StudentService;
 
 @Service
 public class StudentServiceImpl implements StudentService{
+	
+	@Autowired
+	StuDeliverMapper stuDeliverMapper;
+	
+	@Autowired
+	ResumeProcessService resumeProcessService;
 	
 	@Autowired
 	customFunc customFunc;
@@ -40,20 +51,16 @@ public class StudentServiceImpl implements StudentService{
 	@Autowired
 	ResumeProjectService resumeProjectService;
 	
-	
 	@Autowired
 	StudentInfoMapper studentInfoMapper;
 	
-	
 	@Autowired
 	ResumeMapper resumeMapper;
-	
 	
 	@Autowired
 	ResumeProjectMapper resumeProjectMapper;
 	
 	//异步获取学生基本信息
-	
 	@Async
 	public Future<StudentInfo> getStuInfoAsync(Integer id){
 		System.out.println("StudentInfo running");
@@ -61,7 +68,6 @@ public class StudentServiceImpl implements StudentService{
 		return new AsyncResult<StudentInfo>(studentInfo);
 	}
 	//异步获取学生简历基本信息
-	
 	@Async
 	public Future<Resume> getStuResumeAsync(Integer id){
 		System.out.println("Resume running");
@@ -69,7 +75,6 @@ public class StudentServiceImpl implements StudentService{
 		return new AsyncResult<Resume>(resume);
 	}
 	//异步获取学生简历项目经历
-	
 	@Async
 	public Future<List<ResumeProject>> getStuResumeProjectAsync(Integer id){
 		System.out.println("ResumeProject running");
@@ -78,7 +83,6 @@ public class StudentServiceImpl implements StudentService{
 		List<ResumeProject> resumeProjects = resumeProjectMapper.selectList(queryWrapper);
 		return new AsyncResult<List<ResumeProject>>(resumeProjects);
 	}
-	
 	
 	@Cacheable(value="ShortCache",key="'eims:student:resume:id:'+#id")
 	@Transactional
@@ -107,7 +111,6 @@ public class StudentServiceImpl implements StudentService{
 		return studentInfo;
 	}
 	
-	
 	@CacheEvict(value="ShortCache",key="'eims:student:resume:id:'+#stuid")
 	@Transactional
 	@Override
@@ -128,13 +131,11 @@ public class StudentServiceImpl implements StudentService{
 		resumeMapper.updateById(resume);
 	}
 	
-	
 	@CacheEvict(value="LongCache",key="'eims:student:collect:sid:'+#sid")
 	@Override
 	public void detCollect(Integer id,Integer sid) {
 		colResumeMapper.deleteById(id);
 	}
-	
 	
 	@Override
 	public Page<ColResume> getColResumePage(Integer sid, Integer pg) {
@@ -155,5 +156,24 @@ public class StudentServiceImpl implements StudentService{
 	@Override
 	public void putColResume(ColResume colResume) {
 		colResumeMapper.insert(colResume);
+	}
+	
+	@CacheEvict(value="LongCache",key="'eims:student:collect:sid:'+#resumeProcess.stuid")
+	@Transactional
+	@Override
+	public void deliverResume(ResumeProcess resumeProcess) {
+		//更新已投递简历，判断是否可以投递
+		StuDeliver stuDeliver = new StuDeliver();
+		stuDeliver.setSid(resumeProcess.getStuid());
+		stuDeliver.setPid(resumeProcess.getPid());
+		stuDeliverMapper.insert(stuDeliver);
+		QueryWrapper<StudentInfo> queryWrapper1 = new QueryWrapper<>();
+		QueryWrapper<Resume> queryWrapper2 = new QueryWrapper<>();
+		queryWrapper1.eq("id", resumeProcess.getStuid()).select("name","gender","edu","major","email");
+		BeanUtils.copyProperties(studentInfoMapper.selectOne(queryWrapper1),resumeProcess);
+		queryWrapper2.eq("id", resumeProcess.getStuid()).select("city");
+		resumeProcess.setCity(resumeMapper.selectOne(queryWrapper2).getCity());
+		resumeProcess.setStatus("初步筛选");
+		resumeProcessService.save(resumeProcess);
 	}
 }

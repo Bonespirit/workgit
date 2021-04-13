@@ -51,14 +51,15 @@ public interface customFunc {
 	 * @param model
 	 */
 	public <T> void getModelByPage(Page<T> page,Model model);
+	
 	/**
-     * 	发送通知消息邮件--->单位
+     * 	发送通知消息邮件
      *
      * @param email 目的邮箱地址
      * @param title 邮件标题
      * @param contents 邮件正文
      */
-	public void sendEmailToCp(String email,String title,String contents);
+	public void sendEmailToUser(String email,String title,String contents);
 	
 	/**
 	 * 获取用户真实ip

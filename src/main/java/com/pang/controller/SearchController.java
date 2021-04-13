@@ -168,7 +168,7 @@ public class SearchController {
 		String pg = request.getParameter("page");
 		List<String> oList = new ArrayList<String>();
 		oList.add(keyword);
-		oList.add("0");
+		oList.add("1");
 		Page<Map<String, Object>> page = 
 				myElasticsearchService.getSearchResult(oList, "recruit", "pdate", pg,15);
 		if (page.getPages() > 1) {

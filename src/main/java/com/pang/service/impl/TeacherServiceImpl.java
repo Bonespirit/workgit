@@ -123,7 +123,7 @@ public class TeacherServiceImpl implements TeacherService{
 		//失败记录表
 		teachinRefuseMapper.insert(teachinRefuse);
 		//发送email通知
-		customFunc.sendEmailToCp(email, "宣讲会申请失败", teachinRefuse.getReason());
+		customFunc.sendEmailToUser(email, "宣讲会申请失败", teachinRefuse.getReason());
 	}
 	
 	@Transactional
@@ -134,7 +134,7 @@ public class TeacherServiceImpl implements TeacherService{
 		//删除申请表数据
 		teachinExamMapper.deleteById(teachin.getId());
 		//发送email通知
-		customFunc.sendEmailToCp(email, "宣讲会申请通过","感谢用人单位对我校就业工作的支持和对毕业生的肯定!");
+		customFunc.sendEmailToUser(email, "宣讲会申请通过","感谢用人单位对我校就业工作的支持和对毕业生的肯定!");
 	}
 
 	@Transactional
@@ -145,7 +145,7 @@ public class TeacherServiceImpl implements TeacherService{
 		//删除申请表
 		companyExamMapper.deleteById(id);
 		//发送email通知
-		customFunc.sendEmailToCp(email, "注册失败", reason);
+		customFunc.sendEmailToUser(email, "注册失败", reason);
 	}
 	
 	@Transactional
@@ -165,7 +165,7 @@ public class TeacherServiceImpl implements TeacherService{
 		userRoleMapper.insert(new UserRole(null, user.getId(), 3));
 		companyExamMapper.deleteById(id);
 		//发送email通知
-		customFunc.sendEmailToCp(email, "注册成功", "您已经成功注册了，快来发布招聘信息吧！");
+		customFunc.sendEmailToUser(email, "注册成功", "您已经成功注册了，快来发布招聘信息吧！");
 	}
 	
 	@Transactional

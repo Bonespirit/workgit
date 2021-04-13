@@ -46,15 +46,18 @@ public class ViewsController {
 	//获取职位信息
 	@GetMapping("/jobs/id/{id}")
 	public String goToJobs(@PathVariable("id") Integer id,Model model) throws IOException {
-		User  user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Object o = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		Mposition mposition = viewService.getPositionById(id);
 		model.addAttribute("position", mposition);
-		if ("ROLE_student".equals(user.getRoleList().get(0).getRolename())) {
-			Map<String, List<String>> map = customFunc.getPosAndColId(user.getId());
-			model.addAttribute("isCollect", 
-					map.get("collect").contains(mposition.getId().toString()));
-			model.addAttribute("isDeliver", 
-					map.get("deliver").contains(mposition.getId().toString()));
+		if (o !=null) {
+			User  user = (User) o;
+			if ("ROLE_student".equals(user.getRoleList().get(0).getRolename())) {
+				Map<String, List<String>> map = customFunc.getPosAndColId(user.getId());
+				model.addAttribute("isCollect", 
+						map.get("collect").contains(mposition.getId().toString()));
+				model.addAttribute("isDeliver", 
+						map.get("deliver").contains(mposition.getId().toString()));
+			}
 		}
 		model.addAttribute("company", viewService.getComPartInfo(mposition.getCid()));
 		return "views/jobsview";

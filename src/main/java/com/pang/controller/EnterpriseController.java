@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -24,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.pang.customfunc.UploadService;
 import com.pang.entity.Company;
 import com.pang.entity.Forget;
+import com.pang.entity.InterviewNotice;
 import com.pang.entity.Majors;
 import com.pang.entity.Mposition;
 import com.pang.entity.Recruit;
@@ -34,6 +36,7 @@ import com.pang.mapper.ZpHtmlMapper;
 import com.pang.service.EnterpriseService;
 import com.pang.service.IVerifyCodeGen;
 import com.pang.service.MyElasticsearchService;
+import com.pang.service.ResumeProcessService;
 import com.pang.service.TeacherService;
 import com.pang.service.ViewService;
 
@@ -43,6 +46,9 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequestMapping("/enterprise")
 public class EnterpriseController {
+	
+	@Autowired
+	ResumeProcessService resumeProcessService;
 	
 	@Autowired
 	UploadService uploadService;
@@ -233,7 +239,7 @@ public class EnterpriseController {
 		model.addAttribute("page", enterpriseService.getTeachinByid(user.getForeignkey()));
 		return "enterprise/xjhyy";
 	}
-	//带申请
+	//待审核
 	@GetMapping("/xjhyye")
 	public String goToXjhyye(Model model) {
 		//获取当前登录用户信息
@@ -307,5 +313,76 @@ public class EnterpriseController {
 	public List<Majors> getMajors(@PathVariable("code") Integer code,Model model) {
 		System.out.println(code);
 		return enterpriseService.getMajorsInfo(code);
+	}
+	
+	//简历处理模块
+	//根据简历状态获取简历列表并翻页
+	@GetMapping("/psearch/tag/{tag}")
+	public String searchPos(@PathVariable("tag") Integer tag,
+			@RequestParam("page") Integer pg,Model model) {
+		User  user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		model.addAttribute("page", 
+				resumeProcessService.getDeliverResume(1,-1, user.getForeignkey(), tag, pg));
+		model.addAttribute("tag", tag);
+		model.addAttribute("curl", "/enterprise/psearch/tag/"+tag);
+		return getQzsqUrl(tag);
+	}
+	//职位查询简历
+	@GetMapping("/ksearch/tag/{tag}")
+	public String searchPosByKey(@PathVariable("tag") Integer tag,
+			@RequestParam("keyword") String keyword,
+			HttpServletRequest request,Model model) {
+		int pg = 1;
+		if (request.getParameter("page") != null) {
+			pg = Integer.parseInt(request.getParameter("page"));
+		}
+		User  user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		model.addAttribute("page", 
+				resumeProcessService.searchByKey(user.getForeignkey(), tag, pg, keyword));
+		model.addAttribute("curl", "/enterprise/ksearch/tag/"+tag);
+		model.addAttribute("keyword", keyword);
+		model.addAttribute("tag", tag);
+		return "redirect:"+getQzsqUrl(tag);
+	}
+	//不合适处理
+	@PostMapping("/resumeout")
+	@ResponseBody
+	public String resumeOut(@RequestParam("idlist") String idlist,
+			@RequestParam("sheet") String sheet) {
+		resumeProcessService.resumeOut(idlist, sheet);
+		return "success";
+	}
+	//简历放入待处理区域处理
+	@PostMapping("/resumecollect")
+	@ResponseBody
+	public String resumeCllect(@RequestParam("idlist") String idlist) {
+		resumeProcessService.initialScreen(idlist);
+		return "success";
+	}
+	//面试通知
+	@PostMapping("/noticestudent")
+	public String noticeStudent(InterviewNotice interviewNotice) {
+		resumeProcessService.interviewNotice(interviewNotice,1);
+		return "redirect:/enterprise/psearch/tag/3?page=1";
+	}
+	//自行通知面试
+	@PutMapping("/selfnotice")
+	@ResponseBody
+	public String selfNotice(InterviewNotice interviewNotice) {
+		resumeProcessService.interviewNotice(interviewNotice,0);
+		return "success";
+	}
+	
+	public String getQzsqUrl(Integer tag) {
+		switch (tag) {
+		case 1:
+			return "enterprise/qzsq";
+		case 2:
+			return "enterprise/qzsqpending";
+		case 3:
+			return "enterprise/qzsqselect";
+		default:
+			return "enterprise/qzsqout";
+		}
 	}
 }

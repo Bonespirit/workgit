@@ -5,7 +5,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,16 +30,12 @@ import com.google.gson.JsonObject;
 import com.pang.entity.MyDate;
 import com.pang.entity.Teachin;
 import com.pang.mapper.CommonMapper;
-import com.pang.mapper.StuDeliverMapper;
 
 @Component("customFunc")
 public class customFuncCpImpl implements customFunc{
 	
 	@Autowired
 	CommonMapper commonMapper;
-	
-	@Autowired
-	StuDeliverMapper stuDeliverMapper;
 	
 	@Autowired
 	RedisTemplate<String, String> redisTemplate;
@@ -259,7 +254,7 @@ public class customFuncCpImpl implements customFunc{
 	
 	@Async
 	@Override
-	public void sendEmailToCp(String email, String title, String contents) {
+	public void sendEmailToUser(String email, String title, String contents) {
 		SimpleMailMessage message = new SimpleMailMessage();
 		message.setSubject(title);
 	    message.setText(contents);
@@ -410,8 +405,7 @@ public class customFuncCpImpl implements customFunc{
 	@Cacheable(value="LongCache",key="'eims:student:collect:sid:'+#sid",unless="#result.size==0")
 	public Map<String, List<String>> getPosAndColId(Integer sid){
 		Map<String, List<String>> map = new HashMap<String, List<String>>();
-		String deliver = stuDeliverMapper.selectById(sid).getDeliver();
-		map.put("deliver", Arrays.asList(deliver));
+		map.put("deliver", commonMapper.getDeliverPos(sid));
 		map.put("collect", commonMapper.getColPosIdfromSR(sid));
 		return map;
 	}

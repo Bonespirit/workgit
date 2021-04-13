@@ -57,19 +57,16 @@ $(function () {
   //通过标签查询简历
   function searchByTag(tag) {
     console.log(tag);
-    // $.ajax({
-    //   url: "/student/searchbytag",
-    //   type: "get",
-    //   data: {
-    //     tag: tag,
-    //   },
-    //   success: function (data) {
-    //     let tmpltxt3 = doT.template($("#resumeData")[0].innerHTML);
-    //     $("#center .right .table tbody").html(tmpltxt(data));
-    //   },
-    //   error: function (xhr) {
-    //     console.log(xhr.responseText);
-    //   },
-    // });
+	 $.ajax({
+	   url: "/student/psearch/tag/"+tag+"?page=1",
+	   type: "get",
+	   success: function (data) {
+	     let tmpltxt3 = doT.template($("#resumeData")[0].innerHTML);
+	     $("#center .right .table tbody").html(tmpltxt(data));
+	   },
+	   error: function (xhr) {
+	     console.log(xhr.responseText);
+	   },
+	 });
   }
 });

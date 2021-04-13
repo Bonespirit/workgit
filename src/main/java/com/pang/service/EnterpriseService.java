@@ -91,4 +91,5 @@ public interface EnterpriseService{
 	 * @param id
 	 */
 	public void deleteTeachinE(Integer id);
+	
 }

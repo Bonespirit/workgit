@@ -1,5 +1,9 @@
 package com.pang.entity;
 
+import java.sql.Date;
+
+import com.alibaba.fastjson.annotation.JSONField;
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
@@ -16,7 +20,10 @@ import lombok.ToString;
 @NoArgsConstructor
 public class StuDeliver {
 	
-	@TableId(value="id")
+	@TableId(value="id",type=IdType.AUTO)
 	private Integer id;
-	private String deliver;	//已投递职位id
+	private Integer sid;	//学生id
+	private Integer pid;	//职位id
+	@JSONField(format = "yyyy-MM-dd")
+	private Date pdate;		//投递时间
 }

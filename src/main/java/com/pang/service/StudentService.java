@@ -5,6 +5,7 @@ import java.util.concurrent.ExecutionException;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pang.entity.ColResume;
 import com.pang.entity.Resume;
+import com.pang.entity.ResumeProcess;
 import com.pang.entity.StudentInfo;
 
 public interface StudentService{
@@ -42,4 +43,11 @@ public interface StudentService{
 	 * @param colResume
 	 */
 	public void putColResume(ColResume colResume);
+	
+	/**
+	 * 简历投递信息入库
+	 * @param resumeProcess
+	 */
+	public void deliverResume(ResumeProcess resumeProcess);
+
 }

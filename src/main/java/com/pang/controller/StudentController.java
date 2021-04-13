@@ -29,11 +29,15 @@ import com.pang.entity.ColResume;
 import com.pang.entity.Resume;
 import com.pang.entity.ResumeProcess;
 import com.pang.entity.User;
+import com.pang.service.ResumeProcessService;
 import com.pang.service.StudentService;
 
 @Controller
 @RequestMapping("/student")
 public class StudentController {
+	
+	@Autowired
+	ResumeProcessService resumeProcessService;
 	
 	@Autowired
 	customFunc customFunc;
@@ -120,8 +124,14 @@ public class StudentController {
 	}
 	
 	//我的投递
-	@GetMapping("/wdtd")
-	public String goToWdtd() {
+	//根据简历状态查询投递数据
+	@GetMapping("/psearch/tag/{tag}")
+	public String getResumeByTag(@PathVariable("tag") Integer tag,
+			@RequestParam("page") Integer pg,Model model) {
+		User  user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		model.addAttribute("page", 
+				resumeProcessService.getDeliverResume(0,user.getId(), -1, tag, pg));
+		model.addAttribute("curl", "/student/psearch/tag/"+tag);
 		return "student/wdtd";
 	}
 	
@@ -161,6 +171,7 @@ public class StudentController {
 	public String putDeliver(ResumeProcess resumeProcess) {
 		User  user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		resumeProcess.setStuid(user.getId());
+		studentService.deliverResume(resumeProcess);
 		return "success";
 	}
 	

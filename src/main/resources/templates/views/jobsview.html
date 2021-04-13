@@ -26,13 +26,13 @@
 						<div class="position">
 							<p class="name" th:text="${position.pname}"></p>
 							<p>
-								<span class="salary" th:text="${position.salary}"></span> <span th:text="${position.workplace}"></span> <span th:text="${/position.nature}"></span>
+								<span class="salary" th:text="${position.salary}"></span> <span th:text="${position.workplace}"></span> <span th:text="${position.wnature}"></span>
 								<span th:text="${position.edu}"></span> <span th:text="${position.number}"></span> <span th:text="${position.skill}"></span>
 							</p>
 						</div>
 					</div>
 					<div class="rightinfo">
-						<ul class="list-inline" sec:authorize="hasRole('student')">
+						<ul class="list-inline">
 							<li>
 								<th:block th:if="${not isCollect}">
 									<a th:href="@{/student/colPos(pid=${position.id},

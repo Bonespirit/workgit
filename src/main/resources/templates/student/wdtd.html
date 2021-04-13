@@ -19,14 +19,17 @@
 				<ul class="list-inline">
 					<li>查找</li>
 					<li>
-						<select id="searchbystat" class="form-control">
-							<option value="0">请选择标签</option>
-							<option value="1">初步筛选</option>
-							<option value="2">二次筛选</option>
-							<option value="3">笔试阶段</option>
-							<option value="4">面试阶段</option>
-							<option value="5">再接再厉</option>
-						</select>
+						<div class="btn-group">
+							<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+								请选择标签 <span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu" role="menu">
+								<li><a th:href="@{/student/psearch/tag/1(page=1)}">初步筛选</a></li>
+								<li><a th:href="@{/student/psearch/tag/2(page=1)}">二次筛选</a></li>
+								<li><a th:href="@{/student/psearch/tag/3(page=1)}">面试阶段</a></li>
+								<li><a th:href="@{/student/psearch/tag/5(page=1)}">再接再厉</a></li>
+							</ul>
+						</div>
 					</li>
 				</ul>
 				<br />
@@ -48,6 +51,7 @@
 						</tr>
 					</tbody>
 				</table>
+				<div th:replace="commonhf::pageHelper"></div>
 			</div>
 			<div style="clear: both"></div>
 		</div>

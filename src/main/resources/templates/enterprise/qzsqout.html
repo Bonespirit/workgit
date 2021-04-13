@@ -6,7 +6,6 @@
 <title>求职申请</title>
 <link th:include="commonth::thhead"></link>
 <script src="js/resumescreen.js" th:src="@{/js/resumescreen.js}"></script>
-<script src="js/wangEditor.min.js" th:src="@{/js/wangEditor.min.js}"></script>
 </head>
 <body style="height: auto">
 	<div th:replace="commonhf::sheader"></div>
@@ -21,10 +20,10 @@
 								<button class="btn btn-default">收到的简历</button>
 						</a></li>
 						<li><a th:href="@{/enterprise/psearch/tag/2(page=1)}">
-								<button class="btn btn-default">待处理</button>
+								<button class="btn btn-warning">待处理</button>
 						</a></li>
 						<li><a th:href="@{/enterprise/psearch/tag/3(page=1)}">
-								<button class="btn btn-success">面试中</button>
+								<button class="btn btn-default">面试中</button>
 						</a></li>
 						<li><a th:href="@{/enterprise/psearch/tag/5(page=1)}">
 								<button class="btn btn-default">不合适</button>
@@ -33,41 +32,30 @@
 				</div>
 				<div class="jobapp-item staff">
 					<ul class="list-inline">
-						<li>查找</li>
-						<li>
-							<form th:action="@{/enterprise/ksearch/tag/}+${tag}">
-								<input type="text" class="form-control" name="keyword" placeholder="请输入完成职位名称"
-									style="display: inline-block; width: 200px" />
+						<li style="float: right">
+							<form th:action="@{/enterprise/ksearch/tag/5(page=1)}">
+								<input type="text" class="form-control" placeholder="请输入完成职位名称" style="display: inline-block; width: 200px" />
 								<button class="btn btn-default">搜索</button>
 							</form>
 						</li>
 					</ul>
-					<br />
-					<ul class="list-inline">
-						<li>
-							<input type="text" hidden="hidden" value="under_way_resume">
-							<button type="button" class="btn btn-danger rout">不合适</button>
-						</li>
-					</ul>
-					<br />
+					<div style="clear: both"></div>
+					<br>
 					<table class="table">
 						<thead>
 							<tr>
-								<th class="col-sm-1"><input class="selectall" type="checkbox" /></th>
 								<th class="col-sm-1">查看简历</th>
 								<th class="col-sm-1">姓名</th>
 								<th class="col-sm-1">性别</th>
 								<th class="col-sm-1">学历</th>
 								<th class="col-sm-1">意向城市</th>
-								<th class="col-sm-1">专业</th>
-								<th class="col-sm-1">应聘职位</th>
+								<th class="col-sm-3">专业</th>
+								<th class="col-sm-2">应聘职位</th>
 								<th class="col-sm-2">更新时间</th>
-								<th class="col-sm-2">状态</th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr th:each="item : ${page.records}">
-								<td><input type="checkbox" name="resumeid_[(${item.id})]" /></td>
 								<td><a th:href="@{/view/student/id/}+${item.stuid}">
 										<button type="button" class="btn btn-info btn-sm">完整简历</button>
 								</a></td>
@@ -75,33 +63,20 @@
 								<td th:text="${item.gender}"></td>
 								<td th:text="${item.edu}"></td>
 								<td><span class="limits" th:text="${item.city}" th:title="${item.city}"></span></td>
-								<td><span class="limitl" th:text="${item.major}" th:title="${item.major}"></span></td>
-								<td><span class="limitl" th:text="${item.pname}" th:title="${item.pname}"></span></td>
+								<td><span th:text="${item.major}" th:title="${item.major}"></span></td>
+								<td><span th:text="${item.pname}" th:title="${item.pname}"></span></td>
 								<td th:text="${item.update}"></td>
-								<td><span th:text="${item.status}"></span></td>
 							</tr>
 						</tbody>
 					</table>
-					<div th:replace="commonhf::pageHelper"></div>
 				</div>
+				<div th:replace="commonhf::pageHelper"></div>
 			</div>
 			<div style="clear: both"></div>
 		</div>
 		<div th:replace="commonhf::#footer"></div>
 	</div>
 	<script>
-      let oCont = document.getElementById("msgcontent");
-      const E = window.wangEditor;
-      const editor = new E("#wangEditor");
-      editor.config.height = 300;
-      editor.config.zIndex = 10;
-      editor.config.showFullScreen = false;
-      editor.config.pasteIgnoreImg = true;
-      editor.config.menus = [];
-      editor.config.onchange = function (newHtml) {
-        oCont.value = newHtml;
-      };
-      editor.create();
       $("#center .left li")[7].className = "uactive";
     </script>
 </body>

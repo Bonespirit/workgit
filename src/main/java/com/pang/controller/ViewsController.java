@@ -3,6 +3,7 @@ package com.pang.controller;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,12 +22,16 @@ import com.pang.entity.Teachin;
 import com.pang.entity.User;
 import com.pang.service.MyElasticsearchService;
 import com.pang.service.NewsHtmlService;
+import com.pang.service.StudentService;
 import com.pang.service.ViewService;
 import com.pang.service.ZpHtmlService;
 
 @Controller
 @RequestMapping("/views")
 public class ViewsController {
+	
+	@Autowired
+	StudentService studentService;
 	
 	@Autowired
 	customFunc customFunc;
@@ -130,5 +135,12 @@ public class ViewsController {
 		model.addAttribute("sxh", viewService.getSxhInfo(id));
 		model.addAttribute("page", viewService.getDownloadPage(1, id));
 		return "views/sxhview";
+	}
+	
+	//浏览学生完整简历
+	@GetMapping("/student/id/{id}")
+	public String browseResume(@PathVariable("id") Integer sid,Model model) throws InterruptedException, ExecutionException {
+		model.addAttribute("student", studentService.getStudenInfo(sid));
+		return "resumeview";
 	}
 }

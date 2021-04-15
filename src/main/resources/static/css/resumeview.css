@@ -1,0 +1,51 @@
+/*简历展示模块 */
+#center .right {
+  padding: 30px 20px 10px 20px;
+}
+#center .right .tophead {
+  position: relative;
+  width: 100%;
+  height: 100px;
+  /* background-image: url("../images/top-bg.png"); */
+  background-color: #60b0f4;
+  background-size: cover;
+  margin-bottom: 80px;
+}
+#center .right .baseinfo {
+  text-align: center;
+  font-size: 16px;
+}
+#center .right .resume-show h3 {
+  margin: 0;
+}
+#center .right .resume-show {
+  padding: 10px 10px;
+  background-color: #fff;
+  margin-top: 10px;
+  font-size: 16px;
+}
+#center .right .resume-show .item-exp {
+  margin-bottom: 10px;
+  padding-left: 20px;
+}
+#center .right .resume-show .item-exp .content {
+  padding-left: 30px;
+}
+#center .right .resume-show ul {
+  padding-left: 15px;
+  margin: 0;
+}
+#center .right .resume-show .spot {
+  border-radius: 6px;
+  width: 6px;
+  height: 6px;
+  display: inline-block;
+  border: 2px solid #1787fb;
+}
+#center #show-head {
+  position: absolute;
+  left: 50%;
+  bottom: -70px;
+  margin-left: -75px;
+  border-radius: 75px;
+}

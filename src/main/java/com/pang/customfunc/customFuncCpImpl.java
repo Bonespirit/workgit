@@ -3,6 +3,8 @@ package com.pang.customfunc;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,6 +33,9 @@ import com.pang.entity.MyDate;
 import com.pang.entity.Teachin;
 import com.pang.mapper.CommonMapper;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Component("customFunc")
 public class customFuncCpImpl implements customFunc{
 	
@@ -408,5 +413,62 @@ public class customFuncCpImpl implements customFunc{
 		map.put("deliver", commonMapper.getDeliverPos(sid));
 		map.put("collect", commonMapper.getColPosIdfromSR(sid));
 		return map;
+	}
+	
+	/**
+	 * 当java调用wkhtmltopdf时，用于获取wkhtmltopdf返回的内容
+	 */
+	class HtmlToPdfInter extends Thread{
+		private InputStream is;
+	    public HtmlToPdfInter(InputStream is) {
+	        this.is = is;
+	    }
+	    public void run() {
+	        try {
+	            InputStreamReader isr = new InputStreamReader(is, "utf-8");
+	            BufferedReader br = new BufferedReader(isr);
+	            br.readLine();
+	        } catch (IOException e) {
+	            log.error(e.getMessage());
+	            e.printStackTrace();
+	        }
+	    }
+	}
+	
+	@Override
+	public boolean htmlToPdf(String srcPath, String destPath) {
+		StringBuilder cmd = new StringBuilder();
+        cmd.append("wkhtmltopdf");
+        cmd.append(" ");
+        cmd.append("-s A4");// a4纸
+        cmd.append(" ");
+        cmd.append("-B 0mm");// 底部边距
+        cmd.append(" ");
+        cmd.append("-T 0mm");// 顶部边距
+        cmd.append(" ");
+        cmd.append("-L 0mm");// 左部边距
+        cmd.append(" ");
+        cmd.append("-R 0mm");// 右部边距
+        cmd.append(" ");
+        cmd.append(srcPath);
+        cmd.append(" ");
+        cmd.append(destPath);
+
+        boolean result = true;
+        try {
+            Process proc = Runtime.getRuntime().exec(cmd.toString());
+            HtmlToPdfInter error = new HtmlToPdfInter(
+                    proc.getErrorStream());
+            HtmlToPdfInter output = new HtmlToPdfInter(
+                    proc.getInputStream());
+            error.start();
+            output.start();
+            proc.waitFor();
+            log.info("HTML2PDF成功，参数---html路径：{},pdf保存路径 ：{}", new Object[] {srcPath, destPath });
+        } catch (Exception e) {
+            log.error("HTML2PDF失败，srcPath地址：{},错误信息：{}", new Object[]{srcPath, e.getMessage()});
+            result = false;
+        }
+        return result;
 	}
 }

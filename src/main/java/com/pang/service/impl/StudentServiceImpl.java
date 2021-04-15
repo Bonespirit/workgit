@@ -84,7 +84,7 @@ public class StudentServiceImpl implements StudentService{
 		return new AsyncResult<List<ResumeProject>>(resumeProjects);
 	}
 	
-	@Cacheable(value="ShortCache",key="'eims:student:resume:id:'+#id")
+	@Cacheable(value="LongCache",key="'eims:student:resume:id:'+#id")
 	@Transactional
 	@Override
 	public StudentInfo getStudenInfo(Integer id) throws InterruptedException, ExecutionException {
@@ -111,7 +111,7 @@ public class StudentServiceImpl implements StudentService{
 		return studentInfo;
 	}
 	
-	@CacheEvict(value="ShortCache",key="'eims:student:resume:id:'+#stuid")
+	@CacheEvict(value="LongCache",key="'eims:student:resume:id:'+#stuid")
 	@Transactional
 	@Override
 	public void updateResume(Resume resume,Integer stuid) {

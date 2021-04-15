@@ -185,9 +185,15 @@ $(function () {
       let tname = selectChange[i].name;
       formdata.append(tname, selectChange[i].value);
     }
+    //是否操作头像
     if ($("#center #headurl")[0].value != "") {
 		formdata.append("headurl",$("#center #headurl")[0].value)
 	}
+    //是否需要从新生成简历，如果简历为学生上传的本地简历，那么传回后台判断
+    if ($("#center #resumeurl")[0].value != "") {
+		formdata.append("resumeurl",$("#center #resumeurl")[0].value)
+	}
+    //是否上传本地简历
     if ($("#center #uploadresume")[0].files.length != 0) {
     	formdata.append("enclosure",$("#center #uploadresume")[0].files[0])
 	}

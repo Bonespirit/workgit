@@ -105,6 +105,9 @@
 							<input type="text" hidden="hidden" value="pending_resume">
 							<button type="button" class="btn btn-danger rout">不合适</button>
 						</li>
+						<li>
+							<button type="button" class="btn btn-info download">导出简历</button>
+						</li>
 						<li style="float: right">
 							<form th:action="@{/enterprise/ksearch/tag/2(page=1)}">
 								<input type="text" class="form-control" name="keyword" placeholder="请输入完成职位名称"
@@ -130,7 +133,7 @@
 						</thead>
 						<tbody>
 							<tr th:each="item : ${page.records}">
-								<td><input type="checkbox" name="resumeid_[(${item.id})]" /></td>
+								<td><input type="checkbox" name="resumeid_[(${item.id})]_[(${item.stuid})]" /></td>
 								<td><a th:href="@{/view/student/id/}+${item.stuid}">
 										<button type="button" class="btn btn-info btn-sm">完整简历</button>
 								</a></td>

@@ -95,4 +95,12 @@ public interface customFunc {
 	 * @return
 	 */
 	public Map<String, List<String>> getPosAndColId(Integer sid);
+	
+	/**
+	 * html转pdf
+	 * @param srcPath	html路径，可以是硬盘上的路径，也可以是网络路径
+	 * @param destPath	pdf保存路径
+	 * @return			转换成功返回true
+	 */
+	public boolean htmlToPdf(String srcPath, String destPath);
 }

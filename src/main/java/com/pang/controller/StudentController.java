@@ -1,6 +1,7 @@
 package com.pang.controller;
 
 import java.io.IOException;
+import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
 import javax.servlet.ServletException;
@@ -109,12 +110,32 @@ public class StudentController {
 	@ResponseBody
 	public String updateResume(Resume resume,HttpServletRequest request) throws IOException, ServletException {
 		User  user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Integer sid = user.getId();
 		Part enclosure = request.getPart("enclosure");
-		if (enclosure !=null) {
+		if (enclosure !=null) {//学生上传了本地的简历，覆盖原来的简历
 			resume.setResumeurl(uploadService.uploadResume(enclosure));
+		}else {//学生没有上传本地的简历
+			String[] resumeurls = resume.getResumeurl().split("/");
+			//（第一次使用）数据库中没有学生简历信息，使用wkhtmltopdf生成简历并保存服务器，然后将url存入数据库
+			if (resumeurls.length == 0) {
+				String fileurl = UUID.randomUUID().toString().replace("-", "")+".pdf";
+				if (customFunc.htmlToPdf("http://localhost:8080/views/student/id/"+sid, 
+						"F://eims/file/wkhtmltopdf/"+fileurl)) {
+					resume.setResumeurl("upload/wkhtmltopdf/"+fileurl);
+				}
+			}else if ("resume".equals(resumeurls[1])) {
+				//学生已经上传过本地简历，不更新url，本地简历优先级高于在线简历
+				resume.setResumeurl(null);
+			}else {
+				//学生一直没有上传过本地简历，在线简历更新需要重新生成简历覆盖原来的
+				if (!customFunc.htmlToPdf("http://localhost:8080/views/student/id/"+sid, 
+						"F://eims/file/wkhtmltopdf/"+resumeurls[2])) {
+					//更新失败,系统出错，直接跳转禁止修改（此处可以添加自定义错误页面）
+					return "student/wdjl";
+				}
+			}
 		}
-		System.out.println(resume.toString());
-		studentService.updateResume(resume, user.getId());
+		studentService.updateResume(resume, sid);
 		return "student/wdjl";
 	}
 	//我的消息

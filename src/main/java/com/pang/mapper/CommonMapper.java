@@ -21,4 +21,12 @@ public interface CommonMapper {
 	 */
 	@Select("select pid from stu_deliver where sid=#{sid}")
 	public List<String> getDeliverPos(Integer sid);
+	
+	/**
+	 * 根据id批量查询并返回resumeurl字段数据
+	 * @param idList
+	 * @return
+	 */
+	@Select("select resumeurl from resume_ge_info where id in #{idList}")
+	public List<String> getResumeUrlList(List<Integer> idList);
 }

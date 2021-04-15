@@ -226,7 +226,8 @@
 					<hr />
 					<div class="resume">
 						<h3>上传简历</h3>
-						<input type="text" hidden="hidden" name="headurl" id="headurl">
+						<input type="text" hidden="hidden" id="headurl">
+						<input type="text" hidden="hidden" id="resumeurl" th:value="${student.resume.resumeurl}">
 						<input type="file" id="uploadresume" name="enclosure" style="display: none" /> <input type="text" class="showfilename" disabled />
 						<button type="button" class="btn btn-info btn-sm selectfile">选择文件</button>
 						<span style="opacity: 0.5">请上传doc、docx、pdf格式的简历</span>

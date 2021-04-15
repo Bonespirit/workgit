@@ -1,5 +1,7 @@
 package com.pang.controller;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +22,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pang.customfunc.customFunc;
 import com.pang.entity.Teachin;
 import com.pang.entity.User;
+import com.pang.mapper.CommonMapper;
 import com.pang.service.UserService;
 import com.pang.service.ViewService;
 
@@ -27,9 +30,14 @@ import com.pang.service.ViewService;
 public class IndexController {
 	
 	@Autowired
+	CommonMapper commonMapper;
+	
+	@Autowired
 	UserService userService;
+	
 	@Autowired
 	ViewService viewService;
+	
 	@Autowired
 	customFunc customFunc;
 	
@@ -114,5 +122,19 @@ public class IndexController {
 	@GetMapping("/back")
 	public String goToback() {
 		return "back";
+	}
+	
+	//下载简历
+	@GetMapping("/downloadresume")
+	@ResponseBody
+	public List<String> downloadresume(@RequestParam("idlist") String tidlist) {
+		//获取id列表
+		List<Integer> idList = new ArrayList<>();
+		List<String> sidlist = new ArrayList<String>(Arrays.asList(tidlist));
+		for(int i=0;i<sidlist.size();i++) {
+			idList.add(Integer.parseInt(sidlist.get(i)));
+		}
+		List<String> resumeurls = commonMapper.getResumeUrlList(idList);
+		return resumeurls;
 	}
 }

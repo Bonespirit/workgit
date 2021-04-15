@@ -35,9 +35,10 @@
 						<li>
 							<button type="button" class="btn btn-warning collect">收藏</button>
 						</li>
+						<li><input type="text" hidden="hidden" value="screen_resume">
+							<button type="button" class="btn btn-danger rout">不合适</button></li>
 						<li>
-							<input type="text" hidden="hidden" value="screen_resume">
-							<button type="button" class="btn btn-danger rout">不合适</button>
+							<button type="button" class="btn btn-info download">导出简历</button>
 						</li>
 						<li><label class="tips">收藏的简历会进入待处理区域</label></li>
 						<li style="float: right">
@@ -65,8 +66,8 @@
 						</thead>
 						<tbody>
 							<tr th:each="item : ${page.records}">
-								<td><input type="checkbox" name="resumeid_[(${item.id})]" /></td>
-								<td><a th:href="@{/view/student/id/}+${item.stuid}">
+								<td><input type="checkbox" name="resumeid_[(${item.id})]_[(${item.stuid})]" /></td>
+								<td><a th:href="@{/views/student/id/}+${item.stuid}">
 										<button type="button" class="btn btn-info btn-sm">完整简历</button>
 								</a></td>
 								<td><span class="limits" th:text="${item.name}" th:title="${item.name}"></span></td>

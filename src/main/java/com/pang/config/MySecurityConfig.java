@@ -87,7 +87,9 @@ public class MySecurityConfig{
 			//过滤
 			http.authorizeRequests()
 				.antMatchers("/search/**","/news/**").permitAll()
-				.antMatchers("/views/**","/","/login","/student/czsc","/student/changehead","/student/editresume").permitAll()
+				.antMatchers("/views/**","/","/login","/student/czsc").permitAll()
+				.antMatchers("/views/student").hasAnyRole("student","gadmin","sadmin","enterprise")
+				.antMatchers("/downloadresume").hasAnyRole("student","gadmin","sadmin","enterprise")
 				.antMatchers("/views/shsqc/**","/views/shsqt/**","/teacher/**").hasAnyRole("sadmin","gadmin")
 				.antMatchers("/student/**").hasAnyRole("student","sadmin")
 				.and()

@@ -180,4 +180,6 @@ public class UploadServiceImpl implements UploadService{
 		head.transferTo(new File("F://eims/file/headpicture/"+newfile));
 		return "/upload/headpicture/"+newfile;
 	}
+
+	
 }

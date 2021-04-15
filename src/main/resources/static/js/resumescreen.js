@@ -1,4 +1,28 @@
 $(function () {
+	//导出简历
+	$("#center .right .jobapp-item .download").on("click", function () {
+		let idlist = getCheck(2);
+		if (!idlist) {
+			return false;
+		}
+		console.log("download studentid " + idlist.toString());
+		$.ajax({
+			url: "/downloadresume",
+			type: "get",
+			data: {
+				idlist: idlist,
+			},
+			success: function (data) {
+				console.log(data)
+//				window.location.href="/"+data[0];
+			},
+			error: function (xhr) {
+				alert("下载失败")
+				console.log(xhr.responseText);
+			},
+		});
+	});
+
 	//收藏
 	$("#center .right .jobapp-item .collect").on("mouseenter", function () {
 		$(this).siblings(".tips").addClass("ractive");
@@ -7,7 +31,7 @@ $(function () {
 		$(this).siblings(".tips").removeClass("ractive");
 	});
 	$("#center .right .jobapp-item .collect").on("click", function () {
-		let idlist = getCheck();
+		let idlist = getCheck(1);
 		if (!idlist) {
 			return false;
 		}
@@ -58,7 +82,7 @@ $(function () {
 
 	//通知按钮事件
 	$("#center .right .jobapp-item .notice").on("click", function () {
-		let idlist = getCheck();
+		let idlist = getCheck(1);
 		if (!idlist) {
 			return false;
 		}
@@ -66,7 +90,7 @@ $(function () {
 	});
 	//不合适
 	$("#center .right .jobapp-item .rout").on("click", function () {
-		let idlist = getCheck();
+		let idlist = getCheck(1);
 		let sheet = $(this).siblings("input").val()
 		if (!idlist) {
 			return false;
@@ -135,7 +159,7 @@ $(function () {
 
 	//设置简历标签
 	$("#resumeop").on("change", function () {
-		let idlist = getCheck();
+		let idlist = getCheck(1);
 		if (!idlist || this.value == "0") {
 			this.value = "0";
 			return false;
@@ -196,7 +220,7 @@ $(function () {
 		});
 	}
 	//获取id
-	function getCheck() {
+	function getCheck(index) {
 		let ochecked = $(
 				"#center .right .jobapp-item .table tr td:first-child input:checked"
 		);
@@ -207,7 +231,7 @@ $(function () {
 		}
 		let idlist = new Array();
 		for (let i = 0; i < olength; i++) {
-			idlist.push(ochecked[i].name.split("_")[1]);
+			idlist.push(ochecked[i].name.split("_")[index]);
 		}
 		return idlist.toString();
 	}

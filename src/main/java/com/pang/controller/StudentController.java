@@ -1,5 +1,6 @@
 package com.pang.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
@@ -111,33 +112,64 @@ public class StudentController {
 	public String updateResume(Resume resume,HttpServletRequest request) throws IOException, ServletException {
 		User  user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		Integer sid = user.getId();
+		Integer os = 1;		//sql操作类型，默认为更新操作
+		resume.setId(sid);
 		Part enclosure = request.getPart("enclosure");
+		String filename=null;
+		String[] resumeurls = {};
+		if (resume.getResumeurl() !=null) {
+			resumeurls = resume.getResumeurl().split("/");
+		}
 		if (enclosure !=null) {//学生上传了本地的简历，覆盖原来的简历
 			resume.setResumeurl(uploadService.uploadResume(enclosure));
+			//存在则删除原来的在线简历
+			if (resumeurls.length > 0) {
+				File file = new File("F://eims/file/wkhtmltopdf/"+resumeurls[2]);
+				if (file.exists()) {
+					file.delete();
+				}
+			}
+			System.out.println("本次修改上传了简历");
 		}else {//学生没有上传本地的简历
-			String[] resumeurls = resume.getResumeurl().split("/");
 			//（第一次使用）数据库中没有学生简历信息，使用wkhtmltopdf生成简历并保存服务器，然后将url存入数据库
 			if (resumeurls.length == 0) {
+				System.out.println("第一次使用系统");
 				String fileurl = UUID.randomUUID().toString().replace("-", "")+".pdf";
-				if (customFunc.htmlToPdf("http://localhost:8080/views/student/id/"+sid, 
-						"F://eims/file/wkhtmltopdf/"+fileurl)) {
-					resume.setResumeurl("upload/wkhtmltopdf/"+fileurl);
-				}
+				resume.setResumeurl("upload/wkhtmltopdf/"+fileurl);
+				filename=fileurl;
+				os = 0;//插入数据操作
 			}else if ("resume".equals(resumeurls[1])) {
 				//学生已经上传过本地简历，不更新url，本地简历优先级高于在线简历
+				System.out.println("url已存在且为本地简历");
 				resume.setResumeurl(null);
 			}else {
 				//学生一直没有上传过本地简历，在线简历更新需要重新生成简历覆盖原来的
-				if (!customFunc.htmlToPdf("http://localhost:8080/views/student/id/"+sid, 
-						"F://eims/file/wkhtmltopdf/"+resumeurls[2])) {
-					//更新失败,系统出错，直接跳转禁止修改（此处可以添加自定义错误页面）
-					return "student/wdjl";
-				}
+				System.out.println("url存在，但是是在线简历");
+				resume.setResumeurl(null);
+				filename = resumeurls[2];
 			}
 		}
-		studentService.updateResume(resume, sid);
+		studentService.updateResume(resume, os);
+		if (filename != null) {
+			customFunc.htmlToPdf("http://localhost:8080/views/student/id/"+sid, 
+					"F://eims/file/wkhtmltopdf/"+filename);
+		}
 		return "student/wdjl";
 	}
+	
+	//投递简历
+	@GetMapping("/deliver")
+	public String putDeliver(ResumeProcess resumeProcess) {
+		User  user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		resumeProcess.setStuid(user.getId());
+		//判断简历是否可投递
+		if (!studentService.canDeliver(resumeProcess)) {//不可投递
+			return "/error/hasdeliver";
+		}
+		studentService.deliverResume(resumeProcess);
+		return "redirect:/views/jobs/id/"+resumeProcess.getPid();
+	}
+	
 	//我的消息
 	@GetMapping("/wdxx")
 	public String goToWdxx() {
@@ -183,16 +215,6 @@ public class StudentController {
 	public String delCol(@PathVariable("id") Integer id) {
 		User  user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		studentService.detCollect(id,user.getId());
-		return "success";
-	}
-	
-	//投递简历
-	@PostMapping("/deliver")
-	@ResponseBody
-	public String putDeliver(ResumeProcess resumeProcess) {
-		User  user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		resumeProcess.setStuid(user.getId());
-		studentService.deliverResume(resumeProcess);
 		return "success";
 	}
 	

@@ -43,6 +43,7 @@ public class UploadController {
 	
 	//资源上传
 	@PostMapping("/sourceupload")
+	@ResponseBody
 	public String uploadSource(@RequestPart("sourcefile") MultipartFile[] sourcefile) throws IOException {
 		uploadService.uploadSourceFile(sourcefile);
 		return "success";

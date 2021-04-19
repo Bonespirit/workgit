@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -21,15 +20,10 @@
 					<input id="input-ke-2" type="file" name="sourcefile" multiple="multiple" />
 				</div>
 			</div>
-			<div style="clear: both"></div>
+			<div style="clear: both"></div> 
 		</div>
 		<div th:replace="commonhf::#footer"></div>
 	</div>
-	<script th:inline="javascript" src="js/uploadsource.js"
-		th:src="@{/js/uploadsource.js}"></script>
-	<script>
-		$("#center .left li")[3].className = "uactive";
-	</script>
 	<script type="text/javascript">
 		$(function() {
 			var token = $("meta[name='_csrf']").attr("content");
@@ -38,6 +32,10 @@
 				xhr.setRequestHeader(header, token);
 			});
 		});
+	</script>
+	<script th:inline="javascript" src="js/uploadsource.js" th:src="@{/js/uploadsource.js}"></script>
+	<script>
+		$("#center .left li")[3].className = "uactive";
 	</script>
 </body>
 </html>

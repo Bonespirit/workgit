@@ -29,13 +29,13 @@ public class ResumeProcess implements Serializable{
 	private String cname;	//单位名称
 	private Integer pid;	//职位id
 	private String pname;	//职位名称
-	private String name;	//姓名
+	private String uname;	//姓名
 	private String gender;	//性别
 	private String edu;		//学历
 	private String major;	//专业
 	private String city;	//期望城市
-	private String email;	//邮箱
 	@JSONField(format = "yyyy-MM-dd")
-	private Date update;	//更新时间
-	private String status;	//简历状态
+	private Date renew;	//更新时间
+	private String mstatus;	//简历状态
+	private String email;	//邮箱
 }

@@ -66,17 +66,17 @@
 						</thead>
 						<tbody>
 							<tr th:each="item : ${page.records}">
-								<td><input type="checkbox" name="resumeid_[(${item.id})]_[(${item.stuid})]" /></td>
+								<td><input type="checkbox" th:name="${'resumeid_'+item.id+'_'+item.stuid}"/></td>
 								<td><a th:href="@{/views/student/id/}+${item.stuid}">
 										<button type="button" class="btn btn-info btn-sm">完整简历</button>
 								</a></td>
-								<td><span class="limits" th:text="${item.name}" th:title="${item.name}"></span></td>
+								<td><span class="limits" th:text="${item.uname}" th:title="${item.uname}"></span></td>
 								<td th:text="${item.gender}"></td>
 								<td th:text="${item.edu}"></td>
 								<td><span class="limits" th:text="${item.city}" th:title="${item.city}"></span></td>
 								<td><span class="limitl" th:text="${item.major}" th:title="${item.major}"></span></td>
 								<td><span class="limitl" th:text="${item.pname}" th:title="${item.pname}"></span></td>
-								<td th:text="${item.update}"></td>
+								<td th:text="${item.renew}"></td>
 							</tr>
 						</tbody>
 					</table>

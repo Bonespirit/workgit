@@ -55,12 +55,12 @@ public class ResumeProcessServiceImpl extends ServiceImpl<ResumeProcessMapper, R
 				return null;
 		}
 		if (utype == 0) {
-			queryWrapper.select("pid","cname","pname","update","status");
+			queryWrapper.select("pid","cname","pname","renew","mstatus");
 		}else {
-			queryWrapper.select("id","stuid","pid","pname","name","gender","edu","major","city",
-					"update","status");
+			queryWrapper.select("id","stuid","pid","pname","uname","gender","edu","major","city",
+					"renew","mstatus");
 		}
-		queryWrapper.orderByDesc("update");
+		queryWrapper.orderByDesc("renew");
 		return this.page(cPage, queryWrapper);
 	}
 
@@ -85,8 +85,8 @@ public class ResumeProcessServiceImpl extends ServiceImpl<ResumeProcessMapper, R
 			default:
 				return null;
 		}
-		queryWrapper.select("id","stuid","pid","pname","name","gender","edu","major","city",
-				"update","status").orderByDesc("update");
+		queryWrapper.select("id","stuid","pid","pname","uname","gender","edu","major","city",
+				"renew","mstatus").orderByDesc("renew");
 		return this.page(cPage, queryWrapper);
 	}
 	
@@ -152,7 +152,7 @@ public class ResumeProcessServiceImpl extends ServiceImpl<ResumeProcessMapper, R
 		MyBatisConfig.TABLE_NAME.set(rfrom);
 		List<ResumeProcess> resumeProcesses = resumeProcessMapper.selectBatchIds(idList);
 		for(ResumeProcess resumeProcess : resumeProcesses) {
-			resumeProcess.setStatus(status);
+			resumeProcess.setMstatus(status);
 		}
 		//设置为新表并插入数据
 		MyBatisConfig.TABLE_NAME.set(rto);

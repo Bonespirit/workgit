@@ -201,6 +201,12 @@ public class TeacherController {
 		return "redirect:/teacher/zyjs";
 	}
 	
+	//资源文件上传
+	@GetMapping("/uploadsource")
+	public String goToUploadsource() {
+		return "teacher/uploadsource";
+	}
+	
 	//附件上传处理
 	@PostMapping("/enclosure")
 	@ResponseBody

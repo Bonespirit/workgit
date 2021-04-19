@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pang.entity.Company;
 import com.pang.entity.Download;
 import com.pang.entity.Jobfair;
+import com.pang.entity.Majors;
 import com.pang.entity.Mposition;
 import com.pang.entity.News;
 import com.pang.entity.Recruit;
@@ -146,4 +147,11 @@ public interface ViewService {
 	 * @return
 	 */
 	public Company getComPartInfo(Integer id) throws IOException;
+	
+	/**
+	 * 通过id获取专业介绍详细信息
+	 * @param id
+	 * @return	专业实体
+	 */
+	public Majors getMajorInfoById(Integer id);
 }

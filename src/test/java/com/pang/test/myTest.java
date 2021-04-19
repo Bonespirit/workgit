@@ -13,6 +13,14 @@ import com.pang.entity.ResumeProcess;
 @SpringBootTest
 public class myTest {
 	
+	@Autowired
+	customFunc customFunc;
+	
+	@Test
+	public void test() {
+		customFunc.htmlToPdf("https://www.guet.edu.cn/jy/info/1074/9780.htm", "F:\\eims\\file\\wkhtmltopdf\\9700.pdf");
+	}
+	
 //	@Autowired
 //	JavaMailSenderImpl mailSenderImpl;
 //	
@@ -31,15 +39,15 @@ public class myTest {
 //	}
 	
 	
-//	
-	@Autowired
-	RabbitTemplate rabbitTemplate;	
-//	
-	@Test
-	public void test() {
-		ResumeProcess resumeProcess = new ResumeProcess();
-		rabbitTemplate.convertAndSend("exchange.direct", "pang", resumeProcess);
-	}
+////	
+//	@Autowired
+//	RabbitTemplate rabbitTemplate;	
+////	
+//	@Test
+//	public void test() {
+//		ResumeProcess resumeProcess = new ResumeProcess();
+//		rabbitTemplate.convertAndSend("exchange.direct", "pang", resumeProcess);
+//	}
 	
 //	@Test
 //	public void receive() {

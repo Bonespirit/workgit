@@ -134,6 +134,7 @@ public class IndexController {
 		for(int i=0;i<sidlist.size();i++) {
 			idList.add(Integer.parseInt(sidlist.get(i)));
 		}
+		System.out.println(idList);
 		List<String> resumeurls = commonMapper.getResumeUrlList(idList);
 		return resumeurls;
 	}

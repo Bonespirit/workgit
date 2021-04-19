@@ -1,7 +1,7 @@
 package com.pang.entity;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Date;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.IdType;

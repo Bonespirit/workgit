@@ -21,8 +21,9 @@ public interface StudentService{
 	/**
 	 * 更新简历
 	 * @param resume
+	 * @param os		操作类型 0：插入，1：更新
 	 */
-	public void updateResume(Resume resume,Integer stuid);
+	public void updateResume(Resume resume,Integer os);
 	
 	/**
 	 * 删除收藏职位并更新缓存
@@ -49,5 +50,11 @@ public interface StudentService{
 	 * @param resumeProcess
 	 */
 	public void deliverResume(ResumeProcess resumeProcess);
-
+	
+	/**
+	 * 判断简历是否可以投递
+	 * @param resumeProcess
+	 * @return
+	 */
+	public boolean canDeliver(ResumeProcess resumeProcess);
 }

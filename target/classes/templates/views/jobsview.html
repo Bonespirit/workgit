@@ -36,16 +36,18 @@
 							<li>
 								<th:block th:if="${not isCollect}">
 									<a th:href="@{/student/colPos(pid=${position.id},
-									pname=${position.pname},cid=${position.cid},cname=${company.cname},address=${position.workplace})}"></a>
-									<button type="button" class="btn btn-warning collect">收藏</button>
+									pname=${position.pname},cid=${position.cid},cname=${company.cname},address=${position.workplace})}">
+										<button type="button" class="btn btn-warning">收藏</button>
+									</a>
 								</th:block>
-								<button th:unless="${not isCollect" type="button" class="btn btn-default hascollect">已收藏</button>
+								<button th:unless="${not isCollect}" type="button" class="btn btn-default hascollect">已收藏</button>
 							</li>
 							<li>
 								<th:block th:if="${not isDeliver}">
 									<a th:href="@{/student/deliver(pid=${position.id},
-									comid=${position.cid},pname=${position.pname},cname=${company.cname})}"></a>
-									<button type="button" class="btn btn-info deliver">申请职位</button>
+									comid=${position.cid},pname=${position.pname},cname=${company.cname})}">
+										<button type="button" class="btn btn-info">申请职位</button>
+									</a>
 								</th:block>
 								<button th:unless="${not isDeliver}" type="button" class="btn btn-default hasdeliver">已申请</button>
 							</li>

@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -52,15 +53,9 @@ public class customFuncCpImpl implements customFunc{
 	public String getCity(String code) throws IOException {
 		String provinceCode = code.substring(0, 2)+"0000";
 		String cityCode	= code;
-		@SuppressWarnings("resource")
-		BufferedReader reader = new BufferedReader(new FileReader("D:\\迅雷9\\city-version-4.json"));
-		StringBuffer content = new StringBuffer();
-		String line=null;
-		while((line = reader.readLine()) != null) {
-			content.append(line);
-		}
+		String content = getRedisContent("eims:redis:position:city-version-4.json", "city-version-4.json");
 		Gson gson = new Gson();
-		JsonObject object = gson.fromJson(content.toString(), JsonObject.class);
+		JsonObject object = gson.fromJson(content, JsonObject.class);
 		JsonArray provinceList = object.get("provinceList").getAsJsonArray();
 		//如果只是省份
 		if (cityCode.equals(provinceCode)) {
@@ -135,34 +130,6 @@ public class customFuncCpImpl implements customFunc{
 	}
 
 	@Override
-	public String getMajor(String code) throws IOException {
-		String college=code.substring(0, 2)+"00";
-		@SuppressWarnings("resource")
-		BufferedReader reader = new BufferedReader(new FileReader("D:\\迅雷9\\major.json"));
-		StringBuffer content = new StringBuffer();
-		String line=null;
-		while((line = reader.readLine()) != null) {
-			content.append(line);
-		}
-		Gson gson = new Gson();
-		JsonArray arry = gson.fromJson(content.toString(), JsonArray.class);
-		JsonArray majorList=null;
-		for(int i=0 ; i<arry.size();i++) {
-			JsonObject o = arry.get(i).getAsJsonObject();
-			if (o.get("no").getAsString().equals(college)) {
-				majorList = o.get("majorList").getAsJsonArray();
-				for(int j=0;j<majorList.size();j++) {
-					JsonObject o2 = majorList.get(j).getAsJsonObject();
-					if (o2.get("no").getAsString().equals(code)) {
-						return o2.get("name").getAsString();
-					}
-				}
-			}
-		}
-		return null;
-	}
-
-	@Override
 	public String getEdu(String code) {
 		String edu = "[{\"name\":\"不限\",\"no\":\"0\"},{\"name\":\"本科\",\"no\":\"1\"},{\"name\":\"硕士\",\"no\":\"2\"}"
 				+ ",{\"name\":\"博士\",\"no\":\"3\"}]";
@@ -233,28 +200,6 @@ public class customFuncCpImpl implements customFunc{
 			}
 		}
 		return null;
-	}
-
-	@Override
-	public Map<String, Long> getBeEnd(Long cur,Long pages) {
-		Map<String, Long> map = new HashMap<String, Long>();
-		Long curp,maxp;
-		if (pages < 5) {
-			curp = 1l;
-			maxp = pages;
-		}else {
-			if (cur < 3) {
-				curp = 1l;
-			}else if(cur != pages){
-				curp = cur + 2 > pages ? cur - 3 : cur - 2;
-			}else {
-				curp = cur - 4;
-			}
-			maxp = curp+4;
-		}
-		map.put("beginP", curp);
-		map.put("endP", maxp);
-		return map;
 	}
 	
 	@Async
@@ -356,20 +301,7 @@ public class customFuncCpImpl implements customFunc{
 		if (mList.size() == 0) {
 			return null;
 		}
-		ValueOperations<String , String> operations = redisTemplate.opsForValue();
-		//先从缓存中取数据，如果没有再从本地读取在缓存到redis中，方便读取
-		String content = operations.get("eims:redis:position:major.json");
-		if (content == null) {
-			@SuppressWarnings("resource")
-			BufferedReader reader = new BufferedReader(new FileReader("D:\\迅雷9\\major.json"));
-			StringBuffer tcontent = new StringBuffer();
-			String line=null;
-			while((line = reader.readLine()) != null) {
-				tcontent.append(line);
-			}
-			content = tcontent.toString();
-			operations.set("eims:redis:position:major.json", content);
-		}
+		String content = getRedisContent("eims:redis:position:major.json","major.json");
 		Gson gson = new Gson();
 		JsonArray arry = gson.fromJson(content, JsonArray.class);
 		JsonArray majorList=null;
@@ -406,13 +338,38 @@ public class customFuncCpImpl implements customFunc{
 		return String.join(",", majorsl);
 	}
 	
-	@Transactional
 	@Cacheable(value="LongCache",key="'eims:student:collect:sid:'+#sid",unless="#result.size==0")
+	@Transactional
 	public Map<String, List<String>> getPosAndColId(Integer sid){
 		Map<String, List<String>> map = new HashMap<String, List<String>>();
 		map.put("deliver", commonMapper.getDeliverPos(sid));
 		map.put("collect", commonMapper.getColPosIdfromSR(sid));
 		return map;
+	}
+	
+	/**
+	 * 获取缓存中的json文件数据，如果没有则从本地加载并缓存
+	 * @param ckey		缓存的key
+	 * @param filename	本地文件名
+	 * @return			json文件数据
+	 * @throws IOException
+	 */
+	public String getRedisContent(String ckey,String filename) throws IOException { 
+		ValueOperations<String , String> operations = redisTemplate.opsForValue();
+		//先从缓存中取数据，如果没有再从本地读取在缓存到redis中，方便读取
+		String content = operations.get(ckey);
+		if (content == null) {
+			@SuppressWarnings("resource")
+			BufferedReader reader = new BufferedReader(new FileReader("D:\\迅雷9\\"+filename));
+			StringBuffer tcontent = new StringBuffer();
+			String line=null;
+			while((line = reader.readLine()) != null) {
+				tcontent.append(line);
+			}
+			content = tcontent.toString();
+			operations.set(ckey,tcontent.toString(),Duration.ofHours(1));//缓存两个个钟
+		}
+		return content.trim();
 	}
 	
 	/**

@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.pang.customfunc.customFunc;
 import com.pang.entity.Company;
+import com.pang.entity.Majors;
 import com.pang.entity.Mposition;
+import com.pang.entity.News;
 import com.pang.entity.Recruit;
 import com.pang.entity.Teachin;
 import com.pang.entity.User;
@@ -54,16 +56,19 @@ public class ViewsController {
 		Object o = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		Mposition mposition = viewService.getPositionById(id);
 		model.addAttribute("position", mposition);
-		if (o !=null) {
+		boolean isCollect = false;//是否已收藏
+		boolean isDeliver = false;//是否已投递
+		if (!"anonymousUser".equals(o)) {
 			User  user = (User) o;
 			if ("ROLE_student".equals(user.getRoleList().get(0).getRolename())) {
 				Map<String, List<String>> map = customFunc.getPosAndColId(user.getId());
-				model.addAttribute("isCollect", 
-						map.get("collect").contains(mposition.getId().toString()));
-				model.addAttribute("isDeliver", 
-						map.get("deliver").contains(mposition.getId().toString()));
+				System.out.println(map);
+				isCollect = map.get("collect").contains(mposition.getId().toString());
+				isDeliver = map.get("deliver").contains(mposition.getId().toString());
 			}
 		}
+		model.addAttribute("isCollect", isCollect);
+		model.addAttribute("isDeliver", isDeliver);
 		model.addAttribute("company", viewService.getComPartInfo(mposition.getCid()));
 		return "views/jobsview";
 	}
@@ -135,6 +140,18 @@ public class ViewsController {
 		model.addAttribute("sxh", viewService.getSxhInfo(id));
 		model.addAttribute("page", viewService.getDownloadPage(1, id));
 		return "views/sxhview";
+	}
+	
+	//专业介绍详细信息
+	@GetMapping("/zyjs/id/{id}")
+	public String getMajorInfo(@PathVariable("id") Integer id,Model model) {
+		News news = new News();
+		Majors majors = viewService.getMajorInfoById(id);
+		news.setTitle(majors.getMname());
+		news.setPdate(majors.getPdate());
+		model.addAttribute("news", news);
+		model.addAttribute("contents", newsHtmlService.getById(id).getContents());
+		return "views/browse";
 	}
 	
 	//浏览学生完整简历

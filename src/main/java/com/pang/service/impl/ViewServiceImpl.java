@@ -16,6 +16,7 @@ import com.pang.customfunc.customFunc;
 import com.pang.entity.Company;
 import com.pang.entity.Download;
 import com.pang.entity.Jobfair;
+import com.pang.entity.Majors;
 import com.pang.entity.Mposition;
 import com.pang.entity.News;
 import com.pang.entity.Recruit;
@@ -25,6 +26,7 @@ import com.pang.entity.TeachinExam;
 import com.pang.entity.Visitors;
 import com.pang.mapper.CompanyMapper;
 import com.pang.mapper.JobfairMapper;
+import com.pang.mapper.MajorsMapper;
 import com.pang.mapper.NewsMapper;
 import com.pang.mapper.PositionHtmlMapper;
 import com.pang.mapper.RecruitMapper;
@@ -40,7 +42,11 @@ import com.pang.service.ViewService;
 public class ViewServiceImpl implements ViewService{
 	
 	@Autowired
+	MajorsMapper majorsMapper;
+	
+	@Autowired
 	PositionHtmlMapper positionHtmlMapper;
+	
 	@Autowired
 	MyPositionService myPositionService;
 	
@@ -206,7 +212,6 @@ public class ViewServiceImpl implements ViewService{
 		queryWrapper.eq("cid", id);
 		return recruitMapper.selectPage(page, queryWrapper);
 	}
-
 	
 	@Cacheable(value="ShortCache",keyGenerator="myKeyGenerator",unless="#result ==null")
 	@Transactional
@@ -223,7 +228,6 @@ public class ViewServiceImpl implements ViewService{
 		mposition.setMcontents(positionHtmlMapper.selectById(id).getContents());
 		return mposition;
 	}
-
 	
 	@Cacheable(value="ShortCache",keyGenerator="myKeyGenerator",unless="#result ==null")
 	@Override
@@ -234,5 +238,12 @@ public class ViewServiceImpl implements ViewService{
 		company.setScale(customFunc.getScale(company.getScale()));
 		company.setIndustry(customFunc.getIndustry(company.getIndustry()));
 		return company;
+	}
+	
+	@Override
+	public Majors getMajorInfoById(Integer id) {
+		QueryWrapper<Majors> queryWrapper = new QueryWrapper<>();
+		queryWrapper.eq("id", id).select("mname","pdate");
+		return majorsMapper.selectOne(queryWrapper);
 	}
 }

@@ -24,11 +24,16 @@ $(function () {
       type: "post",
       success: function (data) {
         console.log(data);
-        $(this)
-          .parent()
-          .html(
-            '<button type="button" class="btn btn-default hasdeliver">已申请</button>'
-          );
+        console.log(this);
+        if(data != "success"){
+        	alert(data);
+        }else{
+        	$(this)
+            .parent()
+            .html(
+              '<button type="button" class="btn btn-default hasdeliver">已申请</button>'
+            );
+        }
       },
       error: function (xhr) {
         console.log(xhr.responseText);

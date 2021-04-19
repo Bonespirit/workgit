@@ -1,7 +1,7 @@
 $(function () {
 	setTimeout(function(){
 		postData(1);
-    },1000)
+    },500)
 	// 搜索
 	$("#search").on("click", function () {
 		postData(1);

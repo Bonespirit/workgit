@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.pang.config.MyBatisConfig;
 import com.pang.customfunc.customFunc;
 import com.pang.entity.ColResume;
 import com.pang.entity.Resume;
@@ -111,24 +112,28 @@ public class StudentServiceImpl implements StudentService{
 		return studentInfo;
 	}
 	
-	@CacheEvict(value="LongCache",key="'eims:student:resume:id:'+#stuid")
+	@CacheEvict(value="LongCache",key="'eims:student:resume:id:'+#resume.id")
 	@Transactional
 	@Override
-	public void updateResume(Resume resume,Integer stuid) {
-		resume.setId(stuid);
+	public void updateResume(Resume resume,Integer os) {
 		List<ResumeProject> resumeProjects = new ArrayList<>();
 		if (resume.getName() != null ) {
 			QueryWrapper<ResumeProject> queryWrapper = new QueryWrapper<>();
 			for(int i=0;i<resume.getName().length;i++) {
-				resumeProjects.add(new ResumeProject(null, stuid, resume.getName()[i],
+				resumeProjects.add(new ResumeProject(null, resume.getId(), resume.getName()[i],
 						resume.getDuty()[i], resume.getDescribe()[i],
 						resume.getBtime()[i],resume.getEtime()[i]));
 			}
-			queryWrapper.eq("stuid", stuid);
+			queryWrapper.eq("stuid", resume.getId());
 			resumeProjectService.remove(queryWrapper);
 			resumeProjectService.saveBatch(resumeProjects);
 		}
-		resumeMapper.updateById(resume);
+		//如果os为0则插入数据，反之更新
+		if (os == 0) {
+			resumeMapper.insert(resume);
+		}else {
+			resumeMapper.updateById(resume);
+		}
 	}
 	
 	@CacheEvict(value="LongCache",key="'eims:student:collect:sid:'+#sid")
@@ -162,18 +167,32 @@ public class StudentServiceImpl implements StudentService{
 	@Transactional
 	@Override
 	public void deliverResume(ResumeProcess resumeProcess) {
-		//更新已投递简历，判断是否可以投递
+		QueryWrapper<StudentInfo> queryWrapper1 = new QueryWrapper<>();
+		QueryWrapper<Resume> queryWrapper2 = new QueryWrapper<>();
+		queryWrapper1.eq("id", resumeProcess.getStuid()).select("name","gender","edu","major","email");
+		StudentInfo studentInfo = studentInfoMapper.selectOne(queryWrapper1);
+		BeanUtils.copyProperties(studentInfo,resumeProcess);
+		resumeProcess.setUname(studentInfo.getName());
+		queryWrapper2.eq("id", resumeProcess.getStuid()).select("city");
+		resumeProcess.setCity(resumeMapper.selectOne(queryWrapper2).getCity());
+		resumeProcess.setMstatus("初步筛选");
+		MyBatisConfig.TABLE_NAME.set("screen_resume");
+		resumeProcessService.save(resumeProcess);
+	}
+	
+	@Override
+	public boolean canDeliver(ResumeProcess resumeProcess) {
+		QueryWrapper<StuDeliver> queryWrapper = new QueryWrapper<>();
+		queryWrapper.eq("sid", resumeProcess.getStuid());
+		queryWrapper.eq("pid", resumeProcess.getPid());
+		//简历已投递
+		if (stuDeliverMapper.selectOne(queryWrapper) != null) {
+			return false;
+		}
 		StuDeliver stuDeliver = new StuDeliver();
 		stuDeliver.setSid(resumeProcess.getStuid());
 		stuDeliver.setPid(resumeProcess.getPid());
 		stuDeliverMapper.insert(stuDeliver);
-		QueryWrapper<StudentInfo> queryWrapper1 = new QueryWrapper<>();
-		QueryWrapper<Resume> queryWrapper2 = new QueryWrapper<>();
-		queryWrapper1.eq("id", resumeProcess.getStuid()).select("name","gender","edu","major","email");
-		BeanUtils.copyProperties(studentInfoMapper.selectOne(queryWrapper1),resumeProcess);
-		queryWrapper2.eq("id", resumeProcess.getStuid()).select("city");
-		resumeProcess.setCity(resumeMapper.selectOne(queryWrapper2).getCity());
-		resumeProcess.setStatus("初步筛选");
-		resumeProcessService.save(resumeProcess);
+		return true;
 	}
 }

@@ -201,19 +201,11 @@ $(function () {
       alert("请修改");
       return false;
     }
-    for (let key of formdata.keys()) {
-      if (reg.test(key)) {
-        console.log(key + "11:" + formdata.getAll(key));
-      } else {
-        console.log(key + ":" + formdata.get(key));
-      }
-    }
     
 	 $.ajax({
 	   url: "/student/editresume",
 	   type: "put",
 	   data: formdata,
-	//       dataType: "JSON",
 	   cache: false,
 	   contentType: false,
 	   processData: false,
@@ -226,7 +218,12 @@ $(function () {
 	   },
 	 });
   });
-
+  
+  //取消修改
+  $("#center .right .studentcancel").on("click", function () {
+	  window.history.go(-1);//返回上一页
+  })
+  
   function getPractice(practiceChange) {
     let name = new Array();
     let duty = new Array();

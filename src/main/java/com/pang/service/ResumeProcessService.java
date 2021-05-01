@@ -1,5 +1,7 @@
 package com.pang.service;
 
+import java.util.List;
+
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.pang.entity.InterviewNotice;
@@ -39,11 +41,12 @@ public interface ResumeProcessService extends IService<ResumeProcess>{
 	 * 初次筛选，将简历放入待处理区域等待进一步筛选
 	 * @param idlist
 	 */
-	public void initialScreen(String idlist);
+	public void initialScreen(List<Integer> idlist);
 	
 	/**
 	 * 简历不合适处理
 	 * @param idlist
+	 * @param sheet
 	 */
-	public void resumeOut(String idlist,String sheet);
+	public void resumeOut(List<Integer> idlist,String sheet);
 }

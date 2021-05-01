@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
 <title>求职申请</title>
 <link th:include="commonth::thhead"></link>
 <script src="js/resumescreen.js" th:src="@{/js/resumescreen.js}"></script>
@@ -35,7 +37,7 @@
 					<ul class="list-inline">
 						<li>查找</li>
 						<li>
-							<form th:action="@{/enterprise/ksearch/tag/}+${tag}">
+							<form th:action="@{/enterprise/ksearch/tag/3}">
 								<input type="text" class="form-control" name="keyword" placeholder="请输入完成职位名称"
 									style="display: inline-block; width: 200px" />
 								<button class="btn btn-default">搜索</button>
@@ -53,7 +55,11 @@
 						</li>
 					</ul>
 					<br />
-					<table class="table">
+					<div style="margin: auto;width: 130px;text-align: center;" th:if="${page.records.size eq 0}">
+						<img th:src="@{/images/no-data.png}" />
+						<p>暂无数据</p>
+					</div>
+					<table class="table" th:unless="${page.records.size eq 0}">
 						<thead>
 							<tr>
 								<th class="col-sm-1"><input class="selectall" type="checkbox" /></th>
@@ -71,7 +77,7 @@
 						<tbody>
 							<tr th:each="item : ${page.records}">
 								<td><input type="checkbox" th:name="${'resumeid_'+item.id+'_'+item.stuid}" /></td>
-								<td><a th:href="@{/view/student/id/}+${item.stuid}">
+								<td><a target="_blanck" th:href="@{/view/student/id/}+${item.stuid}">
 										<button type="button" class="btn btn-info btn-sm">完整简历</button>
 								</a></td>
 								<td><span class="limits" th:text="${item.uname}" th:title="${item.uname}"></span></td>
@@ -92,6 +98,15 @@
 		</div>
 		<div th:replace="commonhf::#footer"></div>
 	</div>
+	<script type="text/javascript">
+		$(function() {
+			var token = $("meta[name='_csrf']").attr("content");
+			var header = $("meta[name='_csrf_header']").attr("content");
+			$(document).ajaxSend(function(e, xhr, options) {
+				xhr.setRequestHeader(header, token);
+			});
+		});
+	</script>
 	<script>
       let oCont = document.getElementById("msgcontent");
       const E = window.wangEditor;
@@ -105,7 +120,7 @@
         oCont.value = newHtml;
       };
       editor.create();
-      $("#center .left li")[7].className = "uactive";
+      $("#center .left li")[6].className = "uactive";
     </script>
 </body>
 </html>

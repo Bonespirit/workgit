@@ -2,6 +2,7 @@ package com.pang.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 public interface CommonMapper {
@@ -27,6 +28,11 @@ public interface CommonMapper {
 	 * @param idList
 	 * @return
 	 */
-	@Select("select resumeurl from resume_ge_info where id in #{idList}")
-	public List<String> getResumeUrlList(List<Integer> idList);
+	@Select("<script>"
+    		+"select resumeurl from resume_ge_info where id in"
+            + "<foreach item='id' index='index' collection='idList' open='(' separator=',' close=')'>"
+            + "#{id}"
+            + "</foreach>"
+            + "</script>")
+	public List<String> getResumeUrlList(@Param("idList") List<Integer> idList);
 }

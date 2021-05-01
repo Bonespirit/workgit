@@ -162,6 +162,7 @@ public class EnterpriseServiceImpl implements EnterpriseService{
 	public void putPositionInfo(Mposition mposition, String describe) {
 		PositionHtml positionHtml = new PositionHtml(null,describe);
 		positionHtmlMapper.insert(positionHtml);
+		mposition.setSpeciality(mposition.getSpeciality().replace("%", ","));
 		mposition.setWorkplace(mposition.getProvinceSel()+"&"+mposition.getCitySel());
 		mposition.setId(positionHtml.getId());
 		mposition.setWnature(customFunc.getWorkNature(mposition.getWnature()));
@@ -197,6 +198,14 @@ public class EnterpriseServiceImpl implements EnterpriseService{
 		visitorService.remove(queryWrapper);
 		teachinExamMapper.deleteById(id);
 		zpHtmlMapper.deleteById(id);
+	}
+	
+	@Transactional
+	@Override
+	public boolean delPosById(Integer id) {
+		positionMapper.deleteById(id);
+		positionHtmlMapper.deleteById(id);
+		return true;
 	}
 
 }

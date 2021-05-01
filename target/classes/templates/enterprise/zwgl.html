@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
 <title>职位管理</title>
 <link th:include="commonhf::mhead"></link>
 <link rel="stylesheet" th:href="@{/css/poslist.css}" />
+<script src="js/endelpo.js" th:src="@{/js/endelpo.js}"></script>
 </head>
 <body style="height: auto">
 	<canvas height="960px"></canvas>
@@ -15,24 +17,22 @@
 		<div id="center">
 			<div th:replace="commonhf::enterpriseNav('职位管理')"></div>
 			<div th:replace="commonhf::enterpriseLeft"></div>
-			<div class="right" style="min-height: 480px">
+			<div class="right" style="min-height: 520px">
 				<h4>已发布职位[[${page.total}]]个</h4>
-				<button type="button" class="btn mybtn">
-					<a th:href="@{/enterprise/xzzw}" style="color: #fff">新增</a>
-				</button>
+				<a th:href="@{/enterprise/xzzw}" style="color: #fff">
+					<button type="button" class="btn mybtn">新增</button>
+				</a>
 				<div class="poslist">
 					<ul id="itemlist">
 						<li class="row" th:each="item : ${page.records}">
 							<a target="_blank" th:href="@{/views/jobs/id/}+${item.id}">
 								<div class="col-sm-6 position">
-									<p class="name" th:text="${item.pname}">
-										java开发工程师 <span th:text="${item.pdate}"></span>发布
+									<p class="name">
+										<span th:text="${item.pname}"></span> <span th:text="${item.pdate}"></span>发布
 									</p>
 									<p>
-										<span class="salary" th:text="${item.salary}">4千-6千</span> 
-										<span th:text="${item.workplace}">广西-桂林</span> 
-										<span th:text="${item.wnature}">全职</span> 
-										<span th:text="${item.edu}">本科</span>
+										<span class="salary" th:text="${item.salary}"></span> <span th:text="${item.workplace}"></span> <span
+											th:text="${item.wnature}"></span> <span th:text="${item.edu}"></span>
 									</p>
 								</div>
 							</a>
@@ -43,8 +43,7 @@
 								<p>
 									<span th:text="${item.cnature}"></span> <span th:text="${item.scale}"></span>
 								</p>
-							</div>
-						</li>
+							</div></li>
 					</ul>
 				</div>
 				<div th:replace="commonhf::pageHelper"></div>
@@ -53,6 +52,15 @@
 		</div>
 		<div th:replace="commonhf::#footer"></div>
 	</div>
+	<script type="text/javascript">
+		$(function() {
+			var token = $("meta[name='_csrf']").attr("content");
+			var header = $("meta[name='_csrf_header']").attr("content");
+			$(document).ajaxSend(function(e, xhr, options) {
+				xhr.setRequestHeader(header, token);
+			});
+		});
+	</script>
 	<script>
 		$("#center .left li")[2].className = "uactive";
 	</script>

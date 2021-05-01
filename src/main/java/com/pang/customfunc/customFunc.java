@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.ui.Model;
 
@@ -127,4 +128,16 @@ public interface customFunc {
 	 * @return			转换成功返回true
 	 */
 	public boolean htmlToPdf(String srcPath, String destPath);
+	
+	/**
+	 * 将批量简历压缩然后缓存到cachefile文件中等待下载
+	 * 压缩文件名称为	年-月+校招+桂林电子科技大学.zip 如:"2021-4-校招-桂林电子科技大学.zip"
+	 * @param resumeurls	简历路径集合
+	 * @param namelist		学生姓名集
+	 * @param majorlist		学生专业集
+	 * @param plist			学生应聘职位集
+	 * @return	zipPath 压缩文件路径
+	 */
+	public void writerResumeCache(HttpServletResponse response,List<String> resumeurls,
+			List<String> namelist,List<String> majorlist,List<String> plist) throws IOException;
 }

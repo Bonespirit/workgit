@@ -1,26 +1,30 @@
 $(function () {
 	//导出简历
 	$("#center .right .jobapp-item .download").on("click", function () {
-		let idlist = getCheck(2);
+		let ochecked = $(
+				"#center .right .jobapp-item .table tr td:first-child input:checked"
+		);
+		let olength = ochecked.length;
+		if (olength == 0) {
+			alert("请选择要操作的学生");
+			return false;
+		}
+		let idlist = new Array();
+		let namelist = new Array();
+		let majorlist = new Array();
+		let plist = new Array();
+		for (let i = 0; i < olength; i++) {
+			let otd = $(ochecked[i]).parents("tr").children("td");
+			idlist.push(ochecked[i].name.split("_")[2]);
+			namelist.push($(otd[2]).children("span")[0].innerHTML);
+			majorlist.push($(otd[6]).children("span")[0].innerHTML);
+			plist.push($(otd[7]).children("span")[0].innerHTML);
+		}
+		
 		if (!idlist) {
 			return false;
 		}
-		console.log("download studentid " + idlist.toString());
-		$.ajax({
-			url: "/downloadresume",
-			type: "get",
-			data: {
-				idlist: idlist,
-			},
-			success: function (data) {
-				console.log(data)
-//				window.location.href="/"+data[0];
-			},
-			error: function (xhr) {
-				alert("下载失败")
-				console.log(xhr.responseText);
-			},
-		});
+		window.location.href="/downloadresume?idlist="+idlist.toString()+"&namelist="+namelist.toString()+"&majorlist="+majorlist.toString()+"&plist="+plist.toString();
 	});
 
 	//收藏
@@ -55,10 +59,6 @@ $(function () {
 
 	//发布系统通知
 	$("#sysnotice").on("click", function () {
-		if ($("#myModal #msgcontent")[0].value == "") {
-			alert("请输入正文!");
-			return false;
-		}
 		$("#myModal form")[0].submit();
 	});
 	//自行通知

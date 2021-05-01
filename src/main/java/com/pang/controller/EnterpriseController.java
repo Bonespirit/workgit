@@ -299,7 +299,14 @@ public class EnterpriseController {
 		mposition.setName(user.getName());
 		mposition.setTelephone(user.getTelephone());
 		enterpriseService.putPositionInfo(mposition, describe);
-		return "redirect:zwgl?page=1";
+		return "redirect:/enterprise/zwgl?page=1";
+	}
+	//删除职位
+	@DeleteMapping("/delpos/id/{id}")
+	@ResponseBody
+	public String delPos(@PathVariable("id") Integer id) {
+		enterpriseService.delPosById(id);
+		return "success";
 	}
 	
 	//专业介绍模块
@@ -323,7 +330,6 @@ public class EnterpriseController {
 		User  user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		model.addAttribute("page", 
 				resumeProcessService.getDeliverResume(1,-1, user.getForeignkey(), tag, pg));
-		model.addAttribute("tag", tag);
 		model.addAttribute("curl", "/enterprise/psearch/tag/"+tag);
 		return getQzsqUrl(tag);
 	}
@@ -341,13 +347,12 @@ public class EnterpriseController {
 				resumeProcessService.searchByKey(user.getForeignkey(), tag, pg, keyword));
 		model.addAttribute("curl", "/enterprise/ksearch/tag/"+tag);
 		model.addAttribute("keyword", keyword);
-		model.addAttribute("tag", tag);
-		return "redirect:"+getQzsqUrl(tag);
+		return getQzsqUrl(tag);
 	}
 	//不合适处理
 	@PostMapping("/resumeout")
 	@ResponseBody
-	public String resumeOut(@RequestParam("idlist") String idlist,
+	public String resumeOut(@RequestParam("idlist") List<Integer> idlist,
 			@RequestParam("sheet") String sheet) {
 		resumeProcessService.resumeOut(idlist, sheet);
 		return "success";
@@ -355,7 +360,7 @@ public class EnterpriseController {
 	//简历放入待处理区域处理
 	@PostMapping("/resumecollect")
 	@ResponseBody
-	public String resumeCllect(@RequestParam("idlist") String idlist) {
+	public String resumeCllect(@RequestParam("idlist") List<Integer> idlist) {
 		resumeProcessService.initialScreen(idlist);
 		return "success";
 	}

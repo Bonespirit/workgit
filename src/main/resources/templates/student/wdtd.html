@@ -44,10 +44,10 @@
 					</thead>
 					<tbody>
 						<tr th:each="item : ${page.records}">
-							<td><a th:href="@{/view/jobs/id/}+${item.pid}" th:text="${item.pname}"></a></td>
+							<td><a target="_blanck" th:href="@{/views/jobs/id/}+${item.pid}" th:text="${item.pname}"></a></td>
 							<td><a href="javascript:;" th:text="${item.cname}"></a></td>
-							<td th:text="${item.update}"></td>
-							<td><span style="color: #60b0f4" th:text="${item.status}"></span></td>
+							<td th:text="${item.renew}"></td>
+							<td><span style="color: #60b0f4" th:text="${item.mstatus}"></span></td>
 						</tr>
 					</tbody>
 				</table>
@@ -61,14 +61,14 @@
       {{~it.page.records:value:index}}
         <tr>
           <td>
-            <a th:href="@{/view/jobs/id/{{=value.pid}}}">{{=value.pname}}</a>
+            <a target="_blanck" th:href="@{/views/jobs/id/{{=value.pid}}}">{{=value.pname}}</a>
           </td>
           <td>
             <a href="javascript:;">{{=value.company}}</a>
           </td>
-          <td>{{=value.update}}</td>
+          <td>{{=value.renew}}</td>
           <td>
-            <span style="color: #60b0f4">{{=value.status}}</span>
+            <span style="color: #60b0f4">{{=value.mstatus}}</span>
           </td>
         </tr>
       {{~}}

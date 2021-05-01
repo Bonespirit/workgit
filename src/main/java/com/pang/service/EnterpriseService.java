@@ -73,6 +73,13 @@ public interface EnterpriseService{
 	public void putPositionInfo(Mposition mposition,String describe);
 	
 	/**
+	 * 根据id删除职位
+	 * @param id
+	 * @return
+	 */
+	public boolean delPosById(Integer id);
+	
+	/**
 	 * 检查手机号是否已被注册
 	 * @param telephone
 	 * @return

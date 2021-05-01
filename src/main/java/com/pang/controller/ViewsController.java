@@ -55,6 +55,9 @@ public class ViewsController {
 	public String goToJobs(@PathVariable("id") Integer id,Model model) throws IOException {
 		Object o = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		Mposition mposition = viewService.getPositionById(id);
+		if (mposition == null) {
+			return "error/losedata";
+		}
 		model.addAttribute("position", mposition);
 		boolean isCollect = false;//是否已收藏
 		boolean isDeliver = false;//是否已投递

@@ -1,10 +1,11 @@
 package com.pang.controller;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -126,16 +127,13 @@ public class IndexController {
 	
 	//下载简历
 	@GetMapping("/downloadresume")
-	@ResponseBody
-	public List<String> downloadresume(@RequestParam("idlist") String tidlist) {
-		//获取id列表
-		List<Integer> idList = new ArrayList<>();
-		List<String> sidlist = new ArrayList<String>(Arrays.asList(tidlist));
-		for(int i=0;i<sidlist.size();i++) {
-			idList.add(Integer.parseInt(sidlist.get(i)));
-		}
-		System.out.println(idList);
-		List<String> resumeurls = commonMapper.getResumeUrlList(idList);
-		return resumeurls;
+	public void downloadresume(@RequestParam("idlist") List<Integer> tidlist,
+			@RequestParam("namelist") List<String> namelist,
+			@RequestParam("majorlist") List<String> majorlist,
+			@RequestParam("plist") List<String> plist,
+			HttpServletResponse response) throws IOException {
+		System.out.println(tidlist);
+		List<String> resumeurls = commonMapper.getResumeUrlList(tidlist);
+		customFunc.writerResumeCache(response,resumeurls, namelist, majorlist, plist);
 	}
 }

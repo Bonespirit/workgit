@@ -1,6 +1,7 @@
 package com.pang.entity;
 
 import java.sql.Date;
+import java.util.List;
 
 import com.alibaba.fastjson.annotation.JSONField;
 
@@ -16,7 +17,7 @@ import lombok.ToString;
 @ToString
 public class InterviewNotice {
 	
-	private String idlist;		//操作学生id列表
+	private List<Integer> idlist;		//操作学生id列表
 	private String title;		//面试主题
 	@JSONField(format = "yyyy-MM-dd")
 	private Date time;			//面试时间

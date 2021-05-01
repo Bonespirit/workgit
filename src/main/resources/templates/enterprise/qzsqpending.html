@@ -117,7 +117,11 @@
 						</li>
 					</ul>
 					<br />
-					<table class="table">
+					<div style="margin: auto;width: 130px;text-align: center;" th:if="${page.records.size eq 0}">
+						<img th:src="@{/images/no-data.png}" />
+						<p>暂无数据</p>
+					</div>
+					<table class="table" th:unless="${page.records.size eq 0}">
 						<thead>
 							<tr>
 								<th class="col-sm-1"><input class="selectall" type="checkbox" /></th>
@@ -134,7 +138,7 @@
 						<tbody>
 							<tr th:each="item : ${page.records}">
 								<td><input type="checkbox" th:name="${'resumeid_'+item.id+'_'+item.stuid}" /></td>
-								<td><a th:href="@{/view/student/id/}+${item.stuid}">
+								<td><a target="_blanck" th:href="@{/view/student/id/}+${item.stuid}">
 										<button type="button" class="btn btn-info btn-sm">完整简历</button>
 								</a></td>
 								<td><span class="limits" th:text="${item.uname}" th:title="${item.uname}"></span></td>
@@ -164,7 +168,7 @@
 		});
 	</script>
 	<script>
-      $("#center .left li")[7].className = "uactive";
+      $("#center .left li")[6].className = "uactive";
     </script>
 </body>
 </html>

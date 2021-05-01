@@ -220,7 +220,7 @@ public class ViewServiceImpl implements ViewService{
 		Mposition mposition = myPositionService.getById(id);
 		mposition.setSalary(customFunc.getSalary(mposition.getSalary()));
 		mposition.setSpeciality(customFunc.getMajorsString(
-				new ArrayList<>(Arrays.asList(mposition.getSpeciality()))));
+				new ArrayList<>(Arrays.asList(mposition.getSpeciality().split("%")))));
 		String[] citys = mposition.getWorkplace().split("&");
 		mposition.setWorkplace(
 				citys.length > 1 ? customFunc.getCity(citys[1]) : customFunc.getCity(citys[0]));
@@ -233,7 +233,7 @@ public class ViewServiceImpl implements ViewService{
 	@Override
 	public Company getComPartInfo(Integer id) throws IOException {
 		QueryWrapper<Company> queryWrapper = new QueryWrapper<>();
-		queryWrapper.eq("id", id).select("cname","nature","industry","scale","address","zpemail");
+		queryWrapper.eq("id", id).select("cname","nature","industry","scale","address","zpemail","logourl");
 		Company company = CompanyMapper.selectOne(queryWrapper);
 		company.setScale(customFunc.getScale(company.getScale()));
 		company.setIndustry(customFunc.getIndustry(company.getIndustry()));

@@ -86,7 +86,7 @@
 						<br />
 						<div class="com-info">
 							<div>
-								<img th:src="@{/images/defaultlogo.png}" /> <a href="javascript:;" th:text="${company.cname}"></a>
+								<img width="100px" height="86px" th:src="@{/}+${company.logourl}" src="../images/defaultlogo.png"/> <a href="javascript:;" th:text="${company.cname}"></a>
 							</div>
 							<p>
 								单位性质:<span th:text="${company.nature}"></span>

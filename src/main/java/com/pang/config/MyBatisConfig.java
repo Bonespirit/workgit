@@ -19,8 +19,8 @@ public class MyBatisConfig {
 	@Bean
 	public MybatisPlusInterceptor paginationInterceptor() {
 		MybatisPlusInterceptor mybatisPlusInterceptor = new MybatisPlusInterceptor();
-		PaginationInnerInterceptor paginationInnerInterceptor = new PaginationInnerInterceptor();
-		mybatisPlusInterceptor.addInnerInterceptor(paginationInnerInterceptor);
+//		PaginationInnerInterceptor paginationInnerInterceptor = new PaginationInnerInterceptor();
+//		mybatisPlusInterceptor.addInnerInterceptor(paginationInnerInterceptor);
 		//添加动态表名处理器
 		DynamicTableNameInnerInterceptor dynamicTableNameInnerInterceptor = new DynamicTableNameInnerInterceptor();
 		Map<String, TableNameHandler> tableNameHandlerMap = new HashMap<String, TableNameHandler>();

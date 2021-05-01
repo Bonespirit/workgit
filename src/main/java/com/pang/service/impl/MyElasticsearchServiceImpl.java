@@ -39,7 +39,6 @@ public class MyElasticsearchServiceImpl implements MyElasticsearchService{
 	@Autowired
 	RestHighLevelClient client;
 	
-	@Cacheable(value="ShortCache",keyGenerator="myKeyGenerator",unless="#result.total==0")
 	@Override
 	public Page<Map<String, Object>> MyMatchAllByCid1(Integer cid,Integer pg) throws IOException, ParseException {
 		System.out.println("来到单位查看职位列表模块");
@@ -228,7 +227,8 @@ public class MyElasticsearchServiceImpl implements MyElasticsearchService{
 			boolQueryBuilder.filter(QueryBuilders.termQuery("workplace", searchKey.getCitycode()));
 		}
 		if (!searchKey.getMajorcode().isEmpty()) {
-			boolQueryBuilder.filter(QueryBuilders.matchQuery("speciality", searchKey.getMajorcode()));
+			boolQueryBuilder.filter(QueryBuilders.matchQuery("speciality", 
+					searchKey.getMajorcode().replace("%", ",")));
 		}
 		if (!searchKey.getIndustry().isEmpty()) {
 			boolQueryBuilder.filter(QueryBuilders.termQuery("industry", searchKey.getIndustry()));
@@ -240,7 +240,8 @@ public class MyElasticsearchServiceImpl implements MyElasticsearchService{
 			boolQueryBuilder.filter(QueryBuilders.termQuery("salary", searchKey.getSalary()));
 		}
 		if (!searchKey.getCnature().isEmpty()) {
-			boolQueryBuilder.filter(QueryBuilders.termQuery("cnature", searchKey.getCnature()));
+			boolQueryBuilder.filter(QueryBuilders.termQuery("cnature", 
+					customFunc.getComNature(searchKey.getCnature())));
 		}
 		if (!searchKey.getEdu().isEmpty()) {
 			boolQueryBuilder.filter(QueryBuilders.termQuery("edu", searchKey.getEdu()));

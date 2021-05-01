@@ -1,7 +1,7 @@
 $(function () {
 	setTimeout(function(){
 		postData(1);
-    },500)
+    },200)
 	// 搜索
 	$("#search").on("click", function () {
 		postData(1);
@@ -52,12 +52,12 @@ function addListenToLi() {
 	});
 }
 function postData(from) {
-	console.log("发送ajax请求" + "第" + from + "页");
 	function eachPage(cur, pages) {
 		if (pages == 1) {
 	       $("#center .right .search-info .nav-bar").addClass("one");
 	       return false;
 	    }
+		$("#center .right .search-info .nav-bar").removeClass("one")
 		let oul = $("#center .right .search-info .nav-bar .page");
 		let html = [];
 		let maxp = 0,
@@ -92,7 +92,6 @@ function postData(from) {
 		contentType: false,
 		processData: false,
 		success: function (data) {
-			console.log(data.total)
 			if (data.total == 0) {
 				$("#center .right .search-info .nav-bar").addClass("one");
 				$("#itemlist").html("");

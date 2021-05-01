@@ -1,7 +1,5 @@
 package com.pang.service.impl;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +26,7 @@ public class ResumeProcessServiceImpl extends ServiceImpl<ResumeProcessMapper, R
 	@Autowired
 	ResumeProcessMapper resumeProcessMapper;
 	
+	@Transactional
 	@Override
 	public Page<ResumeProcess> getDeliverResume(Integer utype,Integer sid,Integer cid,Integer tag,Integer pg) {
 		Page<ResumeProcess> cPage = new Page<>(pg,15);
@@ -38,6 +37,7 @@ public class ResumeProcessServiceImpl extends ServiceImpl<ResumeProcessMapper, R
 		}else {
 			queryWrapper.eq("comid", cid);
 		}
+		System.out.println(tag);
 		switch (tag) {
 			case 1:
 				MyBatisConfig.TABLE_NAME.set("screen_resume");
@@ -101,12 +101,12 @@ public class ResumeProcessServiceImpl extends ServiceImpl<ResumeProcessMapper, R
 	}
 	
 	@Override
-	public void initialScreen(String idlist) {
+	public void initialScreen(List<Integer> idlist) {
 		updateDeliver(idlist, "二次筛选", "screen_resume", "pending_resume");
 	}
 	
 	@Override
-	public void resumeOut(String idlist,String sheet) {
+	public void resumeOut(List<Integer> idlist,String sheet) {
 		updateDeliver(idlist, "不合适", sheet, "out_resume");
 	}
 	
@@ -131,7 +131,6 @@ public class ResumeProcessServiceImpl extends ServiceImpl<ResumeProcessMapper, R
 			customFunc.sendEmailToUser(resumeProcess.getEmail(), interviewNotice.getTitle(), contents);
 		}
 	}
-
 	
 	/**
 	 * 更新状态，并剪切更新数据到新表
@@ -141,18 +140,14 @@ public class ResumeProcessServiceImpl extends ServiceImpl<ResumeProcessMapper, R
 	 * @param rto		目标表
 	 * @return List<ResumeProcess>
 	 */
-	public List<ResumeProcess> updateDeliver(String idlist,String status,String rfrom,String rto) {
-		//获取id列表
-		List<Integer> idList = new ArrayList<>();
-		List<String> sidlist = new ArrayList<String>(Arrays.asList(idlist));
-		for(int i=0;i<sidlist.size();i++) {
-			idList.add(Integer.parseInt(sidlist.get(i)));
-		}
+	@Transactional
+	public List<ResumeProcess> updateDeliver(List<Integer> idList,String status,String rfrom,String rto) {
 		//获取源表中简历信息列表
 		MyBatisConfig.TABLE_NAME.set(rfrom);
 		List<ResumeProcess> resumeProcesses = resumeProcessMapper.selectBatchIds(idList);
 		for(ResumeProcess resumeProcess : resumeProcesses) {
 			resumeProcess.setMstatus(status);
+			resumeProcess.setRenew(null);
 		}
 		//设置为新表并插入数据
 		MyBatisConfig.TABLE_NAME.set(rto);

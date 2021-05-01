@@ -53,7 +53,7 @@
 <body>
 	<!-- 全头部导航 -->
 	<div th:fragment="header" id="header" class="container-fluid">
-		<div class="row" style="width: 1120px; margin: 0 auto">
+		<div class="row" style="width: 1120px; margin: 0 auto;">
 			<div class="top-logo col-sm-4 col-xs-4">
 				<a th:href="@{/}"> <img th:src="@{/images/registerlogo.png}" alt="桂林电子科技大学" />
 				</a>
@@ -74,11 +74,12 @@
 				</div>
 				<div class="col-md-2 col-sm-2 item">
 					雇主 <span class="more"></span>
-					<ul class="list-inline" style="width: 420px">
+					<ul class="list-inline">
 						<li><a th:href="@{/enterprise/zpzn}">办事指南</a></li>
 						<li><a th:href="@{/enterprise/syxx}">生源信息</a></li>
 						<li><a th:href="@{/enterprise/wlzp}">招聘发布</a></li>
 						<li><a th:href="@{/search/sxh(page=1)}">双选会预约</a></li>
+						<li><a th:href="@{/enterprise/psearch/tag/1(page=1)}">求职申请</a></li>
 					</ul>
 				</div>
 				<div class="col-md-2 col-sm-2 item">
@@ -99,6 +100,17 @@
 							</div>
 						</form>
 					</div>
+				</div>
+				<div style="position: absolute;right: 0px;top:0px">
+					<a sec:authorize="hasAnyRole('ROLE_sadmin','ROLE_gadmin')" th:href="@{/teacher/shsq(page=1)}">
+						<button type="button" class="btn btn-default">我的</button>
+					</a>
+					<a sec:authorize="hasRole('ROLE_student')" th:href="@{/student/czsc}">
+						<button type="button" class="btn btn-default">我的</button>
+					</a>
+					<a sec:authorize="hasRole('ROLE_enterprise')" th:href="@{/enterprise/zpzn}">
+						<button type="button" class="btn btn-default">我的</button>
+					</a>
 				</div>
 			</div>
 		</div>

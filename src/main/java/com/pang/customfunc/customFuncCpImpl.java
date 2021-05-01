@@ -1,6 +1,10 @@
 package com.pang.customfunc;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,12 +12,17 @@ import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
@@ -25,6 +34,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.gson.Gson;
@@ -162,7 +172,7 @@ public class customFuncCpImpl implements customFunc{
 	public String getSalary(String code) {
 		String salary = "[{\"name\":\"不限\",\"no\":\"10\"},{\"name\":\"4k以下\",\"no\":\"11\"},{\"name\":\"4k-6k\",\"no\":\"12\"}"
 				+ ",{\"name\":\"6k-8k\",\"no\":\"13\"},{\"name\":\"8k-10k\",\"no\":\"14\"}"
-				+ ",{\"name\":\"10k以上\",\"no\":\"15\"}]";
+				+ ",{\"name\":\"10k-15k\",\"no\":\"15\"},{\"name\":\"15k以上\",\"no\":\"16\"}]";
 		Gson gson = new Gson();
 		JsonArray arry = gson.fromJson(salary.toString(), JsonArray.class);
 		for(int i=0;i<arry.size();i++) {
@@ -427,5 +437,44 @@ public class customFuncCpImpl implements customFunc{
             result = false;
         }
         return result;
+	}
+	
+	@Override
+	public void writerResumeCache(HttpServletResponse response,
+			List<String> resumeurls, List<String> namelist, List<String> majorlist,
+			List<String> plist) throws IOException {
+		//获取年和月
+		Calendar cal = Calendar.getInstance();
+		int month = cal.get(Calendar.MONTH)+1;
+		int year = cal.get(Calendar.YEAR);
+		//简历压缩路径
+		String zipFileName = year+"-"+month+"-"+"校招-桂林电子科技大学.zip";
+		String zipPath = "F://eims/file/cachefile/"+zipFileName;
+		ZipOutputStream out = new ZipOutputStream(new FileOutputStream(zipPath));
+		for(int i=0;i<resumeurls.size();i++) {
+			String murl = resumeurls.get(i).substring(resumeurls.get(i).indexOf("/"));
+			String exiten = murl.substring(murl.indexOf("."));
+			out.putNextEntry(new ZipEntry(
+					"校招-"+plist.get(i)+"-"+"桂林电子科技大学-"+majorlist.get(i)+"-"+namelist.get(i)+exiten));
+			BufferedInputStream bis=new BufferedInputStream(new FileInputStream("F://eims/file"+murl));
+			byte[] bytes=new byte[1024*5];
+            int len;
+            while ((len=bis.read(bytes))!=-1){
+                out.write(bytes,0,len);
+            }
+            bis.close();
+		}
+		out.close();
+		//再将压缩文件读取出来写入response的输出流中，并设置请求头
+		BufferedInputStream bis = new BufferedInputStream(new FileInputStream(zipPath));
+		//设置Headers
+        response.setHeader("Content-Type","application/octet-stream");
+        //设置下载的文件的名称-该方式已解决中文乱码问题
+        response.setHeader("Content-Disposition","attachment;filename=" +  new String( zipFileName.getBytes("gb2312"), "ISO8859-1" ));
+		ServletOutputStream outputStream = response.getOutputStream();
+		FileCopyUtils.copy(bis, outputStream);
+		bis.close();
+		//删除缓存的压缩文件
+		new File(zipPath).delete();
 	}
 }
